@@ -1,3 +1,5 @@
 .last_update
+build/
+node_modules/
 third_party/node
 third_party/mon

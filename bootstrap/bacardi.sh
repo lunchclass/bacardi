@@ -31,7 +31,7 @@ sync_node
 
 # NPM update
 if [ ! -f .last_update ] || [ package.json -nt .last_update ]; then
-  npm update && > .last_update
+  npm install && > .last_update
 fi
 
 for command in $(ls $(bootstrap_command_path)); do
