@@ -1,3 +1,4 @@
+#!/bin/bash
 #
 # Copyright (c) 2017 The Lunch Class Authors.
 #
@@ -12,19 +13,5 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-os:
-  - linux
-
-branches:
-  only:
-    - master
-
-before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update; fi;
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install g++ git make python wget; fi
-
-script:
-  - ./bacardi build
-  - ./bacardi test
+node --napi-modules examples/calculator.js
