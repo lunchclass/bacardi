@@ -23,10 +23,34 @@ void Init(napi_env env, napi_value exports, napi_value module, void* priv) {
 }
 
 napi_value Add(napi_env env, napi_callback_info info) {
-  // TODO(zino): Should take arguments and process them.
+  size_t argc = 2;
+  napi_value args[2];
+  napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
+
+  if (argc < 2) {
+    napi_throw_type_error(env, "Wrong number of arguments");
+    return nullptr;
+  }
+
+  napi_valuetype valuetype0;
+  napi_valuetype valuetype1;
+  napi_typeof(env, args[0], &valuetype0);
+  napi_typeof(env, args[1], &valuetype1);
+
+  if (valuetype0 != napi_number || valuetype1 != napi_number) {
+    napi_throw_type_error(env, "Wrong arguments");
+    return nullptr;
+  }
+
+  double value0;
+  double value1;
+  napi_get_value_double(env, args[0], &value0);
+  napi_get_value_double(env, args[1], &value1);
+
   napi_value sum;
-  napi_status status = napi_create_number(env, Calculator::Add(1, 2), &sum);
-  return status == napi_ok ? sum : nullptr;
+  napi_create_number(env, Calculator::Add(value0, value1), &sum);
+
+  return sum;
 }
 
 NAPI_MODULE(calculator, Init);
