@@ -15,17 +15,21 @@
 # limitations under the License.
 
 . $BACARDI_PATH/bootstrap/common/path_info.sh
+. $BACARDI_PATH/bootstrap/common/platform_info.sh
 
-function is_already_formatted() {
-  result=$($(bootstrap_command_path)/format --diff)
-  if [ "$result" = "no modified files to format" ]; then
-    return 0
-  fi
-  return 1
+function apply_format() {
+  binary_path=$1
+  additional_flags=$2
+  $(third_party_path)/clang-format/git-clang-format --force \
+      --binary $binary_path \
+      --style Chromium \
+      $additional_flags
 }
 
-if is_already_formatted; then
-  node --napi-modules examples/calculator.js
-else
-  echo "You should run |bacardi format| command first."
+if is_windows_platform; then
+  apply_format $(third_party_path)/clang-format/win/clang-format.exe $@
+elif is_linux_platform; then
+  apply_format $(third_party_path)/clang-format/linux/clang-format $@
+elif is_darwin_platform; then
+  apply_format $(third_party_path)/clang-format/mac/clang-format $@
 fi
