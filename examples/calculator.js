@@ -16,3 +16,8 @@
 
 var calculator = require('bindings')('bacardi.node')
 console.log(calculator.add(1, 2));
+console.log(calculator.add(3.3, 4.3));
+console.log(calculator.add(3.3, -4.3));
+console.log(calculator.add(-3.3, 4.3));
+console.log(calculator.add(1.2, 0));
+console.log(calculator.add(4.5878, 1.1234));
