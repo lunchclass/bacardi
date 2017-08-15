@@ -17,9 +17,11 @@
 . $BACARDI_PATH/bootstrap/common/path_info.sh
 
 function is_already_formatted() {
+  # FIXME: We should update how to check return value.
   result=$($(bootstrap_command_path)/format --diff)
-  if [ "$result" = "no modified files to format" ]; then
-    return 0
+  if [ "$result" = "no modified files to format" ] \
+      || [ "$result" = "clang-format did not modify any files" ]; then
+   return 0
   fi
   return 1
 }
