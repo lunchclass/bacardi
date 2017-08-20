@@ -35,7 +35,7 @@ napi_value Add(napi_env env, napi_callback_info info) {
   napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
 
   if (argc < 2) {
-    napi_throw_type_error(env, "Wrong number of arguments");
+    napi_throw_type_error(env, nullptr, "Wrong number of arguments");
     return nullptr;
   }
 
@@ -45,7 +45,7 @@ napi_value Add(napi_env env, napi_callback_info info) {
   napi_typeof(env, args[1], &valuetype1);
 
   if (valuetype0 != napi_number || valuetype1 != napi_number) {
-    napi_throw_type_error(env, "Wrong arguments");
+    napi_throw_type_error(env, nullptr, "Wrong arguments");
     return nullptr;
   }
 
@@ -55,7 +55,7 @@ napi_value Add(napi_env env, napi_callback_info info) {
   napi_get_value_double(env, args[1], &value1);
 
   napi_value sum;
-  napi_create_number(env, Calculator::Add(value0, value1), &sum);
+  napi_create_double(env, Calculator::Add(value0, value1), &sum);
 
   return sum;
 }
@@ -66,7 +66,7 @@ napi_value Sub(napi_env env, napi_callback_info info) {
   napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
 
   if (argc < 2) {
-    napi_throw_type_error(env, "Wrong number of arguments");
+    napi_throw_type_error(env, nullptr, "Wrong number of arguments");
     return nullptr;
   }
 
@@ -76,7 +76,7 @@ napi_value Sub(napi_env env, napi_callback_info info) {
   napi_typeof(env, args[1], &valuetype1);
 
   if (valuetype0 != napi_number || valuetype1 != napi_number) {
-    napi_throw_type_error(env, "Wrong arguments");
+    napi_throw_type_error(env, nullptr, "Wrong arguments");
     return nullptr;
   }
 
@@ -86,7 +86,7 @@ napi_value Sub(napi_env env, napi_callback_info info) {
   napi_get_value_double(env, args[1], &value1);
 
   napi_value sum;
-  napi_create_number(env, Calculator::Sub(value0, value1), &sum);
+  napi_create_double(env, Calculator::Sub(value0, value1), &sum);
 
   return sum;
 }
@@ -97,7 +97,7 @@ napi_value Mul(napi_env env, napi_callback_info info) {
   napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
 
   if (argc < 2) {
-    napi_throw_type_error(env, "Wrong number of arguments");
+    napi_throw_type_error(env, nullptr, "Wrong number of arguments");
     return nullptr;
   }
 
@@ -107,7 +107,7 @@ napi_value Mul(napi_env env, napi_callback_info info) {
   napi_typeof(env, args[1], &valuetype1);
 
   if (valuetype0 != napi_number || valuetype1 != napi_number) {
-    napi_throw_type_error(env, "Wrong arguments");
+    napi_throw_type_error(env, nullptr, "Wrong arguments");
     return nullptr;
   }
 
@@ -117,7 +117,7 @@ napi_value Mul(napi_env env, napi_callback_info info) {
   napi_get_value_double(env, args[1], &value1);
 
   napi_value sum;
-  napi_create_number(env, Calculator::Mul(value0, value1), &sum);
+  napi_create_double(env, Calculator::Mul(value0, value1), &sum);
 
   return sum;
 }
@@ -128,7 +128,7 @@ napi_value Div(napi_env env, napi_callback_info info) {
   napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
 
   if (argc < 2) {
-    napi_throw_type_error(env, "Wrong number of arguments");
+    napi_throw_type_error(env, nullptr, "Wrong number of arguments");
     return nullptr;
   }
 
@@ -138,7 +138,7 @@ napi_value Div(napi_env env, napi_callback_info info) {
   napi_typeof(env, args[1], &valuetype1);
 
   if (valuetype0 != napi_number || valuetype1 != napi_number) {
-    napi_throw_type_error(env, "Wrong arguments");
+    napi_throw_type_error(env, nullptr, "Wrong arguments");
     return nullptr;
   }
 
@@ -148,7 +148,7 @@ napi_value Div(napi_env env, napi_callback_info info) {
   napi_get_value_double(env, args[1], &value1);
 
   napi_value sum;
-  napi_create_number(env, Calculator::Div(value0, value1), &sum);
+  napi_create_double(env, Calculator::Div(value0, value1), &sum);
 
   return sum;
 }
