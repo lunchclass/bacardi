@@ -21,6 +21,9 @@
 class Calculator {
  public:
   static double Add(double number1, double number2);
+  static double Sub(double number1, double number2);
+  static double Mul(double number1, double number2);
+  static double Div(double number1, double number2);
 };
 
 #endif  // EXAMPLES_CALCULATOR_H_

@@ -19,3 +19,15 @@
 double Calculator::Add(double number1, double number2) {
   return number1 + number2;
 }
+
+double Calculator::Sub(double number1, double number2) {
+  return number1 - number2;
+}
+
+double Calculator::Mul(double number1, double number2) {
+  return number1 * number2;
+}
+
+double Calculator::Div(double number1, double number2) {
+  return (number2 != 0) ? (number1 / number2) : 0;
+}

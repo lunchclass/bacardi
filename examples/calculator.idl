@@ -16,4 +16,7 @@
 
 interface Calculator {
   static double add(double number1, double number2);
+  static double sub(double number1, double number2);
+  static double mul(double number1, double number2);
+  static double div(double number1, double number2);
 };
