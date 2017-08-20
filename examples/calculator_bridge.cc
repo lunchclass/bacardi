@@ -19,7 +19,14 @@
 
 void Init(napi_env env, napi_value exports, napi_value module, void* priv) {
   napi_property_descriptor addDescriptor = DECLARE_NAPI_METHOD("add", Add);
+  napi_property_descriptor subDescriptor = DECLARE_NAPI_METHOD("sub", Sub);
+  napi_property_descriptor mulDescriptor = DECLARE_NAPI_METHOD("mul", Mul);
+  napi_property_descriptor divDescriptor = DECLARE_NAPI_METHOD("div", Div);
+
   napi_define_properties(env, exports, 1, &addDescriptor);
+  napi_define_properties(env, exports, 1, &subDescriptor);
+  napi_define_properties(env, exports, 1, &mulDescriptor);
+  napi_define_properties(env, exports, 1, &divDescriptor);
 }
 
 napi_value Add(napi_env env, napi_callback_info info) {
@@ -49,6 +56,99 @@ napi_value Add(napi_env env, napi_callback_info info) {
 
   napi_value sum;
   napi_create_number(env, Calculator::Add(value0, value1), &sum);
+
+  return sum;
+}
+
+napi_value Sub(napi_env env, napi_callback_info info) {
+  size_t argc = 2;
+  napi_value args[2];
+  napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
+
+  if (argc < 2) {
+    napi_throw_type_error(env, "Wrong number of arguments");
+    return nullptr;
+  }
+
+  napi_valuetype valuetype0;
+  napi_valuetype valuetype1;
+  napi_typeof(env, args[0], &valuetype0);
+  napi_typeof(env, args[1], &valuetype1);
+
+  if (valuetype0 != napi_number || valuetype1 != napi_number) {
+    napi_throw_type_error(env, "Wrong arguments");
+    return nullptr;
+  }
+
+  double value0;
+  double value1;
+  napi_get_value_double(env, args[0], &value0);
+  napi_get_value_double(env, args[1], &value1);
+
+  napi_value sum;
+  napi_create_number(env, Calculator::Sub(value0, value1), &sum);
+
+  return sum;
+}
+
+napi_value Mul(napi_env env, napi_callback_info info) {
+  size_t argc = 2;
+  napi_value args[2];
+  napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
+
+  if (argc < 2) {
+    napi_throw_type_error(env, "Wrong number of arguments");
+    return nullptr;
+  }
+
+  napi_valuetype valuetype0;
+  napi_valuetype valuetype1;
+  napi_typeof(env, args[0], &valuetype0);
+  napi_typeof(env, args[1], &valuetype1);
+
+  if (valuetype0 != napi_number || valuetype1 != napi_number) {
+    napi_throw_type_error(env, "Wrong arguments");
+    return nullptr;
+  }
+
+  double value0;
+  double value1;
+  napi_get_value_double(env, args[0], &value0);
+  napi_get_value_double(env, args[1], &value1);
+
+  napi_value sum;
+  napi_create_number(env, Calculator::Mul(value0, value1), &sum);
+
+  return sum;
+}
+
+napi_value Div(napi_env env, napi_callback_info info) {
+  size_t argc = 2;
+  napi_value args[2];
+  napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
+
+  if (argc < 2) {
+    napi_throw_type_error(env, "Wrong number of arguments");
+    return nullptr;
+  }
+
+  napi_valuetype valuetype0;
+  napi_valuetype valuetype1;
+  napi_typeof(env, args[0], &valuetype0);
+  napi_typeof(env, args[1], &valuetype1);
+
+  if (valuetype0 != napi_number || valuetype1 != napi_number) {
+    napi_throw_type_error(env, "Wrong arguments");
+    return nullptr;
+  }
+
+  double value0;
+  double value1;
+  napi_get_value_double(env, args[0], &value0);
+  napi_get_value_double(env, args[1], &value1);
+
+  napi_value sum;
+  napi_create_number(env, Calculator::Div(value0, value1), &sum);
 
   return sum;
 }

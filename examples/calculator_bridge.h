@@ -26,5 +26,8 @@ void Init(napi_env env, napi_value exports, napi_value module, void* priv);
 
 // JS bridge implementation for Calculator
 napi_value Add(napi_env env, napi_callback_info info);
+napi_value Sub(napi_env env, napi_callback_info info);
+napi_value Mul(napi_env env, napi_callback_info info);
+napi_value Div(napi_env env, napi_callback_info info);
 
 #endif  // EXAMPLES_CALCULATOR_BRIDGE_H_
