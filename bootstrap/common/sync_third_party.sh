@@ -19,14 +19,14 @@
 
 function sync_node() {
   local target_path="./third_party/node"
-  local base_url="https://nodejs.org/dist/v8.2.1"
+  local base_url="https://nodejs.org/dist/v8.4.0"
 
   case $(get_platform_name) in
-    windows_x86) local target_url="/node-v8.2.1-win-x86.zip" ;;
-    windows_x86_64) local target_url="/node-v8.2.1-win-x64.zip" ;;
-    linux_x86) local target_url="/node-v8.2.1-linux-x86.tar.gz" ;;
-    linux_x86_64) local target_url="/node-v8.2.1-linux-x64.tar.gz" ;;
-    darwin_x86_64) local target_url="/node-v8.2.1-darwin-x64.tar.gz" ;;
+    windows_x86) local target_url="/node-v8.4.0-win-x86.zip" ;;
+    windows_x86_64) local target_url="/node-v8.4.0-win-x64.zip" ;;
+    linux_x86) local target_url="/node-v8.4.0-linux-x86.tar.gz" ;;
+    linux_x86_64) local target_url="/node-v8.4.0-linux-x64.tar.gz" ;;
+    darwin_x86_64) local target_url="/node-v8.4.0-darwin-x64.tar.gz" ;;
   esac
 
   sync_third_party $base_url$target_url $target_path
@@ -100,5 +100,10 @@ function needs_sync() {
   if [ "$synced_url" = "$url" ]; then
     return 1
   fi
+
+  if [ -d "$url" ]; then
+    rm -rf $url
+  fi
+
   return 0
 }
