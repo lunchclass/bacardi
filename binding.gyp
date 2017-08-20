@@ -13,42 +13,65 @@
 # limitations under the License.
 
 {
+  'includes': [
+    'examples/examples.gypi',
+    'generator/generator.gypi',
+  ],
+
   'targets': [
     {
       'target_name': 'bacardi',
-      'variables': {
-        'idl_files': [
-          'examples/calculator.idl',
-        ],
-        'idl_output_files': [
-          '<(INTERMEDIATE_DIR)/calculator_bridge.cc',
-          '<(INTERMEDIATE_DIR)/calculator_bridge.h',
-        ],
-      },
+      'dependencies': [
+      ],
       'sources': [
-        'examples/calculator.cc',
-        'examples/calculator.h',
-        'examples/calculator_bridge.cc',
-        'examples/calculator_bridge.h',
+        '<@(examples_cpp_files)',
+      ]
+    },
+
+    {
+      'target_name': 'tsc',
+      'type': 'none',
+      'actions': [
+        {
+          'action_name': 'tsc',
+          'inputs': [
+            '<@(generator_files)',
+          ],
+          'outputs': [
+            '<@(PRODUCT_DIR)/generator',
+          ],
+          'action': [
+            '<@(PRODUCT_DIR)/../../bootstrap/command/tsc',
+            '<@(_inputs)',
+            '--outDir',
+            '<@(_outputs)',
+          ],
+        },
+      ],
+    },
+
+    {
+      'target_name': 'idl',
+      'type': 'none',
+      'dependencies': [
+        'tsc'
       ],
       'actions': [
         {
-          'action_name': 'generate',
+          'action_name': 'idl',
           'inputs': [
-            'bootstrap/command/node',
-            'generator/generator.js',
-            '<@(idl_files)',
+            '<@(examples_idl_files)',
           ],
           'outputs': [
-            '<@(idl_output_files)',
+            '<@(examples_idl_output_files)',
           ],
           'action': [
-            'bootstrap/command/node',
-            'generator/generator.js',
-            '<@(idl_files)'
+            '<@(PRODUCT_DIR)/../../bootstrap/command/node',
+            '<@(PRODUCT_DIR)/generator/main.js',
+            '<@(_inputs)'
           ],
         },
-      ]
-    }
-  ]
+      ],
+    },
+  ],
 }
