@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+const assert = require('assert');
 
 var calculator = require('bindings')('bacardi.node')
-console.log(calculator.add(1, 2));
-console.log(calculator.add(3.3, 4.3));
-console.log(calculator.add(3.3, -4.3));
-console.log(calculator.add(-3.3, 4.3));
-console.log(calculator.add(1.2, 0));
-console.log(calculator.add(4.5878, 1.1234));
+assert.equal(calculator.add(1, 2), 3);
+assert.equal(calculator.add(3.3, 4.3), 7.6);
+assert.equal(calculator.add(3.3, -4.3), -1);
+assert.equal(calculator.add(-3.3, 4.3), 1);
+assert.equal(calculator.add(1.2, 0), 1.2);
+assert.equal(calculator.add(4.5878, 1.1234), 5.7112);
