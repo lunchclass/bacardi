@@ -14,10 +14,30 @@
  * limitations under the License.
  */
 
-process.argv.forEach(function(value, index, array) {
-  if (index == 0 || index == 1)
-    return;
+import * as fs from 'fs';
+import * as webidl from 'webidl2';
 
-  // Process IDL files.
-  console.log(value);
-});
+async function readFile(path: string) {
+  return new Promise<string>((resolve, reject) => {
+    fs.readFile(path, 'utf8', (error, data) => {
+      if (error) {
+        reject(error);
+      }
+      resolve(data);
+    });
+  });
+}
+
+async function main(idls: Array<string>) {
+  for (let idl of idls) {
+    let parsedData = webidl.parse(await readFile(idl));
+    console.log('class ' + parsedData[0].name + ' {');
+    for (let member of parsedData[0].members) {
+      console.log('  ' + member.idlType.idlType
+          + " " + member.name + '(' + ')');
+    }
+    console.log('};');
+  }
+}
+
+main(process.argv.slice(2));
