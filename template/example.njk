@@ -14,28 +14,8 @@
  * limitations under the License.
  */
 
-import * as fs from 'fs';
-import * as nunjucks from 'nunjucks';
-import * as webidl from 'webidl2';
-
-async function readFile(path: string) {
-  return new Promise<string>((resolve, reject) => {
-    fs.readFile(path, 'utf8', (error, data) => {
-      if (error) {
-        reject(error);
-      }
-      resolve(data);
-    });
-  });
-}
-
-async function main(idls: Array<string>) {
-  for (let idl of idls) {
-    let parsedData = webidl.parse(await readFile(idl));
-    console.log(nunjucks.render('./template/example.tpl', {
-        context: parsedData[0]
-    }));
-  }
-}
-
-main(process.argv.slice(2));
+class {{ context.name }} {
+  {% for member in context.members %}
+  {{ member.idlType.idlType }} {{ member.name }}();
+  {% endfor %}
+};
