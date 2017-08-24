@@ -32,10 +32,13 @@ async function readFile(path: string) {
 async function main(idls: Array<string>) {
   for (let idl of idls) {
     let parsedData = webidl.parse(await readFile(idl));
-    console.log(nunjucks.render('./template/example.tpl', {
+    console.log(nunjucks.render('./template/example.njk', {
         context: parsedData[0]
     }));
   }
+  return 0;
 }
 
-main(process.argv.slice(2));
+main(process.argv.slice(2))
+    .then(process.exit)
+    .catch(() => process.exit(2));
