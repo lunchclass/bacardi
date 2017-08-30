@@ -14,6 +14,7 @@
 
 {
   'includes': [
+    'core/core.gypi',
     'examples/examples.gypi',
     'generator/generator.gypi',
   ],
@@ -27,6 +28,7 @@
         './',
       ],
       'sources': [
+        '<@(core_cpp_files)',
         '<@(examples_cpp_files)',
       ]
     },

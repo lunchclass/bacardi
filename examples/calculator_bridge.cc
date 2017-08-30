@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-#include "examples/calculator.h"
 #include "examples/calculator_bridge.h"
+#include "core/native_type_traits.h"
+#include "examples/calculator.h"
 
 void Init(napi_env env, napi_value exports, napi_value module, void* priv) {
   napi_property_descriptor addDescriptor = DECLARE_NAPI_METHOD("add", Add);
@@ -39,20 +40,8 @@ napi_value Add(napi_env env, napi_callback_info info) {
     return nullptr;
   }
 
-  napi_valuetype valuetype0;
-  napi_valuetype valuetype1;
-  napi_typeof(env, args[0], &valuetype0);
-  napi_typeof(env, args[1], &valuetype1);
-
-  if (valuetype0 != napi_number || valuetype1 != napi_number) {
-    napi_throw_type_error(env, nullptr, "Wrong arguments");
-    return nullptr;
-  }
-
-  double value0;
-  double value1;
-  napi_get_value_double(env, args[0], &value0);
-  napi_get_value_double(env, args[1], &value1);
+  double value0 = NativeTypeTraits<IDLDouble>::NativeValue(env, args[0]);
+  double value1 = NativeTypeTraits<IDLDouble>::NativeValue(env, args[1]);
 
   napi_value sum;
   napi_create_double(env, Calculator::Add(value0, value1), &sum);
@@ -70,20 +59,8 @@ napi_value Sub(napi_env env, napi_callback_info info) {
     return nullptr;
   }
 
-  napi_valuetype valuetype0;
-  napi_valuetype valuetype1;
-  napi_typeof(env, args[0], &valuetype0);
-  napi_typeof(env, args[1], &valuetype1);
-
-  if (valuetype0 != napi_number || valuetype1 != napi_number) {
-    napi_throw_type_error(env, nullptr, "Wrong arguments");
-    return nullptr;
-  }
-
-  double value0;
-  double value1;
-  napi_get_value_double(env, args[0], &value0);
-  napi_get_value_double(env, args[1], &value1);
+  double value0 = NativeTypeTraits<IDLDouble>::NativeValue(env, args[0]);
+  double value1 = NativeTypeTraits<IDLDouble>::NativeValue(env, args[1]);
 
   napi_value sum;
   napi_create_double(env, Calculator::Sub(value0, value1), &sum);
@@ -101,20 +78,8 @@ napi_value Mul(napi_env env, napi_callback_info info) {
     return nullptr;
   }
 
-  napi_valuetype valuetype0;
-  napi_valuetype valuetype1;
-  napi_typeof(env, args[0], &valuetype0);
-  napi_typeof(env, args[1], &valuetype1);
-
-  if (valuetype0 != napi_number || valuetype1 != napi_number) {
-    napi_throw_type_error(env, nullptr, "Wrong arguments");
-    return nullptr;
-  }
-
-  double value0;
-  double value1;
-  napi_get_value_double(env, args[0], &value0);
-  napi_get_value_double(env, args[1], &value1);
+  double value0 = NativeTypeTraits<IDLDouble>::NativeValue(env, args[0]);
+  double value1 = NativeTypeTraits<IDLDouble>::NativeValue(env, args[1]);
 
   napi_value sum;
   napi_create_double(env, Calculator::Mul(value0, value1), &sum);
@@ -132,20 +97,8 @@ napi_value Div(napi_env env, napi_callback_info info) {
     return nullptr;
   }
 
-  napi_valuetype valuetype0;
-  napi_valuetype valuetype1;
-  napi_typeof(env, args[0], &valuetype0);
-  napi_typeof(env, args[1], &valuetype1);
-
-  if (valuetype0 != napi_number || valuetype1 != napi_number) {
-    napi_throw_type_error(env, nullptr, "Wrong arguments");
-    return nullptr;
-  }
-
-  double value0;
-  double value1;
-  napi_get_value_double(env, args[0], &value0);
-  napi_get_value_double(env, args[1], &value1);
+  double value0 = NativeTypeTraits<IDLDouble>::NativeValue(env, args[0]);
+  double value1 = NativeTypeTraits<IDLDouble>::NativeValue(env, args[1]);
 
   napi_value sum;
   napi_create_double(env, Calculator::Div(value0, value1), &sum);
