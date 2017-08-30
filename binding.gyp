@@ -23,6 +23,9 @@
       'target_name': 'bacardi',
       'dependencies': [
       ],
+      'include_dirs': [
+        './',
+      ],
       'sources': [
         '<@(examples_cpp_files)',
       ]
