@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#include "calculator.h"
-#include "calculator_bridge.h"
+#include "examples/calculator.h"
+#include "examples/calculator_bridge.h"
 
 void Init(napi_env env, napi_value exports, napi_value module, void* priv) {
   napi_property_descriptor addDescriptor = DECLARE_NAPI_METHOD("add", Add);
