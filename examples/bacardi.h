@@ -14,23 +14,11 @@
  * limitations under the License.
  */
 
-#ifndef EXAMPLES_CALCULATOR_BRIDGE_H_
-#define EXAMPLES_CALCULATOR_BRIDGE_H_
+#ifndef EXAMPLES_BACARDI_H_
+#define EXAMPLES_BACARDI_H_
 
 #include <node_api.h>
 
-class CalculatorBridge {
- public:
-  static void Init(napi_env env, napi_value exports);
+void Init(napi_env env, napi_value exports, napi_value module, void* priv);
 
-  // JS bridge implementation for Calculator.
-  static napi_value Add(napi_env env, napi_callback_info info);
-  static napi_value Sub(napi_env env, napi_callback_info info);
-  static napi_value Mul(napi_env env, napi_callback_info info);
-  static napi_value Div(napi_env env, napi_callback_info info);
-};
-
-#define DECLARE_NAPI_METHOD(name, func) \
-    { name, 0, func, 0, 0, 0, napi_default, 0 }
-
-#endif  // EXAMPLES_CALCULATOR_BRIDGE_H_
+#endif  // EXAMPLES_BACARDI_H_

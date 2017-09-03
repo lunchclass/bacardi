@@ -18,7 +18,7 @@
 #include "core/native_type_traits.h"
 #include "examples/calculator.h"
 
-void Init(napi_env env, napi_value exports, napi_value module, void* priv) {
+void CalculatorBridge::Init(napi_env env, napi_value exports) {
   napi_property_descriptor addDescriptor = DECLARE_NAPI_METHOD("add", Add);
   napi_property_descriptor subDescriptor = DECLARE_NAPI_METHOD("sub", Sub);
   napi_property_descriptor mulDescriptor = DECLARE_NAPI_METHOD("mul", Mul);
@@ -30,7 +30,7 @@ void Init(napi_env env, napi_value exports, napi_value module, void* priv) {
   napi_define_properties(env, exports, 1, &divDescriptor);
 }
 
-napi_value Add(napi_env env, napi_callback_info info) {
+napi_value CalculatorBridge::Add(napi_env env, napi_callback_info info) {
   size_t argc = 2;
   napi_value args[2];
   napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
@@ -49,7 +49,7 @@ napi_value Add(napi_env env, napi_callback_info info) {
   return sum;
 }
 
-napi_value Sub(napi_env env, napi_callback_info info) {
+napi_value CalculatorBridge::Sub(napi_env env, napi_callback_info info) {
   size_t argc = 2;
   napi_value args[2];
   napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
@@ -68,7 +68,7 @@ napi_value Sub(napi_env env, napi_callback_info info) {
   return sum;
 }
 
-napi_value Mul(napi_env env, napi_callback_info info) {
+napi_value CalculatorBridge::Mul(napi_env env, napi_callback_info info) {
   size_t argc = 2;
   napi_value args[2];
   napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
@@ -87,7 +87,7 @@ napi_value Mul(napi_env env, napi_callback_info info) {
   return sum;
 }
 
-napi_value Div(napi_env env, napi_callback_info info) {
+napi_value CalculatorBridge::Div(napi_env env, napi_callback_info info) {
   size_t argc = 2;
   napi_value args[2];
   napi_get_cb_info(env, info, &argc, args, nullptr, nullptr);
@@ -105,5 +105,3 @@ napi_value Div(napi_env env, napi_callback_info info) {
 
   return sum;
 }
-
-NAPI_MODULE(calculator, Init);
