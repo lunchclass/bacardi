@@ -15,6 +15,8 @@
 {
   'variables': {
     'examples_cpp_files': [
+      'bacardi.cc',
+      'bacardi.h',
       'calculator.cc',
       'calculator.h',
       'calculator_bridge.cc',
