@@ -23,6 +23,8 @@ class CalculatorBridge {
  public:
   static void Init(napi_env env, napi_value exports);
 
+  static napi_value New(napi_env env, napi_callback_info info);
+
   // JS bridge implementation for Calculator.
   static napi_value Add(napi_env env, napi_callback_info info);
   static napi_value Sub(napi_env env, napi_callback_info info);
@@ -30,7 +32,7 @@ class CalculatorBridge {
   static napi_value Div(napi_env env, napi_callback_info info);
 };
 
-#define DECLARE_NAPI_METHOD(name, func) \
-    { name, 0, func, 0, 0, 0, napi_default, 0 }
+#define EXPOSE_STATIC_METHOD(name, func) \
+  { name, 0, func, 0, 0, 0, napi_static, 0 }
 
 #endif  // EXAMPLES_CALCULATOR_BRIDGE_H_
