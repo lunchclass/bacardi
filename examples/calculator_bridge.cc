@@ -15,19 +15,27 @@
  */
 
 #include "examples/calculator_bridge.h"
+
 #include "core/native_type_traits.h"
 #include "examples/calculator.h"
 
 void CalculatorBridge::Init(napi_env env, napi_value exports) {
-  napi_property_descriptor addDescriptor = DECLARE_NAPI_METHOD("add", Add);
-  napi_property_descriptor subDescriptor = DECLARE_NAPI_METHOD("sub", Sub);
-  napi_property_descriptor mulDescriptor = DECLARE_NAPI_METHOD("mul", Mul);
-  napi_property_descriptor divDescriptor = DECLARE_NAPI_METHOD("div", Div);
+  napi_status status;
+  napi_property_descriptor properties[] = {
+      EXPOSE_STATIC_METHOD("add", Add), EXPOSE_STATIC_METHOD("sub", Sub),
+      EXPOSE_STATIC_METHOD("mul", Mul), EXPOSE_STATIC_METHOD("div", Div),
+  };
 
-  napi_define_properties(env, exports, 1, &addDescriptor);
-  napi_define_properties(env, exports, 1, &subDescriptor);
-  napi_define_properties(env, exports, 1, &mulDescriptor);
-  napi_define_properties(env, exports, 1, &divDescriptor);
+  napi_value cons;
+  status = napi_define_class(env, "Calculator", New, nullptr,
+                             4 /* properties count */, properties, &cons);
+
+  status = napi_set_named_property(env, exports, "Calculator", cons);
+}
+
+napi_value CalculatorBridge::New(napi_env env, napi_callback_info info) {
+  // JS constructor is called but we ignores it.
+  return nullptr;
 }
 
 napi_value CalculatorBridge::Add(napi_env env, napi_callback_info info) {
