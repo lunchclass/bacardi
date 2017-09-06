@@ -17,13 +17,12 @@
 #ifndef EXAMPLES_CALCULATOR_H_
 #define EXAMPLES_CALCULATOR_H_
 
-// This class has only static methods for now to make implementing easier.
 class Calculator {
  public:
-  static double Add(double number1, double number2);
-  static double Sub(double number1, double number2);
-  static double Mul(double number1, double number2);
-  static double Div(double number1, double number2);
+  double Add(double number1, double number2);
+  double Sub(double number1, double number2);
+  double Mul(double number1, double number2);
+  double Div(double number1, double number2);
 };
 
 #endif  // EXAMPLES_CALCULATOR_H_
