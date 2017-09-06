@@ -17,7 +17,7 @@
 #ifndef EXAMPLES_CALCULATOR_BRIDGE_H_
 #define EXAMPLES_CALCULATOR_BRIDGE_H_
 
-#include <node_api.h>
+#include <napi.h>
 
 class CalculatorBridge {
  public:
