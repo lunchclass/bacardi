@@ -19,20 +19,17 @@
 
 #include <napi.h>
 
-class CalculatorBridge {
+class CalculatorBridge : public Napi::ObjectWrap<CalculatorBridge> {
  public:
-  static void Init(napi_env env, napi_value exports);
+  static void Init(Napi::Env env, Napi::Object exports);
 
-  static napi_value New(napi_env env, napi_callback_info info);
+  explicit CalculatorBridge(const Napi::CallbackInfo& info);
 
   // JS bridge implementation for Calculator.
-  static napi_value Add(napi_env env, napi_callback_info info);
-  static napi_value Sub(napi_env env, napi_callback_info info);
-  static napi_value Mul(napi_env env, napi_callback_info info);
-  static napi_value Div(napi_env env, napi_callback_info info);
+  static Napi::Value Add(const Napi::CallbackInfo& info);
+  static Napi::Value Sub(const Napi::CallbackInfo& info);
+  static Napi::Value Mul(const Napi::CallbackInfo& info);
+  static Napi::Value Div(const Napi::CallbackInfo& info);
 };
-
-#define EXPOSE_STATIC_METHOD(name, func) \
-  { name, 0, func, 0, 0, 0, napi_static, 0 }
 
 #endif  // EXAMPLES_CALCULATOR_BRIDGE_H_
