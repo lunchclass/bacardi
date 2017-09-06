@@ -17,8 +17,8 @@
 #ifndef EXAMPLES_BACARDI_H_
 #define EXAMPLES_BACARDI_H_
 
-#include <node_api.h>
+#include <napi.h>
 
-void Init(napi_env env, napi_value exports, napi_value module, void* priv);
+void Init(Napi::Env env, Napi::Object exports, Napi::Object module);
 
 #endif  // EXAMPLES_BACARDI_H_

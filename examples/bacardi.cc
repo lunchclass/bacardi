@@ -20,10 +20,10 @@
 #include "examples/bacardi.h"
 #include "examples/calculator_bridge.h"
 
-void Init(napi_env env, napi_value exports, napi_value module, void* priv) {
+void Init(Napi::Env env, Napi::Object exports, Napi::Object module) {
   CalculatorBridge::Init(env, exports);
 }
 
-NAPI_MODULE(bacardi, Init);
+NODE_API_MODULE(bacardi, Init);
 
 #endif  // EXAMPLES_BACARDI_H_
