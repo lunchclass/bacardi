@@ -19,6 +19,8 @@
 
 #include <napi.h>
 
+#include "examples/calculator.h"
+
 class CalculatorBridge : public Napi::ObjectWrap<CalculatorBridge> {
  public:
   static void Init(Napi::Env env, Napi::Object exports);
@@ -26,10 +28,13 @@ class CalculatorBridge : public Napi::ObjectWrap<CalculatorBridge> {
   explicit CalculatorBridge(const Napi::CallbackInfo& info);
 
   // JS bridge implementation for Calculator.
-  static Napi::Value Add(const Napi::CallbackInfo& info);
-  static Napi::Value Sub(const Napi::CallbackInfo& info);
-  static Napi::Value Mul(const Napi::CallbackInfo& info);
-  static Napi::Value Div(const Napi::CallbackInfo& info);
+  Napi::Value Add(const Napi::CallbackInfo& info);
+  Napi::Value Sub(const Napi::CallbackInfo& info);
+  Napi::Value Mul(const Napi::CallbackInfo& info);
+  Napi::Value Div(const Napi::CallbackInfo& info);
+
+ private:
+  std::unique_ptr<Calculator> impl_;
 };
 
 #endif  // EXAMPLES_CALCULATOR_BRIDGE_H_

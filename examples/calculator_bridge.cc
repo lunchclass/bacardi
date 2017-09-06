@@ -16,20 +16,20 @@
 
 #include "examples/calculator_bridge.h"
 
-#include "examples/calculator.h"
-
 void CalculatorBridge::Init(Napi::Env env, Napi::Object exports) {
   Napi::Function js_constructor =
       DefineClass(env, "Calculator",
                   {
-                      StaticMethod("add", &Add), StaticMethod("sub", &Sub),
-                      StaticMethod("mul", &Mul), StaticMethod("div", &Div),
+                      InstanceMethod("add", &CalculatorBridge::Add),
+                      InstanceMethod("sub", &CalculatorBridge::Sub),
+                      InstanceMethod("mul", &CalculatorBridge::Mul),
+                      InstanceMethod("div", &CalculatorBridge::Div),
                   });
   exports.Set("Calculator", js_constructor);
 }
 
 CalculatorBridge::CalculatorBridge(const Napi::CallbackInfo& info)
-    : Napi::ObjectWrap<CalculatorBridge>(info) {}
+    : Napi::ObjectWrap<CalculatorBridge>(info), impl_(new Calculator()) {}
 
 Napi::Value CalculatorBridge::Add(const Napi::CallbackInfo& info) {
   if (info.Length() != 2 || !info[0].IsNumber() || !info[1].IsNumber()) {
@@ -37,11 +37,11 @@ Napi::Value CalculatorBridge::Add(const Napi::CallbackInfo& info) {
         .ThrowAsJavaScriptException();
     return Napi::Number();
   }
-  
+
   double value0 = info[0].ToNumber().DoubleValue();
   double value1 = info[1].ToNumber().DoubleValue();
 
-  return Napi::Number::New(info.Env(), Calculator::Add(value0, value1));
+  return Napi::Number::New(info.Env(), impl_->Add(value0, value1));
 }
 
 Napi::Value CalculatorBridge::Sub(const Napi::CallbackInfo& info) {
@@ -54,7 +54,7 @@ Napi::Value CalculatorBridge::Sub(const Napi::CallbackInfo& info) {
   double value0 = info[0].ToNumber().DoubleValue();
   double value1 = info[1].ToNumber().DoubleValue();
 
-  return Napi::Number::New(info.Env(), Calculator::Sub(value0, value1));
+  return Napi::Number::New(info.Env(), impl_->Sub(value0, value1));
 }
 
 Napi::Value CalculatorBridge::Mul(const Napi::CallbackInfo& info) {
@@ -67,7 +67,7 @@ Napi::Value CalculatorBridge::Mul(const Napi::CallbackInfo& info) {
   double value0 = info[0].ToNumber().DoubleValue();
   double value1 = info[1].ToNumber().DoubleValue();
 
-  return Napi::Number::New(info.Env(), Calculator::Mul(value0, value1));
+  return Napi::Number::New(info.Env(), impl_->Mul(value0, value1));
 }
 
 Napi::Value CalculatorBridge::Div(const Napi::CallbackInfo& info) {
@@ -80,5 +80,5 @@ Napi::Value CalculatorBridge::Div(const Napi::CallbackInfo& info) {
   double value0 = info[0].ToNumber().DoubleValue();
   double value1 = info[1].ToNumber().DoubleValue();
 
-  return Napi::Number::New(info.Env(), Calculator::Div(value0, value1));
+  return Napi::Number::New(info.Env(), impl_->Div(value0, value1));
 }
