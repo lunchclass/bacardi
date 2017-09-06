@@ -23,14 +23,17 @@
     {
       'target_name': 'bacardi',
       'dependencies': [
+        '<!@(./bootstrap/command/node -p \'require("node-addon-api").gyp\')',
       ],
       'include_dirs': [
         './',
+        '<!@(./bootstrap/command/node -p \'require("node-addon-api").include\')',
       ],
       'sources': [
         '<@(core_cpp_files)',
         '<@(examples_cpp_files)',
-      ]
+      ],
+      'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
     },
 
     {
