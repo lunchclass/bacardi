@@ -17,6 +17,7 @@
 #ifndef EXAMPLES_CALCULATOR_BRIDGE_H_
 #define EXAMPLES_CALCULATOR_BRIDGE_H_
 
+#include <memory>
 #include <napi.h>
 
 #include "examples/calculator.h"
