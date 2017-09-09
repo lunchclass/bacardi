@@ -60,3 +60,35 @@ describe('div function test', function() {
     assert.equal(calculator.div(4.5878, 1.1234), 4.5878 / 1.1234);
   });
 });
+
+describe('Test for invalid arguments', () => {
+  it('Pass invalid numbers', () => {
+    assert.throws(() => {
+      calculator.add('1', '2');
+    }, TypeError);
+    assert.throws(() => {
+      calculator.sub(undefined, undefined);
+    }, TypeError);
+    assert.throws(() => {
+      calculator.mul(null, null);
+    }, TypeError);
+    assert.throws(() => {
+      calculator.div([], {});
+    }, TypeError);
+  });
+
+  it('No match function signatures', () => {
+    assert.throws(() => {
+      calculator.add();
+    }, RangeError);
+    assert.throws(() => {
+      calculator.sub(10);
+    }, RangeError);
+    assert.throws(() => {
+      calculator.mul(20, 30, 40);
+    }, RangeError);
+    assert.throws(() => {
+      calculator.div(20, 30, 40, 50);
+    }, RangeError);
+  });
+});
