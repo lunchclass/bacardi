@@ -17,7 +17,7 @@
 #ifndef CORE_NATIVE_TYPE_TRAITS_H_
 #define CORE_NATIVE_TYPE_TRAITS_H_
 
-#include <node_api.h>
+#include <napi.h>
 #include <type_traits>
 #include "core/idl_base.h"
 #include "core/idl_types.h"
@@ -37,24 +37,20 @@ struct NativeTypeTraitsBase<
 template <typename T>
 struct NativeTypeTraits : public NativeTypeTraitsBase<T> {
   static inline typename NativeTypeTraitsBase<T>::ImplType NativeValue(
-      napi_env env,
-      napi_value jsValue);
+      const Napi::Env& env,
+      const Napi::Value& js_value);
 };
 
 template <>
 struct NativeTypeTraits<IDLDouble> : public NativeTypeTraitsBase<IDLDouble> {
-  static double NativeValue(napi_env env, napi_value js_value) {
-    napi_valuetype js_type;
-    napi_typeof(env, js_value, &js_type);
-    if (js_type != napi_number) {
-      // TODO(zino): We need a way to inform this exception to caller.
-      napi_throw_type_error(env, nullptr, "Wrong arguments");
+  static double NativeValue(const Napi::Env& env, const Napi::Value& js_value) {
+    if (!js_value.IsNumber()) {
+      Napi::TypeError::New(env, "It's an invalid number.")
+          .ThrowAsJavaScriptException();
       return 0.0;
     }
 
-    double native_value;
-    napi_get_value_double(env, js_value, &native_value);
-    return native_value;
+    return js_value.ToNumber().DoubleValue();
   }          
 };
 
