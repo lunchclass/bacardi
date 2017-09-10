@@ -14,27 +14,17 @@
  * limitations under the License.
  */
 
-import * as fs from 'fs';
+import * as file from './base/file';
+import * as idls from './idl_parser/idls';
 import * as nunjucks from 'nunjucks';
 import * as webidl from 'webidl2';
 
-async function readFile(path: string) {
-  return new Promise<string>((resolve, reject) => {
-    fs.readFile(path, 'utf8', (error, data) => {
-      if (error) {
-        reject(error);
-      }
-      resolve(data);
-    });
-  });
-}
-
-async function main(idls: Array<string>) {
-  for (let idl of idls) {
-    let parsedData = webidl.parse(await readFile(idl));
-    console.log(nunjucks.render('./template/example.njk', {
-        context: parsedData[0]
-    }));
+async function main(idl_files: Array<string>) {
+  for (let idl_file of idl_files) {
+    let parsedData = webidl.parse(await file.read(idl_file));
+    let idl_interface: idls.Interface = new idls.InterfaceImpl(parsedData[0]);
+    nunjucks.configure({ trimBlocks:true, lstripBlocks: true });
+    console.log(nunjucks.render('./template/interface_header.njk', idl_interface));
   }
   return 0;
 }

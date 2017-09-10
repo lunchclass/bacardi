@@ -15,6 +15,8 @@
 {
   'variables': {
     'generator_files': [
+      'base/file.ts',
+      'idl_parser/idls.ts',
       'main.ts',
     ],
   },
