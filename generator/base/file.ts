@@ -26,3 +26,14 @@ export async function read(path: string): Promise<String> {
     });
   });
 }
+
+export async function write(path: string, data: string): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    fs.writeFile(path, data, 'utf8', (error) => {
+      if (error) {
+        reject(error);
+      }
+      resolve();
+    });
+  });
+}

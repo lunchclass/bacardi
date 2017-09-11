@@ -24,7 +24,10 @@ async function main(idl_files: Array<string>) {
     let parsedData = webidl.parse(await file.read(idl_file));
     let idl_interface: idls.Interface = new idls.InterfaceImpl(parsedData[0]);
     nunjucks.configure({ trimBlocks:true, lstripBlocks: true });
-    console.log(nunjucks.render('./template/interface_header.njk', idl_interface));
+    await file.write('build/calculator_bridge.h',
+        nunjucks.render('./template/interface_header.njk', idl_interface));
+    await file.write('build/calculator_bridge.cc',
+        nunjucks.render('./template/interface_cpp.njk', idl_interface));
   }
   return 0;
 }
