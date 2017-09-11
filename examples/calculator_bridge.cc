@@ -16,6 +16,7 @@
 
 #include "examples/calculator_bridge.h"
 
+#include "core/js_type_traits.h"
 #include "core/native_type_traits.h"
 
 void CalculatorBridge::Init(Napi::Env env, Napi::Object exports) {
@@ -37,50 +38,50 @@ Napi::Value CalculatorBridge::Add(const Napi::CallbackInfo& info) {
   if (info.Length() != 2) {
     Napi::RangeError::New(info.Env(), "Wrong number of arguments.")
         .ThrowAsJavaScriptException();
-    return Napi::Number();
+    return Napi::Value();
   }
 
   double value0 = NativeTypeTraits<IDLDouble>::NativeValue(info.Env(), info[0]);
   double value1 = NativeTypeTraits<IDLDouble>::NativeValue(info.Env(), info[1]);
 
-  return Napi::Number::New(info.Env(), impl_->Add(value0, value1));
+  return JSTypeTraits(info.Env(), impl_->Add(value0, value1));
 }
 
 Napi::Value CalculatorBridge::Sub(const Napi::CallbackInfo& info) {
   if (info.Length() != 2) {
     Napi::RangeError::New(info.Env(), "Wrong number of arguments.")
         .ThrowAsJavaScriptException();
-    return Napi::Number();
+    return Napi::Value();
   }
 
   double value0 = NativeTypeTraits<IDLDouble>::NativeValue(info.Env(), info[0]);
   double value1 = NativeTypeTraits<IDLDouble>::NativeValue(info.Env(), info[1]);
 
-  return Napi::Number::New(info.Env(), impl_->Sub(value0, value1));
+  return JSTypeTraits(info.Env(), impl_->Sub(value0, value1));
 }
 
 Napi::Value CalculatorBridge::Mul(const Napi::CallbackInfo& info) {
   if (info.Length() != 2) {
     Napi::RangeError::New(info.Env(), "Wrong number of arguments.")
         .ThrowAsJavaScriptException();
-    return Napi::Number();
+    return Napi::Value();
   }
 
   double value0 = NativeTypeTraits<IDLDouble>::NativeValue(info.Env(), info[0]);
   double value1 = NativeTypeTraits<IDLDouble>::NativeValue(info.Env(), info[1]);
 
-  return Napi::Number::New(info.Env(), impl_->Mul(value0, value1));
+  return JSTypeTraits(info.Env(), impl_->Mul(value0, value1));
 }
 
 Napi::Value CalculatorBridge::Div(const Napi::CallbackInfo& info) {
   if (info.Length() != 2) {
     Napi::RangeError::New(info.Env(), "Wrong number of arguments.")
         .ThrowAsJavaScriptException();
-    return Napi::Number();
+    return Napi::Value();
   }
 
   double value0 = NativeTypeTraits<IDLDouble>::NativeValue(info.Env(), info[0]);
   double value1 = NativeTypeTraits<IDLDouble>::NativeValue(info.Env(), info[1]);
 
-  return Napi::Number::New(info.Env(), impl_->Div(value0, value1));
+  return JSTypeTraits(info.Env(), impl_->Div(value0, value1));
 }

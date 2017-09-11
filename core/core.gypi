@@ -17,6 +17,7 @@
     'core_cpp_files': [
       'idl_base.h',
       'idl_types.h',
+      'js_type_traits.h',
       'native_type_traits.h',
     ],
   },
