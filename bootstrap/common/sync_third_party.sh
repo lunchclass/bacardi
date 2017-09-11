@@ -59,7 +59,12 @@ function sync_third_party() {
   fi
 
   # Extract the archive file into $temp_path/extract_$file_name.
-  local extracted_path=$temp_path/extract_$filename
+  if is_windows_platform; then
+    # We should use short path to keep 255 character in windows platform.
+    local extracted_path=$temp_path/node
+  else
+    local extracted_path=$temp_path/extract_$filename
+  fi
   if ! extract_archive $temp_path/$filename $extracted_path; then
     return 3
   fi
