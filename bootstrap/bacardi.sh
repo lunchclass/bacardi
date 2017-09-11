@@ -22,6 +22,8 @@ if is_windows_platform; then
   set_path_env $(third_party_path)/win-bash
   set_path_env $(third_party_path)/win-wget
   set_path_env $(third_party_path)/win-unzip/bin
+  set_path_env $(third_party_path)/node
+  set_path_env $USERPROFILE/.windows-build-tools/python27
 fi
 set_path_env $(bootstrap_command_path)
 set_path_env $(bacardi_path)/node_modules/.bin

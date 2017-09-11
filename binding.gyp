@@ -22,12 +22,27 @@
   'targets': [
     {
       'target_name': 'bacardi',
-      'dependencies': [
-        '<!@(./bootstrap/command/node -p \'require("node-addon-api").gyp\')',
-      ],
-      'include_dirs': [
-        './',
-        '<!@(./bootstrap/command/node -p \'require("node-addon-api").include\')',
+      'conditions': [
+        ['OS!="win"',
+        {
+          'dependencies': [
+            '<!@(./bootstrap/command/node -p \'require("node-addon-api").gyp\')',
+          ],
+          'include_dirs': [
+            './',
+            '<!@(./bootstrap/command/node -p \'require("node-addon-api").include\')',
+          ],
+        }],
+        ['OS=="win"',
+        {
+          'dependencies': [
+            '<!(third_party\\node\\node.exe -p "require(\'node-addon-api\').gyp")',
+          ],
+          'include_dirs': [
+            './',
+            '<!@(third_party\\node\\node.exe -p "require(\'node-addon-api\').include")',
+          ],
+        }],
       ],
       'sources': [
         '<@(core_cpp_files)',
@@ -48,16 +63,29 @@
           'outputs': [
             '<@(PRODUCT_DIR)/generator',
           ],
-          'action': [
-            '<@(PRODUCT_DIR)/../../bootstrap/command/tsc',
-            '<@(_inputs)',
-            '--outDir',
-            '<@(_outputs)',
+          'conditions': [
+            ['OS!="win"',
+            {
+              'action': [
+                '<@(PRODUCT_DIR)/../../bootstrap/command/tsc',
+                '<@(_inputs)',
+                '--outDir',
+                '<@(_outputs)',
+                ],
+            }],
+            ['OS=="win"',
+            {
+              'action': [
+                '<@(PRODUCT_DIR)/../../third_party/node/node.exe <@(PRODUCT_DIR)/../../node_modules/typescript/bin/tsc --lib es2015',
+                '<@(_inputs)',
+                '--outDir',
+                '<@(_outputs)',
+                ],
+            }],
           ],
         },
       ],
     },
-
     {
       'target_name': 'idl',
       'type': 'none',
@@ -73,10 +101,25 @@
           'outputs': [
             '<@(examples_idl_output_files)',
           ],
-          'action': [
-            '<@(PRODUCT_DIR)/../../bootstrap/command/node',
-            '<@(PRODUCT_DIR)/generator/main.js',
-            '<@(_inputs)'
+          'conditions': [
+            ['OS!="win"',
+            {
+              'action': [
+                '<@(PRODUCT_DIR)/../../bootstrap/command/node',
+                '<@(PRODUCT_DIR)/generator/main.js',
+                '<@(_inputs)'
+              ],
+            }],
+            ['OS=="win"',
+            {
+              'action': [
+                '<@(PRODUCT_DIR)/../../third_party/node/node.exe',
+                '<@(PRODUCT_DIR)/generator/main.js',
+                # FIXME(hwanseung): Didn't find template files when nunjucks.render executed.
+                # so run temporary without input files to prevent error.
+                #'<@(_inputs)'
+              ],
+            }],
           ],
         },
       ],

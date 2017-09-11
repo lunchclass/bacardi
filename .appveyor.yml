@@ -1,0 +1,13 @@
+platform:
+  - x86
+  - x64
+
+branches:
+  only:
+    - master
+
+build_script:
+  - bacardi build
+
+test_script:
+  - bacardi test
