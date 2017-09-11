@@ -1,0 +1,59 @@
+/*
+ * Copyright (c) 2017 The Lunch Class Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#include "examples/{{name | lower}}_bridge.h"
+
+#include "core/native_type_traits.h"
+
+void {{name}}Bridge::Init(Napi::Env env, Napi::Object exports) {
+  Napi::Function js_constructor =
+      DefineClass(env, "Calculator",
+                  {
+                      {% for member in members %}
+                      InstanceMethod("{{member.name}}", &{{name}}Bridge::
+                          {{-member.name | capitalize}}),
+                      {% endfor %}
+                  });
+  exports.Set("Calculator", js_constructor);
+}
+
+{{name}}Bridge::{{name}}Bridge(const Napi::CallbackInfo& info)
+    : Napi::ObjectWrap<{{name}}Bridge>(info), impl_(new {{name}}()) {}
+
+{% for member in members %}
+Napi::Value {{name}}Bridge::{{member.name | capitalize}}(const Napi::CallbackInfo& info) {
+  if (info.Length() != {{member.arguments.length}}) {
+    Napi::RangeError::New(info.Env(), "Wrong number of arguments.");
+    return Napi::Value();
+  }
+
+  {% for argument in member.arguments %}
+  {{argument.type}} {{argument.name}} = NativeTypeTraits<IDL{{argument.type | capitalize-}}
+      >::NativeValue(info.Env(), info[{{loop.index - 1}}]);
+  {% endfor %}
+
+  {% if member.arguments.length > 0 %}
+  return JSTypeTraits(info.Env(), impl_->{{member.name | capitalize}}(
+      {{-member.arguments[0].name-}}
+      {%- for i in range(1, member.arguments.length) -%}
+      , {{member.arguments[i].name-}}
+      {% endfor %}));
+  {% else %}
+  return Napi::Value();
+  {% endif %}
+}
+
+{% endfor %}
