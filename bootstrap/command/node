@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (c) 2017 The Lunch Class Authors.
+# Copyright (c) 2017 The Bacardi Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
