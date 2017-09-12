@@ -16,7 +16,9 @@
 
 import * as file from './base/file';
 import * as idls from './idl_parser/idls';
+import * as mkdirp from 'mkdirp';
 import * as nunjucks from 'nunjucks';
+import * as path from 'path';
 import * as webidl from 'webidl2';
 
 async function main(idl_files: Array<string>) {
@@ -24,10 +26,17 @@ async function main(idl_files: Array<string>) {
     let parsedData = webidl.parse(await file.read(idl_file));
     let idl_interface: idls.Interface = new idls.InterfaceImpl(parsedData[0]);
     nunjucks.configure({ trimBlocks:true, lstripBlocks: true });
-    await file.write('build/calculator_bridge.h',
-        nunjucks.render('./template/interface_header.njk', idl_interface));
-    await file.write('build/calculator_bridge.cc',
-        nunjucks.render('./template/interface_cpp.njk', idl_interface));
+    const template_folder = __dirname + './../../../template/';
+    const gen_folder = path.resolve(__dirname, '../gen/examples');
+    mkdirp.sync(gen_folder);
+    let head_template = await file.read(
+        path.resolve(template_folder, './interface_header.njk'));
+    await file.write(path.resolve(gen_folder, './calculator_bridge.h'),
+        nunjucks.renderString(head_template, idl_interface));
+    let cc_template = await file.read(
+        path.resolve(template_folder, './interface_cpp.njk'));
+    await file.write(path.resolve(gen_folder, './calculator_bridge.cc'),
+        nunjucks.renderString(cc_template, idl_interface));
   }
   return 0;
 }

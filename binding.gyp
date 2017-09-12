@@ -115,9 +115,7 @@
               'action': [
                 '<@(PRODUCT_DIR)/../../third_party/node/node.exe',
                 '<@(PRODUCT_DIR)/generator/main.js',
-                # FIXME(hwanseung): Didn't find template files when nunjucks.render executed.
-                # so run temporary without input files to prevent error.
-                #'<@(_inputs)'
+                '<@(_inputs)'
               ],
             }],
           ],
