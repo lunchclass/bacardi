@@ -20,7 +20,7 @@
 function apply_format() {
   binary_path=$1
   additional_flags=$2
-  $(third_party_path)/clang-format/git-clang-format --force \
+  python $(third_party_path)/clang-format/git-clang-format --force \
       --binary $binary_path \
       --style Chromium \
       $additional_flags
