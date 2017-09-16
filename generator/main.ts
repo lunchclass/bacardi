@@ -21,26 +21,38 @@ import * as nunjucks from 'nunjucks';
 import * as path from 'path';
 import * as webidl from 'webidl2';
 
-async function main(idl_files: Array<string>) {
+const TEMPLATE_DIR = path.resolve(__dirname, '../../../template');
+
+async function generateInterface(input_idl_path: string, output_path: string) {
+  const parsedData =
+      webidl.parse(await file.read(path.resolve(input_idl_path)));
+  const idl_interface: idls.Interface = new idls.InterfaceImpl(parsedData[0]);
+
+  const [header_tmpl, cpp_tmpl] = await Promise.all([
+    file.read(path.resolve(TEMPLATE_DIR, 'interface_header.njk')),
+    file.read(path.resolve(TEMPLATE_DIR, 'interface_cpp.njk'))
+  ]);
+  const idl_name = input_idl_path.replace('.idl', '').replace('.', '');
+  const header_file_path = path.resolve(output_path, idl_name + '_bridge.h');
+  const cpp_file_path = path.resolve(output_path, idl_name + '_bridge.cc');
+
+  return Promise.all([
+    file.write(
+        header_file_path, nunjucks.renderString(header_tmpl, idl_interface)),
+    file.write(cpp_file_path, nunjucks.renderString(cpp_tmpl, idl_interface))
+  ]);
+}
+
+async function main([out_dir, ...idl_files]) {
   for (let idl_file of idl_files) {
-    let parsedData = webidl.parse(await file.read(idl_file));
-    let idl_interface: idls.Interface = new idls.InterfaceImpl(parsedData[0]);
-    nunjucks.configure({ trimBlocks:true, lstripBlocks: true });
-    const template_folder = __dirname + './../../../template/';
-    const gen_folder = path.resolve(__dirname, '../gen/examples');
-    mkdirp.sync(gen_folder);
-    let head_template = await file.read(
-        path.resolve(template_folder, './interface_header.njk'));
-    await file.write(path.resolve(gen_folder, './calculator_bridge.h'),
-        nunjucks.renderString(head_template, idl_interface));
-    let cc_template = await file.read(
-        path.resolve(template_folder, './interface_cpp.njk'));
-    await file.write(path.resolve(gen_folder, './calculator_bridge.cc'),
-        nunjucks.renderString(cc_template, idl_interface));
+    await generateInterface(idl_file, out_dir);
   }
   return 0;
 }
 
 main(process.argv.slice(2))
     .then(process.exit)
-    .catch(() => process.exit(2));
+    .catch(error => {
+      console.log(error);
+      process.exit(2);
+    });

@@ -22,6 +22,9 @@
   'targets': [
     {
       'target_name': 'bacardi',
+      'dependencies': [
+        'idl',
+      ],
       'conditions': [
         ['OS!="win"',
         {
@@ -30,6 +33,7 @@
           ],
           'include_dirs': [
             './',
+            '<@(SHARED_INTERMEDIATE_DIR)',
             '<!@(./bootstrap/command/node -p \'require("node-addon-api").include\')',
           ],
         }],
@@ -40,6 +44,7 @@
           ],
           'include_dirs': [
             './',
+            '<@(SHARED_INTERMEDIATE_DIR)',
             '<!@(third_party\\node\\node.exe -p "require(\'node-addon-api\').include")',
           ],
         }],
@@ -47,6 +52,7 @@
       'sources': [
         '<@(core_cpp_files)',
         '<@(examples_cpp_files)',
+        '<@(examples_idl_output_files)',
       ],
       'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
     },
@@ -107,7 +113,8 @@
               'action': [
                 '<@(PRODUCT_DIR)/../../bootstrap/command/node',
                 '<@(PRODUCT_DIR)/generator/main.js',
-                '<@(_inputs)'
+                '<@(SHARED_INTERMEDIATE_DIR)',
+                '<@(_inputs)',
               ],
             }],
             ['OS=="win"',
@@ -115,7 +122,8 @@
               'action': [
                 '<@(PRODUCT_DIR)/../../third_party/node/node.exe',
                 '<@(PRODUCT_DIR)/generator/main.js',
-                '<@(_inputs)'
+                '<@(SHARED_INTERMEDIATE_DIR)',
+                '<@(_inputs)',
               ],
             }],
           ],
