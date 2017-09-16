@@ -37,7 +37,8 @@ void {{name}}Bridge::Init(Napi::Env env, Napi::Object exports) {
 {% for member in members %}
 Napi::Value {{name}}Bridge::{{member.name | capitalize}}(const Napi::CallbackInfo& info) {
   if (info.Length() != {{member.arguments.length}}) {
-    Napi::RangeError::New(info.Env(), "Wrong number of arguments.");
+    Napi::RangeError::New(info.Env(), "Wrong number of arguments.")
+        .ThrowAsJavaScriptException();
     return Napi::Value();
   }
 

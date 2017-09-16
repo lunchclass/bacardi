@@ -19,8 +19,6 @@
       'bacardi.h',
       'calculator.cc',
       'calculator.h',
-      'calculator_bridge.cc',
-      'calculator_bridge.h',
     ],
 
     'examples_idl_files': [
@@ -28,8 +26,8 @@
     ],
 
     'examples_idl_output_files': [
-      '<(INTERMEDIATE_DIR)/calculator_bridge.cc',
-      '<(INTERMEDIATE_DIR)/calculator_bridge.h',
+      '<(SHARED_INTERMEDIATE_DIR)/examples/calculator_bridge.cc',
+      '<(SHARED_INTERMEDIATE_DIR)/examples/calculator_bridge.h',
     ],
   },
 }
