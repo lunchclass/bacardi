@@ -18,6 +18,12 @@ const assert = require('assert');
 const bacardi = require('bindings')('bacardi.node');
 const calculator = new bacardi.Calculator();
 
+describe('Test for static function', () => {
+  it('The static function can be called without instantiation.', () => {
+    bacardi.Calculator.print();
+  });
+});
+
 describe('add function test', function() {
   it('should be equal with expected value', function() {
     assert.equal(calculator.add(1, 2), 1 + 2);

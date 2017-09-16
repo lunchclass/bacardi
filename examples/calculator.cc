@@ -16,6 +16,12 @@
 
 #include "examples/calculator.h"
 
+#include <stdio.h>
+
+void Calculator::Print() {
+  printf("Calculator\n");
+}
+
 double Calculator::Add(double number1, double number2) {
   return number1 + number2;
 }

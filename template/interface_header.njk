@@ -29,6 +29,9 @@ class {{name}}Bridge : public Napi::ObjectWrap<{{name}}Bridge> {
   explicit {{name}}Bridge(const Napi::CallbackInfo& info);
 
   {% for member in members %}
+  {% if member.is_static %}
+  static
+  {% endif -%}
   Napi::Value {{member.name | capitalize-}}(const Napi::CallbackInfo& info);
   {% endfor %}
 
