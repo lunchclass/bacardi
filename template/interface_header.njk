@@ -20,7 +20,7 @@
 #include <memory>
 #include <napi.h>
 
-#include "examples/calculator.h"
+#include "examples/{{name | lower}}.h"
 
 class {{name}}Bridge : public Napi::ObjectWrap<{{name}}Bridge> {
  public:

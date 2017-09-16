@@ -21,14 +21,14 @@
 
 void {{name}}Bridge::Init(Napi::Env env, Napi::Object exports) {
   Napi::Function js_constructor =
-      DefineClass(env, "Calculator",
+      DefineClass(env, "{{name}}",
                   {
                       {% for member in members %}
                       InstanceMethod("{{member.name}}", &{{name}}Bridge::
                           {{-member.name | capitalize}}),
                       {% endfor %}
                   });
-  exports.Set("Calculator", js_constructor);
+  exports.Set("{{name}}", js_constructor);
 }
 
 {{name}}Bridge::{{name}}Bridge(const Napi::CallbackInfo& info)
