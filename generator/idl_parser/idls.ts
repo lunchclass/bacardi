@@ -45,10 +45,12 @@ export class InterfaceMemberImpl implements InterfaceMember {
   name: string;
   type: string;
   arguments: Array<Argument>;
+  is_static: boolean;
 
   constructor(member_info) {
     this.name = member_info.name;
     this.type = member_info.idlType.idlType;
+    this.is_static = member_info.static;
 
     this.arguments = new Array<Argument>();
     if (member_info['type'] == 'operation') {

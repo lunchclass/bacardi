@@ -19,6 +19,8 @@
 
 class Calculator {
  public:
+  static void Print();
+
   double Add(double number1, double number2);
   double Sub(double number1, double number2);
   double Mul(double number1, double number2);

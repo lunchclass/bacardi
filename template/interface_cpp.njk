@@ -24,8 +24,13 @@ void {{name}}Bridge::Init(Napi::Env env, Napi::Object exports) {
       DefineClass(env, "{{name}}",
                   {
                       {% for member in members %}
+                      {% if member.is_static %}
+                      StaticMethod("{{member.name}}", &{{name}}Bridge::
+                          {{-member.name | capitalize}}),
+                      {% else %}
                       InstanceMethod("{{member.name}}", &{{name}}Bridge::
                           {{-member.name | capitalize}}),
+                      {% endif %}
                       {% endfor %}
                   });
   exports.Set("{{name}}", js_constructor);
