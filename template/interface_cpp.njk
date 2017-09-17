@@ -48,7 +48,7 @@ Napi::Value {{name}}Bridge::{{member.name | capitalize}}(const Napi::CallbackInf
   }
 
   {% for argument in member.arguments %}
-  {{argument.type}} {{argument.name}} = NativeTypeTraits<IDL{{argument.type | capitalize-}}
+  auto {{argument.name}} = NativeTypeTraits<IDL{{argument.type | capitalize-}}
       >::NativeValue(info.Env(), info[{{loop.index - 1}}]);
   {% endfor %}
 

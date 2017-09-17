@@ -18,6 +18,7 @@
 #define CORE_NATIVE_TYPE_TRAITS_H_
 
 #include <napi.h>
+#include <string>
 #include <type_traits>
 #include "core/idl_base.h"
 #include "core/idl_types.h"
@@ -52,6 +53,19 @@ struct NativeTypeTraits<IDLDouble> : public NativeTypeTraitsBase<IDLDouble> {
 
     return js_value.ToNumber().DoubleValue();
   }          
+};
+
+template <>
+struct NativeTypeTraits<IDLString> : public NativeTypeTraitsBase<IDLString> {
+  static std::string NativeValue(const Napi::Env& env,
+                                 const Napi::Value& js_value) {
+    if (!js_value.IsString()) {
+      Napi::TypeError::New(env, "It's an invalid string.");
+      return std::string();
+    }
+
+    return js_value.ToString().Utf8Value();
+  }
 };
 
 #endif  // CORE_NATIVE_TYPE_TRAITS_H_

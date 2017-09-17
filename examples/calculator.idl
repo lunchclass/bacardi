@@ -15,7 +15,7 @@
  */
 
 interface Calculator {
-  static void print(double version);
+  static void print(string message);
   double add(double number1, double number2);
   double sub(double number1, double number2);
   double mul(double number1, double number2);

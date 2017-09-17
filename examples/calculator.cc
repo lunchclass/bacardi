@@ -18,8 +18,8 @@
 
 #include <stdio.h>
 
-void Calculator::Print(double version) {
-  printf("Calculator\n");
+void Calculator::Print(const std::string& message) {
+  printf("%s\n", message.c_str());
 }
 
 double Calculator::Add(double number1, double number2) {
