@@ -16,8 +16,9 @@
 
 interface Calculator {
   static void print(string message);
-  double add(double number1, double number2);
-  double sub(double number1, double number2);
+  long add(long number1, long number2);
+  short sub(short number1, short number2);
   double mul(double number1, double number2);
   double div(double number1, double number2);
+  bool equals(short number1, short number2);
 };

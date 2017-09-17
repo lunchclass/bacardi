@@ -42,6 +42,22 @@ struct NativeTypeTraits : public NativeTypeTraitsBase<T> {
       const Napi::Value& js_value);
 };
 
+// The boolean type has two values: true and false.
+template <>
+struct NativeTypeTraits<IDLBoolean> : public NativeTypeTraitsBase<IDLBoolean> {
+  static bool NativeValue(const Napi::Env& env, const Napi::Value& js_value) {
+    if (!js_value.IsBoolean()) {
+      Napi::TypeError::New(env, "It's an invalid value.")
+          .ThrowAsJavaScriptException();
+      return false;
+    }
+
+    return js_value.ToBoolean().Value();
+  }
+};
+
+// The double type is a floating point numeric type that corresponds to the set
+// of finite double-precision 64 bit IEEE 754 floating point numbers.
 template <>
 struct NativeTypeTraits<IDLDouble> : public NativeTypeTraitsBase<IDLDouble> {
   static double NativeValue(const Napi::Env& env, const Napi::Value& js_value) {
@@ -53,6 +69,37 @@ struct NativeTypeTraits<IDLDouble> : public NativeTypeTraitsBase<IDLDouble> {
 
     return js_value.ToNumber().DoubleValue();
   }          
+};
+
+// The long type is a signed integer type that has values in the range
+// [−2147483648, 2147483647].
+template <>
+struct NativeTypeTraits<IDLLong> : public NativeTypeTraitsBase<IDLLong> {
+  static int32_t NativeValue(const Napi::Env& env,
+                             const Napi::Value& js_value) {
+    if (!js_value.IsNumber()) {
+      Napi::TypeError::New(env, "It's an invalid number.")
+          .ThrowAsJavaScriptException();
+      return 0;
+    }
+
+    return js_value.ToNumber().Int32Value();
+  }
+};
+
+// The short type is a signed integer type that has values in the range [−32768,
+// 32767].
+template <>
+struct NativeTypeTraits<IDLShort> : public NativeTypeTraitsBase<IDLShort> {
+  static int16_t NativeValue(const Napi::Env& env, const Napi::Value& js_value) {
+    if (!js_value.IsNumber()) {
+      Napi::TypeError::New(env, "It's an invalid number.")
+          .ThrowAsJavaScriptException();
+      return 0;
+    }
+
+    return static_cast<int16_t>(js_value.ToNumber().Int32Value());
+  }
 };
 
 template <>

@@ -26,7 +26,22 @@ inline Napi::Value JSTypeTraits(Napi::Env env, T value) {
 }
 
 template <>
+inline Napi::Value JSTypeTraits(Napi::Env env, bool value) {
+  return Napi::Boolean::New(env, value);
+}
+
+template <>
 inline Napi::Value JSTypeTraits(Napi::Env env, double value) {
+  return Napi::Number::New(env, value);
+}
+
+template <>
+inline Napi::Value JSTypeTraits(Napi::Env env, int16_t value) {
+  return Napi::Number::New(env, value);
+}
+
+template <>
+inline Napi::Value JSTypeTraits(Napi::Env env, int32_t value) {
   return Napi::Number::New(env, value);
 }
 

@@ -24,29 +24,34 @@ describe('Test for static function', () => {
   });
 });
 
-describe('add function test', () => {
+describe('isequal function test for bool type', () => {
+  it('should be equal with expected value', () => {
+    assert.equal(
+        calculator.equals(calculator.sub(1, 2), calculator.sub(3, 4)), true);
+  });
+});
+
+describe('add function test for long type', () => {
   it('should be equal with expected value', () => {
     assert.equal(calculator.add(1, 2), 1 + 2);
-    assert.equal(calculator.add(3.3, 4.3), 3.3 + 4.3);
-    assert.equal(calculator.add(3.3, -4.3), 3.3 + -4.3);
-    assert.equal(calculator.add(-3.3, 4.3), -3.3 + 4.3);
-    assert.equal(calculator.add(1.2, 0), 1.2 + 0);
-    assert.equal(calculator.add(4.5878, 1.1234), 4.5878 + 1.1234);
+    assert.equal(calculator.add(3, 4), 3 + 4);
+    assert.equal(calculator.add(3, -4), 3 + -4);
+    assert.equal(calculator.add(-3, 4), -3 + 4);
+    assert.equal(calculator.add(1, 0), 1 + 0);
   });
 });
 
-describe('sub function test', () => {
+describe('sub function test for short type', () => {
   it('should be equal with expected value', () => {
     assert.equal(calculator.sub(1, 2), 1 - 2);
-    assert.equal(calculator.sub(3.3, 4.3), 3.3 - 4.3);
-    assert.equal(calculator.sub(3.3, -4.3), 3.3 - -4.3);
-    assert.equal(calculator.sub(-3.3, 4.3), -3.3 - 4.3);
-    assert.equal(calculator.sub(1.2, 0), 1.2 - 0);
-    assert.equal(calculator.sub(4.5878, 1.1234), 4.5878 - 1.1234);
+    assert.equal(calculator.sub(3, 4), 3 - 4);
+    assert.equal(calculator.sub(3, -4), 3 - -4);
+    assert.equal(calculator.sub(-3, 4), -3 - 4);
+    assert.equal(calculator.sub(1, 0), 1 - 0);
   });
 });
 
-describe('mul function test', () => {
+describe('mul function test for double', () => {
   it('should be equal with expected value', () => {
     assert.equal(calculator.mul(1, 2), 1 * 2);
     assert.equal(calculator.mul(3.3, 4.3), 3.3 * 4.3);
@@ -57,7 +62,7 @@ describe('mul function test', () => {
   });
 });
 
-describe('div function test', () => {
+describe('div function test for double', () => {
   it('should be equal with expected value', () => {
     assert.equal(calculator.div(1, 2), 1 / 2);
     assert.equal(calculator.div(3.3, 4.3), 3.3 / 4.3);

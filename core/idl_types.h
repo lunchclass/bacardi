@@ -19,7 +19,10 @@
 
 #include "core/idl_base.h"
 
+struct IDLBoolean final : public IDLBaseHelper<bool> {};
 struct IDLDouble final : public IDLBaseHelper<double> {};
+struct IDLLong final : public IDLBaseHelper<int32_t> {};
+struct IDLShort final : public IDLBaseHelper<int16_t> {};
 struct IDLString final : public IDLBaseHelper<std::string> {};
 
 #endif  // CORE_IDL_TYPES_H_
