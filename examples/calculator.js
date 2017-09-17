@@ -24,8 +24,8 @@ describe('Test for static function', () => {
   });
 });
 
-describe('add function test', function() {
-  it('should be equal with expected value', function() {
+describe('add function test', () => {
+  it('should be equal with expected value', () => {
     assert.equal(calculator.add(1, 2), 1 + 2);
     assert.equal(calculator.add(3.3, 4.3), 3.3 + 4.3);
     assert.equal(calculator.add(3.3, -4.3), 3.3 + -4.3);
@@ -35,8 +35,8 @@ describe('add function test', function() {
   });
 });
 
-describe('sub function test', function() {
-  it('should be equal with expected value', function() {
+describe('sub function test', () => {
+  it('should be equal with expected value', () => {
     assert.equal(calculator.sub(1, 2), 1 - 2);
     assert.equal(calculator.sub(3.3, 4.3), 3.3 - 4.3);
     assert.equal(calculator.sub(3.3, -4.3), 3.3 - -4.3);
@@ -46,8 +46,8 @@ describe('sub function test', function() {
   });
 });
 
-describe('mul function test', function() {
-  it('should be equal with expected value', function() {
+describe('mul function test', () => {
+  it('should be equal with expected value', () => {
     assert.equal(calculator.mul(1, 2), 1 * 2);
     assert.equal(calculator.mul(3.3, 4.3), 3.3 * 4.3);
     assert.equal(calculator.mul(3.3, -4.3), 3.3 * -4.3);
@@ -57,8 +57,8 @@ describe('mul function test', function() {
   });
 });
 
-describe('div function test', function() {
-  it('should be equal with expected value', function() {
+describe('div function test', () => {
+  it('should be equal with expected value', () => {
     assert.equal(calculator.div(1, 2), 1 / 2);
     assert.equal(calculator.div(3.3, 4.3), 3.3 / 4.3);
     assert.equal(calculator.div(3.3, -4.3), 3.3 / -4.3);
