@@ -22,11 +22,11 @@ void Calculator::Print(const std::string& message) {
   printf("%s\n", message.c_str());
 }
 
-double Calculator::Add(double number1, double number2) {
+int32_t Calculator::Add(int32_t number1, int32_t number2) {
   return number1 + number2;
 }
 
-double Calculator::Sub(double number1, double number2) {
+int16_t Calculator::Sub(int16_t number1, int16_t number2) {
   return number1 - number2;
 }
 
@@ -36,4 +36,8 @@ double Calculator::Mul(double number1, double number2) {
 
 double Calculator::Div(double number1, double number2) {
   return (number2 != 0) ? (number1 / number2) : 0;
+}
+
+bool Calculator::Equals(int16_t number1, int16_t number2) {
+  return number1 == number2;
 }
