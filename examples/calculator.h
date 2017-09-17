@@ -17,9 +17,11 @@
 #ifndef EXAMPLES_CALCULATOR_H_
 #define EXAMPLES_CALCULATOR_H_
 
+#include <string>
+
 class Calculator {
  public:
-  static void Print(double version);
+  static void Print(const std::string& message);
 
   double Add(double number1, double number2);
   double Sub(double number1, double number2);

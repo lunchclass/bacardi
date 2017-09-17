@@ -20,5 +20,6 @@
 #include "core/idl_base.h"
 
 struct IDLDouble final : public IDLBaseHelper<double> {};
+struct IDLString final : public IDLBaseHelper<std::string> {};
 
 #endif  // CORE_IDL_TYPES_H_
