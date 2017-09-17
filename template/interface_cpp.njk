@@ -52,14 +52,23 @@ Napi::Value {{name}}Bridge::{{member.name | capitalize}}(const Napi::CallbackInf
       >::NativeValue(info.Env(), info[{{loop.index - 1}}]);
   {% endfor %}
 
-  {% if member.arguments.length > 0 %}
-  return JSTypeTraits(info.Env(), impl_->{{member.name | capitalize}}(
+  {% if member.type != "void" %}
+  auto return_value =
+  {% endif %}
+  {% if member.is_static -%}
+  {{name}}::
+  {% else %}
+  impl_->
+  {% endif %}
+  {{member.name | capitalize}}(
       {{-member.arguments[0].name-}}
       {%- for i in range(1, member.arguments.length) -%}
       , {{member.arguments[i].name-}}
-      {% endfor %}));
-  {% else %}
+      {% endfor %});
+  {% if member.type == "void" %}
   return Napi::Value();
+  {% else %}
+  return JSTypeTraits(info.Env(), return_value);
   {% endif %}
 }
 

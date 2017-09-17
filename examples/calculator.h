@@ -19,7 +19,7 @@
 
 class Calculator {
  public:
-  static void Print();
+  static void Print(double version);
 
   double Add(double number1, double number2);
   double Sub(double number1, double number2);

@@ -18,7 +18,7 @@
 
 #include <stdio.h>
 
-void Calculator::Print() {
+void Calculator::Print(double version) {
   printf("Calculator\n");
 }
 
