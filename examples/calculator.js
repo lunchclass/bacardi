@@ -20,7 +20,7 @@ const calculator = new bacardi.Calculator();
 
 describe('Test for static function', () => {
   it('The static function can be called without instantiation.', () => {
-    bacardi.Calculator.print();
+    bacardi.Calculator.print(0);
   });
 });
 
