@@ -24,10 +24,10 @@ describe('Test for static function', () => {
   });
 });
 
-describe('isequal function test for bool type', () => {
+describe('isEquals function test for bool type', () => {
   it('should be equal with expected value', () => {
     assert.equal(
-        calculator.equals(calculator.sub(1, 2), calculator.sub(3, 4)), true);
+        calculator.isEquals(calculator.sub(1, 2), calculator.sub(3, 4)), true);
   });
 });
 

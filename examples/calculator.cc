@@ -38,6 +38,6 @@ double Calculator::Div(double number1, double number2) {
   return (number2 != 0) ? (number1 / number2) : 0;
 }
 
-bool Calculator::Equals(int16_t number1, int16_t number2) {
+bool Calculator::IsEquals(int16_t number1, int16_t number2) {
   return number1 == number2;
 }

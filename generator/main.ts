@@ -23,7 +23,8 @@ import * as webidl from 'webidl2';
 
 const TEMPLATE_DIR = path.resolve(__dirname, '../../../template');
 
-async function generateInterface(input_idl_path: string, output_path: string) {
+async function generateInterface(
+    env: nunjucks.Environment, input_idl_path: string, output_path: string) {
   const parsedData =
       webidl.parse(await file.read(path.resolve(input_idl_path)));
   const idl_interface: idls.Interface = new idls.InterfaceImpl(parsedData[0]);
@@ -37,15 +38,21 @@ async function generateInterface(input_idl_path: string, output_path: string) {
   const cpp_file_path = path.resolve(output_path, idl_name + '_bridge.cc');
 
   return Promise.all([
-    file.write(
-        header_file_path, nunjucks.renderString(header_tmpl, idl_interface)),
-    file.write(cpp_file_path, nunjucks.renderString(cpp_tmpl, idl_interface))
+    file.write(header_file_path, env.renderString(header_tmpl, idl_interface)),
+    file.write(cpp_file_path, env.renderString(cpp_tmpl, idl_interface))
   ]);
 }
 
 async function main([out_dir, ...idl_files]) {
+  var env = new nunjucks.Environment();
+  env.addFilter('camelcase', function(str, count) {
+    return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
+      return index == 0 ? match.toUpperCase() : match;
+    });
+  });
+
   for (let idl_file of idl_files) {
-    await generateInterface(idl_file, out_dir);
+    await generateInterface(env, idl_file, out_dir);
   }
   return 0;
 }

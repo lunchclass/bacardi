@@ -32,7 +32,7 @@ class {{name}}Bridge : public Napi::ObjectWrap<{{name}}Bridge> {
   {% if member.is_static %}
   static
   {% endif -%}
-  Napi::Value {{member.name | capitalize-}}(const Napi::CallbackInfo& info);
+  Napi::Value {{member.name | camelcase-}}(const Napi::CallbackInfo& info);
   {% endfor %}
 
  private:
