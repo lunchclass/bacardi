@@ -26,10 +26,10 @@ void {{name}}Bridge::Init(Napi::Env env, Napi::Object exports) {
                       {% for member in members %}
                       {% if member.is_static %}
                       StaticMethod("{{member.name}}", &{{name}}Bridge::
-                          {{-member.name | capitalize}}),
+                          {{-member.name | camelcase}}),
                       {% else %}
                       InstanceMethod("{{member.name}}", &{{name}}Bridge::
-                          {{-member.name | capitalize}}),
+                          {{-member.name | camelcase}}),
                       {% endif %}
                       {% endfor %}
                   });
@@ -40,7 +40,7 @@ void {{name}}Bridge::Init(Napi::Env env, Napi::Object exports) {
     : Napi::ObjectWrap<{{name}}Bridge>(info), impl_(new {{name}}()) {}
 
 {% for member in members %}
-Napi::Value {{name}}Bridge::{{member.name | capitalize}}(const Napi::CallbackInfo& info) {
+Napi::Value {{name}}Bridge::{{member.name | camelcase}}(const Napi::CallbackInfo& info) {
   if (info.Length() != {{member.arguments.length}}) {
     Napi::RangeError::New(info.Env(), "Wrong number of arguments.")
         .ThrowAsJavaScriptException();
@@ -48,7 +48,7 @@ Napi::Value {{name}}Bridge::{{member.name | capitalize}}(const Napi::CallbackInf
   }
 
   {% for argument in member.arguments %}
-  auto {{argument.name}} = NativeTypeTraits<IDL{{argument.type | capitalize-}}
+  auto {{argument.name}} = NativeTypeTraits<IDL{{argument.type | camelcase-}}
       >::NativeValue(info.Env(), info[{{loop.index - 1}}]);
   {% endfor %}
 
@@ -60,7 +60,7 @@ Napi::Value {{name}}Bridge::{{member.name | capitalize}}(const Napi::CallbackInf
   {% else %}
   impl_->
   {% endif %}
-  {{member.name | capitalize}}(
+  {{member.name | camelcase}}(
       {{-member.arguments[0].name-}}
       {%- for i in range(1, member.arguments.length) -%}
       , {{member.arguments[i].name-}}

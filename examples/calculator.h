@@ -27,7 +27,7 @@ class Calculator {
   int16_t Sub(int16_t number1, int16_t number2);
   double Mul(double number1, double number2);
   double Div(double number1, double number2);
-  bool Equals(int16_t number1, int16_t number2);
+  bool IsEquals(int16_t number1, int16_t number2);
 };
 
 #endif  // EXAMPLES_CALCULATOR_H_

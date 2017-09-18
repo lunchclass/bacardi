@@ -20,5 +20,5 @@ interface Calculator {
   short sub(short number1, short number2);
   double mul(double number1, double number2);
   double div(double number1, double number2);
-  bool equals(short number1, short number2);
+  bool isEquals(short number1, short number2);
 };
