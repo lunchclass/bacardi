@@ -26,10 +26,21 @@ export interface InterfaceMember extends TypedIdentifier {
   arguments: Array<Argument>;
 }
 
-export interface Interface {
+const enum DefinitionType {
+  Interface,
+  Enum,
+}
+
+export interface Definition {
   name: string;
+  type: DefinitionType;
+}
+
+export interface Interface extends Definition {
   members: Array<InterfaceMember>;
 }
+
+export interface Enum extends Definition {}
 
 export class ArgumentImpl implements Argument {
   name: string;
@@ -64,13 +75,43 @@ export class InterfaceMemberImpl implements InterfaceMember {
 export class InterfaceImpl implements Interface {
   name: string;
   members: Array<InterfaceMemberImpl>;
+  type: DefinitionType;
 
-  constructor(raw_idl_info: any) {
-    this.name = raw_idl_info.name;
+  constructor(interface_info: any) {
+    this.name = interface_info.name;
+    this.type = DefinitionType.Interface;
 
     this.members = new Array<InterfaceMemberImpl>();
-    raw_idl_info.members.forEach(member => {
+    interface_info.members.forEach(member => {
       this.members.push(new InterfaceMemberImpl(member));
+    });
+  }
+}
+
+export class EnumImpl implements Enum {
+  name: string;
+  type: DefinitionType;
+
+  // FIXME(hwanseung): should be implement Enum
+  constructor(enum_info: any) {
+    this.name = enum_info.name;
+    this.type = DefinitionType.Enum;
+  }
+}
+
+export class Fragments {
+  definitions: Array<Definition>;
+
+  constructor(raw_idl_infos: any) {
+    raw_idl_infos.forEach(raw_idl_info => {
+      this.definitions = new Array<Definition>();
+      if (raw_idl_info['type'] == 'interface') {
+        this.definitions.push(new InterfaceImpl(raw_idl_info));
+      } else if (raw_idl_info['type'] == 'enum') {
+        this.definitions.push(new EnumImpl(raw_idl_info));
+      } else {
+        // FIXME: should implement dictionaries, typedefs or etc.
+      }
     });
   }
 }
