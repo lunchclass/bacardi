@@ -27,7 +27,7 @@ async function generateInterface(
     env: nunjucks.Environment, input_idl_path: string, output_path: string) {
   const parsedData =
       webidl.parse(await file.read(path.resolve(input_idl_path)));
-  const idl_interface: idls.Interface = new idls.InterfaceImpl(parsedData[0]);
+  const idl_fragments: idls.Fragments = new idls.Fragments(parsedData);
 
   const [header_tmpl, cpp_tmpl] = await Promise.all([
     file.read(path.resolve(TEMPLATE_DIR, 'interface_header.njk')),
@@ -37,9 +37,14 @@ async function generateInterface(
   const header_file_path = path.resolve(output_path, idl_name + '_bridge.h');
   const cpp_file_path = path.resolve(output_path, idl_name + '_bridge.cc');
 
+  // FIXME: each files can have one more interfaces. and this definition should
+  // be distinguished it is interface or not.
   return Promise.all([
-    file.write(header_file_path, env.renderString(header_tmpl, idl_interface)),
-    file.write(cpp_file_path, env.renderString(cpp_tmpl, idl_interface))
+    file.write(
+        header_file_path,
+        env.renderString(header_tmpl, idl_fragments.definitions[0])),
+    file.write(
+        cpp_file_path, env.renderString(cpp_tmpl, idl_fragments.definitions[0]))
   ]);
 }
 
