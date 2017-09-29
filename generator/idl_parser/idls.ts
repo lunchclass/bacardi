@@ -26,7 +26,7 @@ export interface InterfaceMember extends TypedIdentifier {
   arguments: Array<Argument>;
 }
 
-const enum DefinitionType {
+export const enum DefinitionType {
   Interface,
   Enum,
 }
@@ -103,8 +103,8 @@ export class Fragments {
   definitions: Array<Definition>;
 
   constructor(raw_idl_infos: any) {
+    this.definitions = new Array<Definition>();
     raw_idl_infos.forEach(raw_idl_info => {
-      this.definitions = new Array<Definition>();
       if (raw_idl_info['type'] == 'interface') {
         this.definitions.push(new InterfaceImpl(raw_idl_info));
       } else if (raw_idl_info['type'] == 'enum') {
