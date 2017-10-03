@@ -19,6 +19,7 @@ import * as idls from './idl_parser/idls';
 import * as mkdirp from 'mkdirp';
 import * as nunjucks from 'nunjucks';
 import * as path from 'path';
+import * as reader from './reader/simple_reader';
 import * as webidl from 'webidl2';
 import snakeCase = require('snake-case');
 
@@ -36,27 +37,26 @@ async function generateBacardi(
 }
 
 async function generateInterface(
-    env: nunjucks.Environment, input_idl_path: string, output_path: string,
+    env: nunjucks.Environment, output_path: string,
     idl_fragments: idls.Fragments) {
   const [header_tmpl, cpp_tmpl] = await Promise.all([
     file.read(path.resolve(TEMPLATE_DIR, 'interface_header.njk')),
     file.read(path.resolve(TEMPLATE_DIR, 'interface_cpp.njk'))
   ]);
 
-  const idl_name = input_idl_path.replace('.idl', '').replace('.', '');
   for (const definition of idl_fragments.definitions) {
     if (definition instanceof idls.InterfaceImpl) {
       const interfaceImpl: idls.InterfaceImpl =
           definition as idls.InterfaceImpl;
 
+      // FIXME(zino): The examples/ directory should be changed to better fixed
+      // path.
       const header_file_path = path.resolve(
           output_path,
-          path.dirname(idl_name) + '/' + snakeCase(interfaceImpl.name) +
-              '_bridge.h');
+          'examples/' + snakeCase(interfaceImpl.name) + '_bridge.h');
       const cpp_file_path = path.resolve(
           output_path,
-          path.dirname(idl_name) + '/' + snakeCase(interfaceImpl.name) +
-              '_bridge.cc');
+          'examples/' + snakeCase(interfaceImpl.name) + '_bridge.cc');
 
       await file.write(
           header_file_path, env.renderString(header_tmpl, interfaceImpl));
@@ -80,16 +80,14 @@ async function main([out_dir, ...idl_files]) {
   });
 
   let interface_names = new Array<String>();
-  for (let idl_file of idl_files) {
-    const parsedData = webidl.parse(await file.read(path.resolve(idl_file)));
-    const idl_fragments: idls.Fragments = new idls.Fragments(parsedData);
-    await generateInterface(env, idl_file, out_dir, idl_fragments);
-    for (const definition of idl_fragments.definitions) {
-      // FIXME: definition type is only for Interface, so need to modify below
-      // condition after definition type changed.
-      if (definition instanceof idls.InterfaceImpl) {
-        interface_names.push(new String(definition.name));
-      }
+  const parsedData = webidl.parse(await reader.readAll(idl_files));
+  const idl_fragments: idls.Fragments = new idls.Fragments(parsedData);
+  await generateInterface(env, out_dir, idl_fragments);
+  for (const definition of idl_fragments.definitions) {
+    // FIXME: definition type is only for Interface, so need to modify below
+    // condition after definition type changed.
+    if (definition instanceof idls.InterfaceImpl) {
+      interface_names.push(new String(definition.name));
     }
   }
   const interfaceNames: idls.InterfaceNames =

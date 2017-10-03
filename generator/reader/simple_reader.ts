@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2017 The Bacardi Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,26 +14,17 @@
  * limitations under the License.
  */
 
-import * as fs from 'fs';
+import * as file from '../base/file';
 
-export async function read(path: string): Promise<string> {
-  return new Promise<string>((resolve, reject) => {
-    fs.readFile(path, 'utf8', (error, data) => {
-      if (error) {
-        reject(error);
-      }
-      resolve(data);
-    });
+export async function readAll(idl_files: string[]): Promise<string> {
+  let read_tasks: Promise<string>[] = [];
+  idl_files.forEach((idl_file: string) => {
+    read_tasks.push(file.read(idl_file));
   });
-}
 
-export async function write(path: string, data: string): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
-    fs.writeFile(path, data, 'utf8', (error) => {
-      if (error) {
-        reject(error);
-      }
-      resolve();
-    });
+  let result: string = '';
+  (await Promise.all(read_tasks)).forEach((idl_contents: string) => {
+    result += idl_contents;
   });
+  return result;
 }
