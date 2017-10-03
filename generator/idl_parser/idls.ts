@@ -88,6 +88,17 @@ export class InterfaceImpl implements Interface {
   }
 }
 
+export class InterfaceNames {
+  names: Array<String>;
+
+  constructor(interface_names) {
+    this.names = new Array<String>();
+    for (let name of interface_names) {
+      this.names.push(new String(name));
+    }
+  }
+}
+
 export class EnumImpl implements Enum {
   name: string;
   type: DefinitionType;
