@@ -14,8 +14,14 @@
  * limitations under the License.
  */
 
-#include "examples/ternary.h"
+#ifndef EXAMPLES_TERNARY_CALCULATOR_H_
+#define EXAMPLES_TERNARY_CALCULATOR_H_
 
-int32_t Ternary::Add(int32_t number1, int32_t number2, int32_t number3) {
-  return number1 + number2 + number3;
-}
+#include <stdint.h>
+
+class TernaryCalculator {
+ public:
+  int32_t Add(int32_t number1, int32_t number2, int32_t number3);
+};
+
+#endif  // EXAMPLES_TERNARY_CALCULATOR_H_

@@ -17,7 +17,7 @@
 const assert = require('assert');
 const bacardi = require('bindings')('bacardi.node');
 const calculator = new bacardi.Calculator(0);
-const ternary = new bacardi.Ternary();
+const ternary_calculator = new bacardi.TernaryCalculator();
 
 describe('Test for constructor function', () => {
   describe('there is constructor calculator(long createTime)', () => {
@@ -128,6 +128,6 @@ describe('Test for invalid arguments', () => {
 describe('generate one more bridge classes from one more interfaces', () => {
   it('should be equal with expected value', () => {
     assert.equal(calculator.add(1, 2), 1 + 2);
-    assert.equal(ternary.add(1, 2, 3), 1 + 2 + 3);
+    assert.equal(ternary_calculator.add(1, 2, 3), 1 + 2 + 3);
   });
 });

@@ -20,7 +20,7 @@
 #include "core/bacardi.h"
 
 {% for name in names %}
-#include "examples/{{name | lower}}_bridge.h"
+#include "examples/{{name | snakecase}}_bridge.h"
 {% endfor %}
 
 void Init(Napi::Env env, Napi::Object exports, Napi::Object module) {

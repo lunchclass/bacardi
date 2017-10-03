@@ -20,6 +20,7 @@ import * as mkdirp from 'mkdirp';
 import * as nunjucks from 'nunjucks';
 import * as path from 'path';
 import * as webidl from 'webidl2';
+import snakeCase = require('snake-case');
 
 const TEMPLATE_DIR = path.resolve(__dirname, '../../../template');
 
@@ -48,15 +49,13 @@ async function generateInterface(
       const interfaceImpl: idls.InterfaceImpl =
           definition as idls.InterfaceImpl;
 
-      // FIXME(Hwanseung) : when inferface name is CamelCase, should be change
-      // to snake_case for bridges files.
       const header_file_path = path.resolve(
           output_path,
-          path.dirname(idl_name) + '/' + interfaceImpl.name.toLowerCase() +
+          path.dirname(idl_name) + '/' + snakeCase(interfaceImpl.name) +
               '_bridge.h');
       const cpp_file_path = path.resolve(
           output_path,
-          path.dirname(idl_name) + '/' + interfaceImpl.name.toLowerCase() +
+          path.dirname(idl_name) + '/' + snakeCase(interfaceImpl.name) +
               '_bridge.cc');
 
       await file.write(
@@ -75,6 +74,9 @@ async function main([out_dir, ...idl_files]) {
     return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
       return index == 0 ? match.toUpperCase() : match;
     });
+  });
+  env.addFilter('snakecase', function(str, count) {
+    return snakeCase(str);
   });
 
   let interface_names = new Array<String>();
