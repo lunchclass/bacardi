@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-interface Calculator {
-  static void print(string message);
-  long add(long number1, long number2);
-  short sub(short number1, short number2);
-  double mul(double number1, double number2);
-  double div(double number1, double number2);
-  bool isEquals(short number1, short number2);
+#ifndef EXAMPLES_TERNARY_H_
+#define EXAMPLES_TERNARY_H_
+
+#include <stdint.h>
+
+class Ternary {
+ public:
+  int32_t Add(int32_t number1, int32_t number2, int32_t number3);
 };
 
-interface Ternary {
-  long add(long number1, long number2, long number3);
-};
+#endif  // EXAMPLES_TERNARY_H_

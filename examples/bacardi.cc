@@ -19,9 +19,11 @@
 
 #include "examples/bacardi.h"
 #include "examples/calculator_bridge.h"
+#include "examples/ternary_bridge.h"
 
 void Init(Napi::Env env, Napi::Object exports, Napi::Object module) {
   CalculatorBridge::Init(env, exports);
+  TernaryBridge::Init(env, exports);
 }
 
 NODE_API_MODULE(bacardi, Init);
