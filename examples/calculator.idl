@@ -26,6 +26,6 @@ interface Calculator {
   bool isEquals(short number1, short number2);
 };
 
-interface Ternary {
+interface TernaryCalculator {
   long add(long number1, long number2, long number3);
 };

@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-#ifndef {{name|upper}}_BRIDGE_H_
-#define {{name|upper}}_BRIDGE_H_
+#ifndef {{name | snakecase | upper}}_BRIDGE_H_
+#define {{name | snakecase | upper}}_BRIDGE_H_
 
 #include <memory>
 #include <napi.h>
 
-#include "examples/{{name | lower}}.h"
+#include "examples/{{name | snakecase}}.h"
 
 class {{name}}Bridge : public Napi::ObjectWrap<{{name}}Bridge> {
  public:
@@ -39,4 +39,4 @@ class {{name}}Bridge : public Napi::ObjectWrap<{{name}}Bridge> {
   std::unique_ptr<{{name}}> impl_;
 };
 
-#endif  // {{name|upper}}_BRIDGE_H_
+#endif  // {{name| snakecase | upper}}_BRIDGE_H_
