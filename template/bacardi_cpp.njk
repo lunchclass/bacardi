@@ -17,13 +17,16 @@
 #ifndef EXAMPLES_BACARDI_H_
 #define EXAMPLES_BACARDI_H_
 
-#include "examples/bacardi.h"
-#include "examples/calculator_bridge.h"
-#include "examples/ternary_bridge.h"
+#include "core/bacardi.h"
+
+{% for name in names %}
+#include "examples/{{name | lower}}_bridge.h"
+{% endfor %}
 
 void Init(Napi::Env env, Napi::Object exports, Napi::Object module) {
-  CalculatorBridge::Init(env, exports);
-  TernaryBridge::Init(env, exports);
+  {% for name in names %}
+  {{name}}Bridge::Init(env, exports);
+  {% endfor %}
 }
 
 NODE_API_MODULE(bacardi, Init);

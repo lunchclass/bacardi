@@ -15,8 +15,6 @@
 {
   'variables': {
     'examples_cpp_files': [
-      'bacardi.cc',
-      'bacardi.h',
       'calculator.cc',
       'calculator.h',
       'ternary.cc',
@@ -28,6 +26,7 @@
     ],
 
     'examples_idl_output_files': [
+      '<(SHARED_INTERMEDIATE_DIR)/bacardi.cc',
       '<(SHARED_INTERMEDIATE_DIR)/examples/calculator_bridge.cc',
       '<(SHARED_INTERMEDIATE_DIR)/examples/calculator_bridge.h',
       '<(SHARED_INTERMEDIATE_DIR)/examples/ternary_bridge.cc',

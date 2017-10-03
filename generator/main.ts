@@ -23,12 +23,20 @@ import * as webidl from 'webidl2';
 
 const TEMPLATE_DIR = path.resolve(__dirname, '../../../template');
 
-async function generateInterface(
-    env: nunjucks.Environment, input_idl_path: string, output_path: string) {
-  const parsedData =
-      webidl.parse(await file.read(path.resolve(input_idl_path)));
-  const idl_fragments: idls.Fragments = new idls.Fragments(parsedData);
+async function generateBacardi(
+    env: nunjucks.Environment, output_path: string,
+    idl_interface_names: idls.InterfaceNames) {
+  const [cpp_tmpl] = await Promise.all(
+      [file.read(path.resolve(TEMPLATE_DIR, 'bacardi_cpp.njk'))]);
+  const cpp_file_path = path.resolve(output_path, 'bacardi.cc');
 
+  return Promise.all([file.write(
+      cpp_file_path, env.renderString(cpp_tmpl, idl_interface_names))]);
+}
+
+async function generateInterface(
+    env: nunjucks.Environment, input_idl_path: string, output_path: string,
+    idl_fragments: idls.Fragments) {
   const [header_tmpl, cpp_tmpl] = await Promise.all([
     file.read(path.resolve(TEMPLATE_DIR, 'interface_header.njk')),
     file.read(path.resolve(TEMPLATE_DIR, 'interface_cpp.njk'))
@@ -69,9 +77,22 @@ async function main([out_dir, ...idl_files]) {
     });
   });
 
+  let interface_names = new Array<String>();
   for (let idl_file of idl_files) {
-    await generateInterface(env, idl_file, out_dir);
+    const parsedData = webidl.parse(await file.read(path.resolve(idl_file)));
+    const idl_fragments: idls.Fragments = new idls.Fragments(parsedData);
+    await generateInterface(env, idl_file, out_dir, idl_fragments);
+    for (const definition of idl_fragments.definitions) {
+      // FIXME: definition type is only for Interface, so need to modify below
+      // condition after definition type changed.
+      if (definition instanceof idls.InterfaceImpl) {
+        interface_names.push(new String(definition.name));
+      }
+    }
   }
+  const interfaceNames: idls.InterfaceNames =
+      new idls.InterfaceNames(interface_names);
+  await generateBacardi(env, out_dir, interfaceNames);
   return 0;
 }
 
