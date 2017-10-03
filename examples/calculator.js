@@ -17,6 +17,7 @@
 const assert = require('assert');
 const bacardi = require('bindings')('bacardi.node');
 const calculator = new bacardi.Calculator();
+const ternary = new bacardi.Ternary();
 
 describe('Test for static function', () => {
   it('The static function can be called without instantiation.', () => {
@@ -101,5 +102,12 @@ describe('Test for invalid arguments', () => {
     assert.throws(() => {
       calculator.div(20, 30, 40, 50);
     }, RangeError);
+  });
+});
+
+describe('generate one more bridge classes from one more interfaces', () => {
+  it('should be equal with expected value', () => {
+    assert.equal(calculator.add(1, 2), 1 + 2);
+    assert.equal(ternary.add(1, 2, 3), 1 + 2 + 3);
   });
 });

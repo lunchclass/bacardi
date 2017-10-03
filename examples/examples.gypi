@@ -19,6 +19,8 @@
       'bacardi.h',
       'calculator.cc',
       'calculator.h',
+      'ternary.cc',
+      'ternary.h',
     ],
 
     'examples_idl_files': [
@@ -28,6 +30,8 @@
     'examples_idl_output_files': [
       '<(SHARED_INTERMEDIATE_DIR)/examples/calculator_bridge.cc',
       '<(SHARED_INTERMEDIATE_DIR)/examples/calculator_bridge.h',
+      '<(SHARED_INTERMEDIATE_DIR)/examples/ternary_bridge.cc',
+      '<(SHARED_INTERMEDIATE_DIR)/examples/ternary_bridge.h',
     ],
   },
 }

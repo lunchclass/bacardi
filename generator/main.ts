@@ -33,19 +33,32 @@ async function generateInterface(
     file.read(path.resolve(TEMPLATE_DIR, 'interface_header.njk')),
     file.read(path.resolve(TEMPLATE_DIR, 'interface_cpp.njk'))
   ]);
-  const idl_name = input_idl_path.replace('.idl', '').replace('.', '');
-  const header_file_path = path.resolve(output_path, idl_name + '_bridge.h');
-  const cpp_file_path = path.resolve(output_path, idl_name + '_bridge.cc');
 
-  // FIXME: each files can have one more interfaces. and this definition should
-  // be distinguished it is interface or not.
-  return Promise.all([
-    file.write(
-        header_file_path,
-        env.renderString(header_tmpl, idl_fragments.definitions[0])),
-    file.write(
-        cpp_file_path, env.renderString(cpp_tmpl, idl_fragments.definitions[0]))
-  ]);
+  const idl_name = input_idl_path.replace('.idl', '').replace('.', '');
+  for (const definition of idl_fragments.definitions) {
+    if (definition instanceof idls.InterfaceImpl) {
+      const interfaceImpl: idls.InterfaceImpl =
+          definition as idls.InterfaceImpl;
+
+      // FIXME(Hwanseung) : when inferface name is CamelCase, should be change
+      // to snake_case for bridges files.
+      const header_file_path = path.resolve(
+          output_path,
+          path.dirname(idl_name) + '/' + interfaceImpl.name.toLowerCase() +
+              '_bridge.h');
+      const cpp_file_path = path.resolve(
+          output_path,
+          path.dirname(idl_name) + '/' + interfaceImpl.name.toLowerCase() +
+              '_bridge.cc');
+
+      await file.write(
+          header_file_path, env.renderString(header_tmpl, interfaceImpl));
+      await file.write(
+          cpp_file_path, env.renderString(cpp_tmpl, interfaceImpl));
+    }
+  };
+
+  return;
 }
 
 async function main([out_dir, ...idl_files]) {
