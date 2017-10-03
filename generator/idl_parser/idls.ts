@@ -31,16 +31,39 @@ export const enum DefinitionType {
   Enum,
 }
 
+export const enum IdentifierType {
+  RightHandSide,
+}
+
 export interface Definition {
   name: string;
   type: DefinitionType;
 }
 
+export interface Identifier { type: IdentifierType; }
+
+export interface ExtendedAttribute {
+  name: string;
+  arguments: Array<Argument>;
+  rhs: RightHandSide;
+}
+
 export interface Interface extends Definition {
   members: Array<InterfaceMember>;
+  extAttrs: Array<ExtendedAttribute>;
 }
 
 export interface Enum extends Definition {}
+
+export interface RightHandSide extends Identifier {}
+
+export class RightHandSideImpl implements RightHandSide {
+  type: IdentifierType;
+
+  constructor(rhs_info) {
+    this.type = IdentifierType.RightHandSide;
+  }
+}
 
 export class ArgumentImpl implements Argument {
   name: string;
@@ -72,9 +95,26 @@ export class InterfaceMemberImpl implements InterfaceMember {
   }
 }
 
+export class ExtendedAttributeImpl implements ExtendedAttribute {
+  name: string;
+  arguments: Array<Argument>;
+  rhs: RightHandSide;
+
+  constructor(extAttr_info) {
+    this.name = extAttr_info.name;
+    this.rhs = new RightHandSideImpl(extAttr_info.rhs);
+
+    this.arguments = new Array<Argument>();
+    extAttr_info.arguments.forEach(argument => {
+      this.arguments.push(new ArgumentImpl(argument));
+    });
+  }
+}
+
 export class InterfaceImpl implements Interface {
   name: string;
   members: Array<InterfaceMemberImpl>;
+  extAttrs: Array<ExtendedAttributeImpl>;
   type: DefinitionType;
 
   constructor(interface_info: any) {
@@ -84,6 +124,11 @@ export class InterfaceImpl implements Interface {
     this.members = new Array<InterfaceMemberImpl>();
     interface_info.members.forEach(member => {
       this.members.push(new InterfaceMemberImpl(member));
+    });
+
+    this.extAttrs = new Array<ExtendedAttributeImpl>();
+    interface_info.extAttrs.forEach(extAttr => {
+      this.extAttrs.push(new ExtendedAttributeImpl(extAttr));
     });
   }
 }
