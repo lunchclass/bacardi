@@ -26,18 +26,12 @@ export interface InterfaceMember extends TypedIdentifier {
   arguments: Array<Argument>;
 }
 
-export const enum DefinitionType {
-  Interface,
-  Enum,
-}
-
 export const enum IdentifierType {
   RightHandSide,
 }
 
 export interface Definition {
   name: string;
-  type: DefinitionType;
 }
 
 export interface Identifier { type: IdentifierType; }
@@ -115,11 +109,9 @@ export class InterfaceImpl implements Interface {
   name: string;
   members: Array<InterfaceMemberImpl>;
   extAttrs: Array<ExtendedAttributeImpl>;
-  type: DefinitionType;
 
   constructor(interface_info: any) {
     this.name = interface_info.name;
-    this.type = DefinitionType.Interface;
 
     this.members = new Array<InterfaceMemberImpl>();
     interface_info.members.forEach(member => {
@@ -146,12 +138,10 @@ export class InterfaceNames {
 
 export class EnumImpl implements Enum {
   name: string;
-  type: DefinitionType;
 
   // FIXME(hwanseung): should be implement Enum
   constructor(enum_info: any) {
     this.name = enum_info.name;
-    this.type = DefinitionType.Enum;
   }
 }
 
