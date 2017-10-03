@@ -18,6 +18,10 @@
 
 #include <stdio.h>
 
+Calculator::Calculator(long createTime) {
+  // FIXME: there is no operation
+}
+
 void Calculator::Print(const std::string& message) {
   printf("%s\n", message.c_str());
 }

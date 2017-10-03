@@ -21,6 +21,7 @@
 
 class Calculator {
  public:
+  Calculator(long createTime);
   static void Print(const std::string& message);
 
   int32_t Add(int32_t number1, int32_t number2);

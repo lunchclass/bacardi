@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+[
+  Constructor(long createdTime)
+]
 interface Calculator {
   static void print(string message);
   long add(long number1, long number2);

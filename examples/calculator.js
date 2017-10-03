@@ -16,8 +16,28 @@
 
 const assert = require('assert');
 const bacardi = require('bindings')('bacardi.node');
-const calculator = new bacardi.Calculator();
+const calculator = new bacardi.Calculator(0);
 const ternary = new bacardi.Ternary();
+
+describe('Test for constructor function', () => {
+  describe('there is constructor calculator(long createTime)', () => {
+    it('should be create object without error', () => {
+      new bacardi.Calculator(1000);
+    });
+  });
+  describe('there is no constructor calculator()', () => {
+    it('should be failed create object with error', () => {
+      assert.throws(() => {
+        new bacardi.Calculator('wrong argument');
+      }, TypeError);
+    });
+  });
+  describe('when we create two objects', () => {
+    it('should be different, two objects', () => {
+      assert.notEqual(new bacardi.Calculator(0), new bacardi.Calculator(0));
+    });
+  });
+});
 
 describe('Test for static function', () => {
   it('The static function can be called without instantiation.', () => {
