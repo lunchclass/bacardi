@@ -53,6 +53,7 @@
         '<@(core_cpp_files)',
         '<@(examples_cpp_files)',
         '<@(examples_idl_output_files)',
+        '<(SHARED_INTERMEDIATE_DIR)/bacardi.cc',
       ],
       'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
     },

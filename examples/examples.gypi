@@ -26,7 +26,6 @@
     ],
 
     'examples_idl_output_files': [
-      '<(SHARED_INTERMEDIATE_DIR)/bacardi.cc',
       '<(SHARED_INTERMEDIATE_DIR)/examples/calculator_bridge.cc',
       '<(SHARED_INTERMEDIATE_DIR)/examples/calculator_bridge.h',
       '<(SHARED_INTERMEDIATE_DIR)/examples/ternary_calculator_bridge.cc',
