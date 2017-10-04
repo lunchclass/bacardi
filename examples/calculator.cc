@@ -34,7 +34,7 @@ int16_t Calculator::Sub(int16_t number1, int16_t number2) {
   return number1 - number2;
 }
 
-double Calculator::Mul(double number1, double number2) {
+int64_t Calculator::Mul(int64_t number1, int64_t number2) {
   return number1 * number2;
 }
 
