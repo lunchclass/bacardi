@@ -3,6 +3,8 @@ Bacardi
 
 [![Linux/Mac Build Status](https://travis-ci.org/lunchclass/bacardi.svg?branch=master)](https://travis-ci.org/lunchclass/bacardi)
 [![Windows Build Status](https://ci.appveyor.com/api/projects/status/vk8qn0pilfg39x0a/branch/master?svg=true)](https://ci.appveyor.com/project/romandev/bacardi/branch/master)
+[![License Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Slack Status](https://img.shields.io/badge/slack-online-green.svg)](https://bit.ly/lunchclass_slack)
 
 Bacardi project is an effort to provide multi-language binding for Node.js
 native layer.
