@@ -68,7 +68,7 @@ struct NativeTypeTraits<IDLDouble> : public NativeTypeTraitsBase<IDLDouble> {
     }
 
     return js_value.ToNumber().DoubleValue();
-  }          
+  }
 };
 
 // The long type is a signed integer type that has values in the range
@@ -84,6 +84,23 @@ struct NativeTypeTraits<IDLLong> : public NativeTypeTraitsBase<IDLLong> {
     }
 
     return js_value.ToNumber().Int32Value();
+  }
+};
+
+// The long long type is a signed integer type that has values in the range
+// [−9223372036854775808, 9223372036854775807].
+template <>
+struct NativeTypeTraits<IDLLongLong>
+    : public NativeTypeTraitsBase<IDLLongLong> {
+  static int64_t NativeValue(const Napi::Env& env,
+                             const Napi::Value& js_value) {
+    if (!js_value.IsNumber()) {
+      Napi::TypeError::New(env, "It's an invalid number.")
+          .ThrowAsJavaScriptException();
+      return 0;
+    }
+
+    return js_value.ToNumber().Int64Value();
   }
 };
 

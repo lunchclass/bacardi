@@ -72,14 +72,13 @@ describe('sub function test for short type', () => {
   });
 });
 
-describe('mul function test for double', () => {
+describe('mul function test for long long', () => {
   it('should be equal with expected value', () => {
-    assert.equal(calculator.mul(1, 2), 1 * 2);
-    assert.equal(calculator.mul(3.3, 4.3), 3.3 * 4.3);
-    assert.equal(calculator.mul(3.3, -4.3), 3.3 * -4.3);
-    assert.equal(calculator.mul(-3.3, 4.3), -3.3 * 4.3);
-    assert.equal(calculator.mul(1.2, 0), 1.2 * 0);
-    assert.equal(calculator.mul(4.5878, 1.1234), 4.5878 * 1.1234);
+    assert.equal(calculator.mul(2147483647, 100), 214748364700);
+    assert.equal(calculator.mul(3, 4), 3 * 4);
+    assert.equal(calculator.mul(3, -4), 3 * -4);
+    assert.equal(calculator.mul(1223372036854775807, 4), 4893488147419103000);
+    assert.equal(calculator.mul(2147483647, 3000), 6442450941000);
   });
 });
 

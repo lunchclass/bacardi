@@ -26,7 +26,7 @@ class Calculator {
 
   int32_t Add(int32_t number1, int32_t number2);
   int16_t Sub(int16_t number1, int16_t number2);
-  double Mul(double number1, double number2);
+  int64_t Mul(int64_t number1, int64_t number2);
   double Div(double number1, double number2);
   bool IsEquals(int16_t number1, int16_t number2);
 };
