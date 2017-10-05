@@ -41,7 +41,7 @@ describe('Test for constructor function', () => {
 
 describe('Test for static function', () => {
   it('The static function can be called without instantiation.', () => {
-    bacardi.Calculator.print(0);
+    bacardi.Calculator.print('hello bacardi!');
   });
 });
 
