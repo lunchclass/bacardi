@@ -124,7 +124,8 @@ struct NativeTypeTraits<IDLString> : public NativeTypeTraitsBase<IDLString> {
   static std::string NativeValue(const Napi::Env& env,
                                  const Napi::Value& js_value) {
     if (!js_value.IsString()) {
-      Napi::TypeError::New(env, "It's an invalid string.");
+      Napi::TypeError::New(env, "It's an invalid string.")
+          .ThrowAsJavaScriptException();
       return std::string();
     }
 
