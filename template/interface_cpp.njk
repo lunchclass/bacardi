@@ -38,12 +38,28 @@ void {{name}}Bridge::Init(Napi::Env env, Napi::Object exports) {
 
 {{name}}Bridge::{{name}}Bridge(const Napi::CallbackInfo& info)
     : Napi::ObjectWrap<{{name}}Bridge>(info) {
-  // TODO: implement constructor overloading
-  {% for idl_constructor in constructors %} new {{name}} (
-    {% for argument in idl_constructor.arguments %}
-      NativeTypeTraits<IDL{{argument.type | camelcase-}}>::NativeValue(info.Env(), info[{{loop.index - 1}}]){% if not loop.last %},{% endif %}
-    {% endfor %})
-  {% endfor %};
+  int argumentLength = info.Length();
+  if ({{constructors.length}} == 0 && argumentLength == 0) {
+    new {{name}} ();
+    return;
+  }
+
+  {% for idl_constructor in constructors %} 
+    // FIXME(yjaeseok): This if statement needs to apply optimization.
+    if (argumentLength == {{idl_constructor.arguments.length}}
+      {% for argument in idl_constructor.arguments %} 
+        && NativeTypeTraits<IDL{{argument.type | camelcase-}}>::IsTypeEquals(info[{{loop.index - 1}}])
+      {% endfor %}) {
+      new {{name}} (
+      {% for argument in idl_constructor.arguments %} 
+        NativeTypeTraits<IDL{{argument.type | camelcase-}}>::NativeValue(info.Env(), info[{{loop.index - 1}}]){% if not loop.last %},{% endif %}
+      {% endfor %});
+      return;
+    }
+  {% endfor %}
+
+  Napi::Error::New(info.Env(), "There is no valid constructor.")
+      .ThrowAsJavaScriptException();
 }
 
 {% for member in members %}

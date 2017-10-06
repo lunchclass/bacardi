@@ -15,7 +15,10 @@
  */
 
 [
-  Constructor(long createdTime)
+  Constructor(),
+  Constructor(long createdTime),
+  Constructor(long arg1, long arg2),
+  Constructor(string msg1, string msg2)
 ]
 interface Calculator {
   static void print(string message);

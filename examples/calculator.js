@@ -29,13 +29,27 @@ describe('Test for constructor function', () => {
     it('should be failed create object with error', () => {
       assert.throws(() => {
         new bacardi.Calculator('wrong argument');
-      }, TypeError);
+      }, Error);
+    });
+    it('should be failed create object with error', () => {
+      assert.throws(() => {
+        new bacardi.Calculator(1000, 2000, 3000);
+      }, Error);
     });
   });
   describe('when we create two objects', () => {
     it('should be different, two objects', () => {
       assert.notEqual(new bacardi.Calculator(0), new bacardi.Calculator(0));
     });
+  });
+});
+
+describe('Test for constructor overloading', () => {
+  it('should be create object without error', () => {
+    new bacardi.Calculator();
+    new bacardi.Calculator(1000);
+    new bacardi.Calculator(100, 200);
+    new bacardi.Calculator('hello', 'world');
   });
 });
 

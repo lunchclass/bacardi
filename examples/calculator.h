@@ -21,7 +21,10 @@
 
 class Calculator {
  public:
+  Calculator();
   Calculator(long createTime);
+  Calculator(long arg1, long arg2);
+  Calculator(const std::string& message1, const std::string& message2);
   static void Print(const std::string& message);
 
   int32_t Add(int32_t number1, int32_t number2);

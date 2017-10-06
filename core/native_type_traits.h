@@ -40,6 +40,8 @@ struct NativeTypeTraits : public NativeTypeTraitsBase<T> {
   static inline typename NativeTypeTraitsBase<T>::ImplType NativeValue(
       const Napi::Env& env,
       const Napi::Value& js_value);
+  static inline typename NativeTypeTraitsBase<T>::ImplType IsTypeEquals(
+      const Napi::Value& js_value);
 };
 
 // The boolean type has two values: true and false.
@@ -53,6 +55,10 @@ struct NativeTypeTraits<IDLBoolean> : public NativeTypeTraitsBase<IDLBoolean> {
     }
 
     return js_value.ToBoolean().Value();
+  }
+
+  static bool IsTypeEquals(const Napi::Value& js_value) {
+    return js_value.IsBoolean();
   }
 };
 
@@ -69,6 +75,10 @@ struct NativeTypeTraits<IDLDouble> : public NativeTypeTraitsBase<IDLDouble> {
 
     return js_value.ToNumber().DoubleValue();
   }
+
+  static bool IsTypeEquals(const Napi::Value& js_value) {
+    return js_value.IsNumber();
+  }
 };
 
 // The long type is a signed integer type that has values in the range
@@ -84,6 +94,10 @@ struct NativeTypeTraits<IDLLong> : public NativeTypeTraitsBase<IDLLong> {
     }
 
     return js_value.ToNumber().Int32Value();
+  }
+
+  static bool IsTypeEquals(const Napi::Value& js_value) {
+    return js_value.IsNumber();
   }
 };
 
@@ -102,6 +116,10 @@ struct NativeTypeTraits<IDLLongLong>
 
     return js_value.ToNumber().Int64Value();
   }
+
+  static bool IsTypeEquals(const Napi::Value& js_value) {
+    return js_value.IsNumber();
+  }
 };
 
 // The short type is a signed integer type that has values in the range [−32768,
@@ -117,6 +135,10 @@ struct NativeTypeTraits<IDLShort> : public NativeTypeTraitsBase<IDLShort> {
 
     return static_cast<int16_t>(js_value.ToNumber().Int32Value());
   }
+
+  static bool IsTypeEquals(const Napi::Value& js_value) {
+    return js_value.IsNumber();
+  }
 };
 
 template <>
@@ -130,6 +152,10 @@ struct NativeTypeTraits<IDLString> : public NativeTypeTraitsBase<IDLString> {
     }
 
     return js_value.ToString().Utf8Value();
+  }
+
+  static bool IsTypeEquals(const Napi::Value& js_value) {
+    return js_value.IsString();
   }
 };
 
