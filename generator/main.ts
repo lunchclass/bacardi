@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-import * as file from './base/file';
 import * as mkdirp from 'mkdirp';
 import * as nunjucks from 'nunjucks';
 import * as path from 'path';
+
+import * as file from './base/file';
 import * as reader from './reader/simple_reader';
 
 import snakeCase = require('snake-case');
@@ -88,9 +89,7 @@ async function main([out_dir, ...idl_files]) {
   return 0;
 }
 
-main(process.argv.slice(2))
-    .then(process.exit)
-    .catch(error => {
-      console.log(error);
-      process.exit(2);
-    });
+main(process.argv.slice(2)).then(process.exit).catch(error => {
+  console.log(error);
+  process.exit(2);
+});

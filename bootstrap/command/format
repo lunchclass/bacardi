@@ -23,6 +23,7 @@ function apply_format() {
   python $(third_party_path)/clang-format/git-clang-format --force \
       --binary $binary_path \
       --style Chromium \
+      --commit HEAD~20 \
       $additional_flags
 }
 

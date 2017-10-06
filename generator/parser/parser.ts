@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
+import * as webidl from 'webidl2';
+
 import IDLDefinition from './idl_definition';
 import IDLDefinitionFactory from './idl_definition_factory';
-import * as webidl from 'webidl2';
 
 export default class Parser {
   static async parse(idl_fragment: string): Promise<IDLDefinition[]> {

@@ -31,8 +31,10 @@ Calculator::Calculator(long arg1, long arg2) {
 }
 
 Calculator::Calculator(const std::string& msg1, const std::string& msg2) {
-  printf("new Calculator(const std::string& msg1, const std::string& msg2)"
-    " => %s %s\n", msg1.c_str(), msg2.c_str());
+  printf(
+      "new Calculator(const std::string& msg1, const std::string& msg2)"
+      " => %s %s\n",
+      msg1.c_str(), msg2.c_str());
 }
 
 void Calculator::Print(const std::string& message) {

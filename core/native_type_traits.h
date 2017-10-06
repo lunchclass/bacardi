@@ -126,7 +126,8 @@ struct NativeTypeTraits<IDLLongLong>
 // 32767].
 template <>
 struct NativeTypeTraits<IDLShort> : public NativeTypeTraitsBase<IDLShort> {
-  static int16_t NativeValue(const Napi::Env& env, const Napi::Value& js_value) {
+  static int16_t NativeValue(const Napi::Env& env,
+                             const Napi::Value& js_value) {
     if (!js_value.IsNumber()) {
       Napi::TypeError::New(env, "It's an invalid number.")
           .ThrowAsJavaScriptException();

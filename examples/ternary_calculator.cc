@@ -16,6 +16,8 @@
 
 #include "examples/ternary_calculator.h"
 
-int32_t TernaryCalculator::Add(int32_t number1, int32_t number2, int32_t number3) {
+int32_t TernaryCalculator::Add(int32_t number1,
+                               int32_t number2,
+                               int32_t number3) {
   return number1 + number2 + number3;
 }
