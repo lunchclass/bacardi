@@ -25,6 +25,9 @@
       'dependencies': [
         'idl',
       ],
+      'cflags': [
+        '-pg',
+      ],
       'conditions': [
         ['OS!="win"',
         {
