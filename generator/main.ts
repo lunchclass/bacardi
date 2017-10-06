@@ -15,57 +15,58 @@
  */
 
 import * as file from './base/file';
-import * as idls from './idl_parser/idls';
 import * as mkdirp from 'mkdirp';
 import * as nunjucks from 'nunjucks';
 import * as path from 'path';
 import * as reader from './reader/simple_reader';
-import * as webidl from 'webidl2';
+
 import snakeCase = require('snake-case');
+
+import IDLDefinition from './parser/idl_definition';
+import Parser from './parser/parser';
 
 const TEMPLATE_DIR = path.resolve(__dirname, '../../../template');
 
 async function generateBacardi(
     env: nunjucks.Environment, output_path: string,
-    idl_interface_names: idls.InterfaceNames) {
+    definitions: IDLDefinition[]) {
   const [cpp_tmpl] = await Promise.all(
       [file.read(path.resolve(TEMPLATE_DIR, 'bacardi_cpp.njk'))]);
   const cpp_file_path = path.resolve(output_path, 'bacardi.cc');
 
-  return Promise.all([file.write(
-      cpp_file_path, env.renderString(cpp_tmpl, idl_interface_names))]);
+  let idl_interface_names: string[] = [];
+  definitions.forEach(async (definition) => {
+    if (definition.isIDLInterface()) {
+      idl_interface_names.push(definition.name);
+    }
+  });
+
+  return file.write(
+      cpp_file_path, env.renderString(cpp_tmpl, {names: idl_interface_names}));
 }
 
 async function generateInterface(
     env: nunjucks.Environment, output_path: string,
-    idl_fragments: idls.Fragments) {
+    definitions: IDLDefinition[]) {
   const [header_tmpl, cpp_tmpl] = await Promise.all([
     file.read(path.resolve(TEMPLATE_DIR, 'interface_header.njk')),
     file.read(path.resolve(TEMPLATE_DIR, 'interface_cpp.njk'))
   ]);
 
-  for (const definition of idl_fragments.definitions) {
-    if (definition instanceof idls.InterfaceImpl) {
-      const interfaceImpl: idls.InterfaceImpl =
-          definition as idls.InterfaceImpl;
-
+  definitions.forEach(async (definition) => {
+    if (definition.isIDLInterface()) {
       // FIXME(zino): The examples/ directory should be changed to better fixed
       // path.
       const header_file_path = path.resolve(
-          output_path,
-          'examples/' + snakeCase(interfaceImpl.name) + '_bridge.h');
+          output_path, 'examples/' + snakeCase(definition.name) + '_bridge.h');
       const cpp_file_path = path.resolve(
-          output_path,
-          'examples/' + snakeCase(interfaceImpl.name) + '_bridge.cc');
+          output_path, 'examples/' + snakeCase(definition.name) + '_bridge.cc');
 
       await file.write(
-          header_file_path, env.renderString(header_tmpl, interfaceImpl));
-      await file.write(
-          cpp_file_path, env.renderString(cpp_tmpl, interfaceImpl));
+          header_file_path, env.renderString(header_tmpl, definition));
+      await file.write(cpp_file_path, env.renderString(cpp_tmpl, definition));
     }
-  };
-
-  return;
+  });
 }
 
 async function main([out_dir, ...idl_files]) {
@@ -79,20 +80,11 @@ async function main([out_dir, ...idl_files]) {
     return snakeCase(str);
   });
 
-  let interface_names = new Array<String>();
-  const parsedData = webidl.parse(await reader.readAll(idl_files));
-  const idl_fragments: idls.Fragments = new idls.Fragments(parsedData);
-  await generateInterface(env, out_dir, idl_fragments);
-  for (const definition of idl_fragments.definitions) {
-    // FIXME: definition type is only for Interface, so need to modify below
-    // condition after definition type changed.
-    if (definition instanceof idls.InterfaceImpl) {
-      interface_names.push(new String(definition.name));
-    }
-  }
-  const interfaceNames: idls.InterfaceNames =
-      new idls.InterfaceNames(interface_names);
-  await generateBacardi(env, out_dir, interfaceNames);
+  let definitions: IDLDefinition[] =
+      await Parser.parse(await reader.readAll(idl_files));
+  await generateInterface(env, out_dir, definitions);
+  await generateBacardi(env, out_dir, definitions);
+
   return 0;
 }
 

@@ -38,9 +38,9 @@ void {{name}}Bridge::Init(Napi::Env env, Napi::Object exports) {
 
 {{name}}Bridge::{{name}}Bridge(const Napi::CallbackInfo& info)
     : Napi::ObjectWrap<{{name}}Bridge>(info) {
-  // TODO : implement constructor overloading
-  {% for extAttr in extAttrs %} new {{name}} (
-    {% for argument in extAttr.arguments %}
+  // TODO: implement constructor overloading
+  {% for idl_constructor in constructors %} new {{name}} (
+    {% for argument in idl_constructor.arguments %}
       NativeTypeTraits<IDL{{argument.type | camelcase-}}>::NativeValue(info.Env(), info[{{loop.index - 1}}]){% if not loop.last %},{% endif %}
     {% endfor %})
   {% endfor %};
