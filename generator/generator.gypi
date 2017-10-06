@@ -16,8 +16,12 @@
   'variables': {
     'generator_files': [
       'base/file.ts',
+      'parser/idl_definition.ts',
+      'parser/idl_definition_factory.ts',
+      'parser/idl_identifier.ts',
+      'parser/idl_interface.ts',
+      'parser/parser.ts',
       'reader/simple_reader.ts',
-      'idl_parser/idls.ts',
       'main.ts',
     ],
   },
