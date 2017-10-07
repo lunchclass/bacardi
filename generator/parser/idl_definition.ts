@@ -28,4 +28,12 @@ export default abstract class IDLDefinition {
   public isIDLInterface(): boolean {
     return this.raw_idl_definition_info['type'] == 'interface';
   }
+
+  public idlBaseName(): string {
+    return this.raw_idl_definition_info['idlBaseName'];
+  }
+
+  public idlDirName(): string {
+    return this.raw_idl_definition_info['idlDirName'];
+  }
 }

@@ -56,12 +56,14 @@ async function generateInterface(
 
   definitions.forEach(async (definition) => {
     if (definition.isIDLInterface()) {
-      // FIXME(zino): The examples/ directory should be changed to better fixed
-      // path.
       const header_file_path = path.resolve(
-          output_path, 'examples/' + snakeCase(definition.name) + '_bridge.h');
+          output_path,
+          definition.idlDirName() + '/' + snakeCase(definition.name) +
+              '_bridge.h');
       const cpp_file_path = path.resolve(
-          output_path, 'examples/' + snakeCase(definition.name) + '_bridge.cc');
+          output_path,
+          definition.idlDirName() + '/' + snakeCase(definition.name) +
+              '_bridge.cc');
 
       await file.write(
           header_file_path, env.renderString(header_tmpl, definition));
@@ -70,7 +72,16 @@ async function generateInterface(
   });
 }
 
-async function main([out_dir, ...idl_files]) {
+async function main([root_dir, out_dir, ...idl_files]) {
+  // We expect that current working directory will be $BACARDI_PATH. But it
+  // might not be in Windows platform. So, we should resolve the path here.
+  process.chdir(root_dir);
+
+  let relative_idl_files: string[] = [];
+  idl_files.forEach((idl_file) => {
+    relative_idl_files.push(path.relative(root_dir, idl_file));
+  });
+
   var env = new nunjucks.Environment();
   env.addFilter('camelcase', function(str, count) {
     return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
@@ -82,7 +93,7 @@ async function main([out_dir, ...idl_files]) {
   });
 
   let definitions: IDLDefinition[] =
-      await Parser.parse(await reader.readAll(idl_files));
+      await Parser.parse(await reader.readAll(relative_idl_files));
   await generateInterface(env, out_dir, definitions);
   await generateBacardi(env, out_dir, definitions);
 

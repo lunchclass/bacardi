@@ -16,15 +16,20 @@
 
 import * as file from '../base/file';
 
-export async function readAll(idl_files: string[]): Promise<string> {
+export async function readAll(idl_files: string[]):
+    Promise<[string, string][]> {
   let read_tasks: Promise<string>[] = [];
   idl_files.forEach((idl_file: string) => {
     read_tasks.push(file.read(idl_file));
   });
 
-  let result: string = '';
-  (await Promise.all(read_tasks)).forEach((idl_contents: string) => {
-    result += idl_contents;
-  });
-  return result;
+  let idl_contents: string[] = await Promise.all(read_tasks);
+  // assert idl_files.length == idl_contents.length;
+
+  let idl_fragments: [string, string][] = [];
+  for (let i: number = 0; i < idl_files.length; i++) {
+    idl_fragments.push([idl_files[i], idl_contents[i]]);
+  }
+
+  return idl_fragments;
 }

@@ -114,6 +114,7 @@
               'action': [
                 '<@(PRODUCT_DIR)/../../bootstrap/command/node',
                 '<@(PRODUCT_DIR)/generator/main.js',
+                '<(module_root_dir)',
                 '<@(SHARED_INTERMEDIATE_DIR)',
                 '<@(_inputs)',
               ],
@@ -123,6 +124,7 @@
               'action': [
                 '<@(PRODUCT_DIR)/../../third_party/node/node.exe',
                 '<@(PRODUCT_DIR)/generator/main.js',
+                '<(module_root_dir)',
                 '<@(SHARED_INTERMEDIATE_DIR)',
                 '<@(_inputs)',
               ],

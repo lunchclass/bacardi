@@ -22,7 +22,7 @@
     ],
 
     'examples_idl_files': [
-      'calculator.idl',
+      '<(module_root_dir)/examples/calculator.idl',
     ],
 
     'examples_idl_output_files': [
