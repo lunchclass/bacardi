@@ -40,7 +40,7 @@ void {{name}}Bridge::Init(Napi::Env env, Napi::Object exports) {
     : Napi::ObjectWrap<{{name}}Bridge>(info) {
   int argumentLength = info.Length();
   if ({{constructors.length}} == 0 && argumentLength == 0) {
-    new {{name}} ();
+    impl_.reset(new {{name}} ());
     return;
   }
 
@@ -50,10 +50,10 @@ void {{name}}Bridge::Init(Napi::Env env, Napi::Object exports) {
       {% for argument in idl_constructor.arguments %} 
         && NativeTypeTraits<IDL{{argument.type | camelcase-}}>::IsTypeEquals(info[{{loop.index - 1}}])
       {% endfor %}) {
-      new {{name}} (
+      impl_.reset(new {{name}} (
       {% for argument in idl_constructor.arguments %} 
         NativeTypeTraits<IDL{{argument.type | camelcase-}}>::NativeValue(info.Env(), info[{{loop.index - 1}}]){% if not loop.last %},{% endif %}
-      {% endfor %});
+      {% endfor %}));
       return;
     }
   {% endfor %}
