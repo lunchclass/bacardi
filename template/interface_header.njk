@@ -20,7 +20,7 @@
 #include <memory>
 #include <napi.h>
 
-#include "examples/{{name | snakecase}}.h"
+#include "{{idl_dir_name}}/{{name | snakecase}}.h"
 
 class {{name}}Bridge : public Napi::ObjectWrap<{{name}}Bridge> {
  public:

@@ -16,10 +16,14 @@
 
 export default abstract class IDLDefinition {
   public readonly name: string;
+  public readonly idl_base_name: string;
+  public readonly idl_dir_name: string;
   protected readonly raw_idl_definition_info: {};
 
   protected constructor(name: string, raw_idl_definition_info: {}) {
     this.name = name;
+    this.idl_base_name = raw_idl_definition_info['idlBaseName'];
+    this.idl_dir_name = raw_idl_definition_info['idlDirName'];
     this.raw_idl_definition_info = raw_idl_definition_info;
   }
 
@@ -27,13 +31,5 @@ export default abstract class IDLDefinition {
 
   public isIDLInterface(): boolean {
     return this.raw_idl_definition_info['type'] == 'interface';
-  }
-
-  public idlBaseName(): string {
-    return this.raw_idl_definition_info['idlBaseName'];
-  }
-
-  public idlDirName(): string {
-    return this.raw_idl_definition_info['idlDirName'];
   }
 }

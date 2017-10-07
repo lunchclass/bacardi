@@ -35,15 +35,15 @@ async function generateBacardi(
       [file.read(path.resolve(TEMPLATE_DIR, 'bacardi_cpp.njk'))]);
   const cpp_file_path = path.resolve(output_path, 'bacardi.cc');
 
-  let idl_interface_names: string[] = [];
+  let idl_interfaces: IDLDefinition[] = [];
   definitions.forEach(async (definition) => {
     if (definition.isIDLInterface()) {
-      idl_interface_names.push(definition.name);
+      idl_interfaces.push(definition);
     }
   });
 
   return file.write(
-      cpp_file_path, env.renderString(cpp_tmpl, {names: idl_interface_names}));
+      cpp_file_path, env.renderString(cpp_tmpl, {interfaces: idl_interfaces}));
 }
 
 async function generateInterface(
@@ -58,11 +58,11 @@ async function generateInterface(
     if (definition.isIDLInterface()) {
       const header_file_path = path.resolve(
           output_path,
-          definition.idlDirName() + '/' + snakeCase(definition.name) +
+          definition.idl_dir_name + '/' + snakeCase(definition.name) +
               '_bridge.h');
       const cpp_file_path = path.resolve(
           output_path,
-          definition.idlDirName() + '/' + snakeCase(definition.name) +
+          definition.idl_dir_name + '/' + snakeCase(definition.name) +
               '_bridge.cc');
 
       await file.write(

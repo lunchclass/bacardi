@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2017 The Bacardi Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,21 +14,12 @@
  * limitations under the License.
  */
 
-#ifndef EXAMPLES_BACARDI_H_
-#define EXAMPLES_BACARDI_H_
+#ifndef TEST_TEST_INTERFACE_H_
+#define TEST_TEST_INTERFACE_H_
 
-#include "core/bacardi.h"
+class TestInterface {
+ public:
+  TestInterface();
+};
 
-{% for interface in interfaces %}
-#include "{{interface.idl_dir_name}}/{{interface.name | snakecase}}_bridge.h"
-{% endfor %}
-
-void Init(Napi::Env env, Napi::Object exports, Napi::Object module) {
-  {% for interface in interfaces %}
-  {{interface.name}}Bridge::Init(env, exports);
-  {% endfor %}
-}
-
-NODE_API_MODULE(bacardi, Init);
-
-#endif  // EXAMPLES_BACARDI_H_
+#endif  // TEST_TEST_INTERFACE_H_
