@@ -28,6 +28,7 @@ function is_already_formatted() {
 
 if is_already_formatted; then
   mocha --napi-modules examples/calculator.js
+  node --napi-modules $(bacardi_path)/node_modules/jest/bin/jest.js
 else
   echo "You should run |bacardi format| command first."
 fi
