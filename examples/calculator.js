@@ -144,3 +144,24 @@ describe('generate one more bridge classes from one more interfaces', () => {
     assert.equal(ternary_calculator.add(1, 2, 3), 1 + 2 + 3);
   });
 });
+
+describe('enum type test', () => {
+  it('should be equal with expected value', () => {
+    assert.equal(calculator.calculate('add', 1, 2), 3);
+    assert.equal(calculator.calculate('sub', 2, 1), 1);
+    assert.equal(calculator.calculate('mul', 2, 1), 2);
+    assert.equal(calculator.calculate('div', 4, 1), 4);
+  });
+
+  it('should be throw error when invalid argument passed.', () => {
+    assert.throws(() => {
+      calculator.calculate('add', 1, 1, 1);
+    }, RangeError);
+    assert.throws(() => {
+      calculator.calculate(1, 1, 1);
+    }, TypeError);
+    assert.throws(() => {
+      calculator.calculate('not_match_value', 1, 1);
+    }, TypeError);
+  });
+});

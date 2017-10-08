@@ -73,6 +73,9 @@ Napi::Value {{name}}Bridge::{{member.name | camelcase}}(const Napi::CallbackInfo
   {% for argument in member.arguments %}
   auto {{argument.name}} = NativeTypeTraits<IDL{{argument.type | camelcase-}}
       >::NativeValue(info.Env(), info[{{loop.index - 1}}]);
+  if (info.Env().IsExceptionPending()) {
+    return Napi::Value();
+  }
   {% endfor %}
 
   {% if member.type != "void" %}

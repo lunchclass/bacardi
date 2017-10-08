@@ -60,3 +60,18 @@ double Calculator::Div(double number1, double number2) {
 bool Calculator::IsEquals(int16_t number1, int16_t number2) {
   return number1 == number2;
 }
+
+double Calculator::Calculate(const std::string& operatorStr,
+                             double number1,
+                             double number2) {
+  if (operatorStr.compare("add") == 0) {
+    return number1 + number2;
+  } else if (operatorStr.compare("sub") == 0) {
+    return number1 - number2;
+  } else if (operatorStr.compare("mul") == 0) {
+    return number1 * number2;
+  } else if (operatorStr.compare("div") == 0) {
+    return number1 / number2;
+  }
+  return 0;
+}

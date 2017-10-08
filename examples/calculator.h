@@ -32,6 +32,9 @@ class Calculator {
   int64_t Mul(int64_t number1, int64_t number2);
   double Div(double number1, double number2);
   bool IsEquals(int16_t number1, int16_t number2);
+  double Calculate(const std::string& operatorStr,
+                   double number1,
+                   double number2);
 };
 
 #endif  // EXAMPLES_CALCULATOR_H_

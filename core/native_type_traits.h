@@ -160,4 +160,43 @@ struct NativeTypeTraits<IDLString> : public NativeTypeTraitsBase<IDLString> {
   }
 };
 
+// FIXME(Hwansung): should be generated automatically in another file.
+template <>
+struct NativeTypeTraits<IDLOperationType>
+    : public NativeTypeTraitsBase<IDLOperationType> {
+  static std::string NativeValue(const Napi::Env& env,
+                                 const Napi::Value& js_value) {
+    if (!js_value.IsString()) {
+      Napi::TypeError::New(env, "It's an invalid string.")
+          .ThrowAsJavaScriptException();
+      return std::string();
+    }
+
+    std::string value = js_value.ToString().Utf8Value();
+    if (!IsValidValue(value)) {
+      Napi::TypeError::New(env, "it not matched with values of enum in idl.")
+          .ThrowAsJavaScriptException();
+      return std::string();
+    }
+
+    return js_value.ToString().Utf8Value();
+  }
+
+  static bool IsTypeEquals(const Napi::Value& js_value) {
+    if (js_value.IsString()) {
+      std::string value = js_value.ToString().Utf8Value();
+      return IsValidValue(value);
+    }
+    return false;
+  }
+
+  static bool IsValidValue(std::string value) {
+    if (value.compare("add") == 0 || value.compare("sub") == 0 ||
+        value.compare("mul") == 0 || value.compare("div") == 0) {
+      return true;
+    }
+    return false;
+  }
+};
+
 #endif  // CORE_NATIVE_TYPE_TRAITS_H_

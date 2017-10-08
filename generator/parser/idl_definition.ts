@@ -32,4 +32,8 @@ export default abstract class IDLDefinition {
   public isIDLInterface(): boolean {
     return this.raw_idl_definition_info['type'] == 'interface';
   }
+
+  public isIDLEnum(): boolean {
+    return this.raw_idl_definition_info['type'] == 'enum';
+  }
 }

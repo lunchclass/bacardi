@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2017 The Bacardi Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-#ifndef CORE_IDL_TYPES_H_
-#define CORE_IDL_TYPES_H_
+import IDLDefinition from './idl_definition';
 
-#include "core/idl_base.h"
+export default class IDLEnum extends IDLDefinition {
+  values: string[];
 
-struct IDLBoolean final : public IDLBaseHelper<bool> {};
-struct IDLDouble final : public IDLBaseHelper<double> {};
-struct IDLLongLong final : public IDLBaseHelper<int64_t> {};
-struct IDLLong final : public IDLBaseHelper<int32_t> {};
-struct IDLShort final : public IDLBaseHelper<int16_t> {};
-struct IDLString final : public IDLBaseHelper<std::string> {};
-// FIXME(Hwansung): should be generated automatically in another file.
-struct IDLOperationType final : public IDLBaseHelper<std::string> {};
+  constructor(raw_idl_enum_info: {}) {
+    super(raw_idl_enum_info['name'], raw_idl_enum_info);
 
-#endif  // CORE_IDL_TYPES_H_
+    this.values = [];
+    raw_idl_enum_info['values'].forEach(raw_value_info => {
+      this.values.push(raw_value_info);
+    });
+  }
+
+  render(): void {
+    // TODO(zino): We should implement this function.
+  }
+}

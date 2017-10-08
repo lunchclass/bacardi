@@ -15,12 +15,15 @@
  */
 
 import IDLDefinition from './idl_definition';
+import IDLEnum from './idl_enum';
 import IDLInterface from './idl_interface';
 
 export default class IDLDefinitionFactory {
   static create(raw_idl_definition_info: {}): IDLDefinition {
     if (this.isIDLInterface(raw_idl_definition_info)) {
       return new IDLInterface(raw_idl_definition_info);
+    } else if (this.isIDLEnum(raw_idl_definition_info)) {
+      return new IDLEnum(raw_idl_definition_info);
     }
 
     return null;
@@ -28,5 +31,8 @@ export default class IDLDefinitionFactory {
 
   private static isIDLInterface(raw_idl_definition_info: {}): boolean {
     return raw_idl_definition_info['type'] == 'interface';
+  }
+  private static isIDLEnum(raw_idl_definition_info: {}): boolean {
+    return raw_idl_definition_info['type'] == 'enum';
   }
 }
