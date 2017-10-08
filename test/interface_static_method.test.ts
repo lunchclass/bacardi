@@ -27,3 +27,29 @@ test('Basic of static method', async () => {
   expect(bacardi.TestInterface.getLastCallInfo())
       .toBe('static boolean staticMethod2(long, string)');
 });
+
+test('Calling undefined static method should throw error', async () => {
+  expect(() => {
+    bacardi.TestInterface.undefinedStaticMethod1();
+  }).toThrowError(TypeError);
+
+  expect(() => {
+    bacardi.TestInterface.undefinedStaticMethod2(10, 'test');
+  }).toThrowError(TypeError);
+});
+
+test('Static method with invalid arguments should throw error', async () => {
+  expect(() => {
+    bacardi.TestInterface.staticMethod2(10, 20);
+  }).toThrowError();
+});
+
+test('Static method with invalid signature should throw error', async () => {
+  expect(() => {
+    bacardi.TestInterface.staticMethod1(10);
+  }).toThrowError();
+
+  expect(() => {
+    bacardi.TestInterface.staticMethod2();
+  }).toThrowError();
+});
