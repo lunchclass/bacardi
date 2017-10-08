@@ -25,34 +25,33 @@ inline Napi::Value JSTypeTraits(Napi::Env env, T value) {
   return T();
 }
 
-template <>
-inline Napi::Value JSTypeTraits(Napi::Env env, bool value) {
-  return Napi::Boolean::New(env, value);
-}
+#define JS_TYPE_TRAITS_NUMBER(type)                            \
+  template <>                                                  \
+  inline Napi::Value JSTypeTraits(Napi::Env env, type value) { \
+    return Napi::Number::New(env, value);                      \
+  }
 
-template <>
-inline Napi::Value JSTypeTraits(Napi::Env env, double value) {
-  return Napi::Number::New(env, value);
-}
+#define JS_TYPE_TRAITS_BOOLEAN(type)                           \
+  template <>                                                  \
+  inline Napi::Value JSTypeTraits(Napi::Env env, type value) { \
+    return Napi::Boolean::New(env, value);                     \
+  }
 
-template <>
-inline Napi::Value JSTypeTraits(Napi::Env env, int16_t value) {
-  return Napi::Number::New(env, value);
-}
+#define JS_TYPE_TRAITS_STRING(type)                            \
+  template <>                                                  \
+  inline Napi::Value JSTypeTraits(Napi::Env env, type value) { \
+    return Napi::String::New(env, value);                      \
+  }
 
-template <>
-inline Napi::Value JSTypeTraits(Napi::Env env, int32_t value) {
-  return Napi::Number::New(env, value);
-}
+// TODO(corona10): Auto generate JS_TYPE_TRAITS_XXXX.
 
-template <>
-inline Napi::Value JSTypeTraits(Napi::Env env, int64_t value) {
-  return Napi::Number::New(env, value);
-}
+JS_TYPE_TRAITS_NUMBER(int16_t);
+JS_TYPE_TRAITS_NUMBER(int32_t);
+JS_TYPE_TRAITS_NUMBER(int64_t);
+JS_TYPE_TRAITS_NUMBER(double);
 
-template <>
-inline Napi::Value JSTypeTraits(Napi::Env env, const std::string value) {
-  return Napi::String::New(env, value);
-}
+JS_TYPE_TRAITS_BOOLEAN(bool);
+
+JS_TYPE_TRAITS_STRING(std::string);
 
 #endif  // CORE_JS_TYPE_TRAITS_H_
