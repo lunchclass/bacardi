@@ -32,4 +32,13 @@ interface TestInterface {
   short shortMethod(short number);
   double doubleMethod(double number);
   string stringMethod(string string);
+
+  // enum
+  void voidMethodTestEnumArg(TestEnum enumValue);
+};
+
+enum TestEnum {
+  "value1",
+  "value2",
+  "value3"
 };

@@ -27,5 +27,6 @@ struct IDLShort final : public IDLBaseHelper<int16_t> {};
 struct IDLString final : public IDLBaseHelper<std::string> {};
 // FIXME(Hwansung): should be generated automatically in another file.
 struct IDLOperationType final : public IDLBaseHelper<std::string> {};
+struct IDLTestEnum final : public IDLBaseHelper<std::string> {};
 
 #endif  // CORE_IDL_TYPES_H_

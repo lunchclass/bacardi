@@ -199,4 +199,42 @@ struct NativeTypeTraits<IDLOperationType>
   }
 };
 
+template <>
+struct NativeTypeTraits<IDLTestEnum>
+    : public NativeTypeTraitsBase<IDLTestEnum> {
+  static std::string NativeValue(const Napi::Env& env,
+                                 const Napi::Value& js_value) {
+    if (!js_value.IsString()) {
+      Napi::TypeError::New(env, "It's an invalid string.")
+          .ThrowAsJavaScriptException();
+      return std::string();
+    }
+
+    std::string value = js_value.ToString().Utf8Value();
+    if (!IsValidValue(value)) {
+      Napi::TypeError::New(env, "it not matched with values of enum in idl.")
+          .ThrowAsJavaScriptException();
+      return std::string();
+    }
+
+    return js_value.ToString().Utf8Value();
+  }
+
+  static bool IsTypeEquals(const Napi::Value& js_value) {
+    if (js_value.IsString()) {
+      std::string value = js_value.ToString().Utf8Value();
+      return IsValidValue(value);
+    }
+    return false;
+  }
+
+  static bool IsValidValue(std::string value) {
+    if (value.compare("value1") == 0 || value.compare("value2") == 0 ||
+        value.compare("value3") == 0) {
+      return true;
+    }
+    return false;
+  }
+};
+
 #endif  // CORE_NATIVE_TYPE_TRAITS_H_

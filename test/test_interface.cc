@@ -64,3 +64,7 @@ double TestInterface::DoubleMethod(double number) {
 const std::string TestInterface::StringMethod(const std::string& string) {
   return string;
 }
+
+void TestInterface::VoidMethodTestEnumArg(const std::string& string) {
+  last_call_info_ = "VoidMethodTestEnumArg(" + string + ")";
+}

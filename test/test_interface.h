@@ -37,6 +37,9 @@ class TestInterface {
   double DoubleMethod(double number);
   const std::string StringMethod(const std::string& string);
 
+  // Enum
+  void VoidMethodTestEnumArg(const std::string& string);
+
  private:
   // FIXME(zino): Currently, we should set this variable in each methods. It's
   // not elegance way. We should find a way to get function name and signature
