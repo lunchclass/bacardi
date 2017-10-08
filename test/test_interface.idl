@@ -14,5 +14,13 @@
  * limitations under the License.
  */
 
+[
+  Constructor(),
+  Constructor(long number),
+  Constructor(long number1, long number2),
+  Constructor(string string1, string string2)
+]
 interface TestInterface {
+  // FIXME(zino): It's better to use attribute instead of method.
+  string getCalledConstructorInfo();
 };

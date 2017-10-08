@@ -50,4 +50,9 @@ inline Napi::Value JSTypeTraits(Napi::Env env, int64_t value) {
   return Napi::Number::New(env, value);
 }
 
+template <>
+inline Napi::Value JSTypeTraits(Napi::Env env, const std::string value) {
+  return Napi::String::New(env, value);
+}
+
 #endif  // CORE_JS_TYPE_TRAITS_H_

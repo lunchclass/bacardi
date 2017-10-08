@@ -22,3 +22,37 @@ test('Default constructor', async () => {
   let test_interface: bacardi.TestInterface = new bacardi.TestInterface();
   expect(test_interface instanceof bacardi.TestInterface).toBe(true);
 });
+
+test('Calling undefined constructor should throw error', async () => {
+  expect(() => {
+    // There is no TestInterface(string) constructor.
+    new bacardi.TestInterface('Wrong argument');
+  }).toThrowError();
+
+  expect(() => {
+    // There is no TestInterface(number, number, number) constructor.
+    new bacardi.TestInterface(1, 2, 3);
+  }).toThrowError();
+});
+
+test('When creating two objects, should be differnt instances', async () => {
+  let instance1: bacardi.TestInterface = new bacardi.TestInterface();
+  let instance2: bacardi.TestInterface = new bacardi.TestInterface();
+  expect(instance1 !== instance2).toBe(true);
+});
+
+test('Test for constructor overloading', async () => {
+  let constructor1 = new bacardi.TestInterface();
+  expect(constructor1.getCalledConstructorInfo()).toBe('Constructor()');
+
+  let constructor2 = new bacardi.TestInterface(1);
+  expect(constructor2.getCalledConstructorInfo()).toBe('Constructor(long)');
+
+  let constructor3 = new bacardi.TestInterface(2, 3);
+  expect(constructor3.getCalledConstructorInfo())
+      .toBe('Constructor(long, long)');
+
+  let constructor4 = new bacardi.TestInterface('hello', 'world');
+  expect(constructor4.getCalledConstructorInfo())
+      .toBe('Constructor(string, string)');
+});

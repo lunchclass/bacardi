@@ -16,4 +16,17 @@
 
 #include "test/test_interface.h"
 
-TestInterface::TestInterface() {}
+TestInterface::TestInterface() : called_constructor_info_("Constructor()") {}
+
+TestInterface::TestInterface(long createTime)
+    : called_constructor_info_("Constructor(long)") {}
+
+TestInterface::TestInterface(long arg1, long arg2)
+    : called_constructor_info_("Constructor(long, long)") {}
+
+TestInterface::TestInterface(const std::string& msg1, const std::string& msg2)
+    : called_constructor_info_("Constructor(string, string)") {}
+
+const std::string& TestInterface::GetCalledConstructorInfo() const {
+  return called_constructor_info_;
+}

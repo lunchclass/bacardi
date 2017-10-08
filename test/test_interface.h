@@ -17,9 +17,19 @@
 #ifndef TEST_TEST_INTERFACE_H_
 #define TEST_TEST_INTERFACE_H_
 
+#include <string>
+
 class TestInterface {
  public:
   TestInterface();
+  TestInterface(long number);
+  TestInterface(long number1, long number2);
+  TestInterface(const std::string& string1, const std::string& string2);
+
+  const std::string& GetCalledConstructorInfo() const;
+
+ private:
+  const std::string called_constructor_info_;
 };
 
 #endif  // TEST_TEST_INTERFACE_H_
