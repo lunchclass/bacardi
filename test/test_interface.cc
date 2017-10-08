@@ -48,3 +48,19 @@ bool TestInterface::StaticMethod2(long number, const std::string& string) {
   last_call_info_ = "static boolean staticMethod2(long, string)";
   return 0;
 }
+
+bool TestInterface::BooleanMethod(bool boolean) {
+  return boolean;
+}
+
+short TestInterface::ShortMethod(short number) {
+  return number;
+}
+
+double TestInterface::DoubleMethod(double number) {
+  return number;
+}
+
+const std::string TestInterface::StringMethod(const std::string& string) {
+  return string;
+}

@@ -31,6 +31,12 @@ class TestInterface {
   static void StaticMethod1();
   static bool StaticMethod2(long number, const std::string& string);
 
+  // Basic types
+  bool BooleanMethod(bool boolean);
+  short ShortMethod(short number);
+  double DoubleMethod(double number);
+  const std::string StringMethod(const std::string& string);
+
  private:
   // FIXME(zino): Currently, we should set this variable in each methods. It's
   // not elegance way. We should find a way to get function name and signature

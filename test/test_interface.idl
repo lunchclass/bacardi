@@ -26,4 +26,10 @@ interface TestInterface {
 
   static void staticMethod1();
   static boolean staticMethod2(long number, string string);
+
+  // Basic types
+  boolean booleanMethod(boolean boolean);
+  short shortMethod(short number);
+  double doubleMethod(double number);
+  string stringMethod(string string);
 };
