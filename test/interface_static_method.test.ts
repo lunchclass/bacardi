@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-[
-  Constructor(),
-  Constructor(long number),
-  Constructor(long number1, long number2),
-  Constructor(string string1, string string2)
-]
-interface TestInterface {
-  // FIXME(zino): It's better to use attribute instead of method.
-  static string getLastCallInfo();
+import * as bindings from 'bindings';
 
-  static void staticMethod1();
-  static boolean staticMethod2(long number, string string);
-};
+const bacardi = bindings('bacardi.node');
+
+test('Basic of static method', async () => {
+  // We can call the static methods without object instantiation.
+  bacardi.TestInterface.staticMethod1();
+  expect(bacardi.TestInterface.getLastCallInfo())
+      .toBe('static void staticMethod1()');
+  bacardi.TestInterface.staticMethod2(10, 'test');
+  expect(bacardi.TestInterface.getLastCallInfo())
+      .toBe('static boolean staticMethod2(long, string)');
+});

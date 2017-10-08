@@ -43,16 +43,16 @@ test('When creating two objects, should be differnt instances', async () => {
 
 test('Test for constructor overloading', async () => {
   let constructor1 = new bacardi.TestInterface();
-  expect(constructor1.getCalledConstructorInfo()).toBe('Constructor()');
+  expect(bacardi.TestInterface.getLastCallInfo()).toBe('Constructor()');
 
   let constructor2 = new bacardi.TestInterface(1);
-  expect(constructor2.getCalledConstructorInfo()).toBe('Constructor(long)');
+  expect(bacardi.TestInterface.getLastCallInfo()).toBe('Constructor(long)');
 
   let constructor3 = new bacardi.TestInterface(2, 3);
-  expect(constructor3.getCalledConstructorInfo())
+  expect(bacardi.TestInterface.getLastCallInfo())
       .toBe('Constructor(long, long)');
 
   let constructor4 = new bacardi.TestInterface('hello', 'world');
-  expect(constructor4.getCalledConstructorInfo())
+  expect(bacardi.TestInterface.getLastCallInfo())
       .toBe('Constructor(string, string)');
 });

@@ -16,17 +16,35 @@
 
 #include "test/test_interface.h"
 
-TestInterface::TestInterface() : called_constructor_info_("Constructor()") {}
+// static
+std::string TestInterface::last_call_info_;
 
-TestInterface::TestInterface(long createTime)
-    : called_constructor_info_("Constructor(long)") {}
+TestInterface::TestInterface() {
+  last_call_info_ = "Constructor()";
+}
 
-TestInterface::TestInterface(long arg1, long arg2)
-    : called_constructor_info_("Constructor(long, long)") {}
+TestInterface::TestInterface(long number) {
+  last_call_info_ = "Constructor(long)";
+}
 
-TestInterface::TestInterface(const std::string& msg1, const std::string& msg2)
-    : called_constructor_info_("Constructor(string, string)") {}
+TestInterface::TestInterface(long number1, long number2) {
+  last_call_info_ = "Constructor(long, long)";
+}
 
-const std::string& TestInterface::GetCalledConstructorInfo() const {
-  return called_constructor_info_;
+TestInterface::TestInterface(const std::string& string1,
+                             const std::string& string2) {
+  last_call_info_ = "Constructor(string, string)";
+}
+
+const std::string& TestInterface::GetLastCallInfo() {
+  return last_call_info_;
+}
+
+void TestInterface::StaticMethod1() {
+  last_call_info_ = "static void staticMethod1()";
+}
+
+bool TestInterface::StaticMethod2(long number, const std::string& string) {
+  last_call_info_ = "static boolean staticMethod2(long, string)";
+  return 0;
 }

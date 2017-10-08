@@ -26,10 +26,17 @@ class TestInterface {
   TestInterface(long number1, long number2);
   TestInterface(const std::string& string1, const std::string& string2);
 
-  const std::string& GetCalledConstructorInfo() const;
+  static const std::string& GetLastCallInfo();
+
+  static void StaticMethod1();
+  static bool StaticMethod2(long number, const std::string& string);
 
  private:
-  const std::string called_constructor_info_;
+  // FIXME(zino): Currently, we should set this variable in each methods. It's
+  // not elegance way. We should find a way to get function name and signature
+  // automatically. (I tried __FUNCTION__ and __PRETTY_FUNCTION__ but they are
+  // dependent on each platform.
+  static std::string last_call_info_;
 };
 
 #endif  // TEST_TEST_INTERFACE_H_
