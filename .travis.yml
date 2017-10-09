@@ -28,3 +28,4 @@ before_install:
 
 script:
   - ./bacardi clean && ./bacardi build && ./bacardi test
+  - ./bacardi clean && ./bacardi build_electron

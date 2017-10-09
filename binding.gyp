@@ -16,6 +16,7 @@
   'includes': [
     'core/core.gypi',
     'examples/examples.gypi',
+    'examples/electron/native/electron_native.gypi',
     'generator/generator.gypi',
     'test/test.gypi',
   ],
@@ -54,6 +55,8 @@
         '<@(core_cpp_files)',
         '<@(examples_cpp_files)',
         '<@(examples_idl_output_files)',
+        '<@(examples_electron_native_cpp_files)',
+        '<@(examples_electron_native_idl_output_files)',
         '<@(test_cpp_files)',
         '<@(test_idl_output_files)',
         '<(SHARED_INTERMEDIATE_DIR)/bacardi.cc',
@@ -107,10 +110,11 @@
           'action_name': 'idl',
           'inputs': [
             '<@(examples_idl_files)',
+            '<@(examples_electron_native_idl_files)',
             '<@(test_idl_files)',
           ],
           'outputs': [
-            '<@(examples_idl_output_files)',
+            '<@(examples_electron_native_idl_output_files)',
             '<@(test_idl_output_files)',
           ],
           'conditions': [

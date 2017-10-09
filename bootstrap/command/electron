@@ -16,6 +16,4 @@
 
 . $BACARDI_PATH/bootstrap/common/path_info.sh
 
-patch -p0 -f -R < $(bacardi_path)/examples/electron/.node_addon_api_patch/disable-using-internal-n-api.patch > /dev/null 2>&1
-rm -rf $(bacardi_path)/examples/electron/build
-node-gyp configure build
+electron $(bacardi_path)/examples/electron

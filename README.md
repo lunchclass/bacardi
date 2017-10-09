@@ -30,6 +30,11 @@ native layer.
 - You can just run the following command to test.
   - ```./bacardi test```
 
+## Electron with Bacardi
+- If you want to run Electron with Bacardi, you can run the following commands.
+  - ```./bacardi build_electrona```
+  - ```./bacardi electron```
+
 ## Coding style
 - We are following Chromium coding style. You can see the details in the following link.
   - [Chromium C++ style guide](https://chromium.googlesource.com/chromium/src/+/master/styleguide/c++/c++.md)
