@@ -32,7 +32,7 @@ native layer.
 
 ## Electron with Bacardi
 - If you want to run Electron with Bacardi, you can run the following commands.
-  - ```./bacardi build_electrona```
+  - ```./bacardi build_electron```
   - ```./bacardi electron```
 
 ## Coding style
