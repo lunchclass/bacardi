@@ -14,5 +14,12 @@
  * limitations under the License.
  */
 
+[
+  Constructor(),
+  Constructor(long k, double c)
+]
 interface ElectronNative {
+  void addEdge(string head, string tail);
+  void calculateSimRank();
+  double similarity(string node1, string node2);
 };

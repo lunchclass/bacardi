@@ -17,3 +17,19 @@
 #include "examples/electron/native/electron_native.h"
 
 ElectronNative::ElectronNative() {}
+
+ElectronNative::ElectronNative(int32_t k, double c)
+    : SimRank<std::string>(k, c) {}
+
+void ElectronNative::AddEdge(const std::string& head, const std::string& tail) {
+  add_edge(head, tail);
+}
+
+void ElectronNative::CalculateSimRank() {
+  calculate_simrank();
+}
+
+double ElectronNative::Similarity(const std::string& node1,
+                                  const std::string& node2) {
+  return similarity(node1, node2);
+}

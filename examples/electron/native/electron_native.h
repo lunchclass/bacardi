@@ -17,9 +17,18 @@
 #ifndef EXAMPLES_ELECTRON_NATIVE_ELECTRON_NATIVE_H_
 #define EXAMPLES_ELECTRON_NATIVE_ELECTRON_NATIVE_H_
 
-class ElectronNative {
+#include <string>
+
+#include "examples/electron/native/simrank/simrank.hpp"
+
+class ElectronNative : public SimRank<std::string> {
  public:
   ElectronNative();
+  ElectronNative(int32_t k, double c);
+
+  void AddEdge(const std::string& head, const std::string& tail);
+  void CalculateSimRank();
+  double Similarity(const std::string& node1, const std::string& node2);
 };
 
 #endif  // EXAMPLES_ELECTRON_NATIVE_ELECTRON_NATIVE_H_
