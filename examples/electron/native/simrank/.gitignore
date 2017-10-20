@@ -1,6 +1,0 @@
-*.sdf
-*.suo
-/example/Debug
-/example/Release
-/metafilter/Debug
-/metafilter/Release

@@ -17,7 +17,7 @@
     'examples_electron_native_cpp_files': [
       'electron_native.cc',
       'electron_native.h',
-      'simrank/simrank.hpp',
+      '<(module_root_dir)/third_party/simrank/simrank.hpp',
     ],
 
     'examples_electron_native_idl_files': [

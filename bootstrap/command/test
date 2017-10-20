@@ -31,4 +31,5 @@ if is_already_formatted; then
   node --napi-modules $(bacardi_path)/node_modules/jest/bin/jest.js --verbose
 else
   echo "You should run |bacardi format| command first."
+  exit 1
 fi

@@ -19,7 +19,7 @@
 
 #include <string>
 
-#include "examples/electron/native/simrank/simrank.hpp"
+#include "third_party/simrank/simrank.hpp"
 
 class ElectronNative : public SimRank<std::string> {
  public:

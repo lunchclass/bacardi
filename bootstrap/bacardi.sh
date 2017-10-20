@@ -28,6 +28,10 @@ fi
 set_path_env $(bootstrap_command_path)
 set_path_env $(bacardi_path)/node_modules/.bin
 
+# Init submodule
+git submodule init
+git submodule update
+
 # Sync third_parties.
 sync_node
 
