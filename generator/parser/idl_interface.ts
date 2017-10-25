@@ -49,12 +49,16 @@ class InterfaceMember implements IDLIdentifier {
   readonly name: string;
   readonly arguments?: Argument[];
   readonly is_static: boolean;
+  readonly is_readonly: boolean;
+  readonly member_type: string;
 
   constructor(raw_member_info: {}) {
     this.type = raw_member_info['idlType']['idlType'];
     this.name = raw_member_info['name'];
     this.is_static = raw_member_info['static'];
-    if (raw_member_info['type'] == 'operation') {
+    this.is_readonly = raw_member_info['readonly'];
+    this.member_type = raw_member_info['type'];
+    if (this.member_type == 'operation') {
       this.arguments = [];
       raw_member_info['arguments'].forEach(argument => {
         this.arguments.push(new Argument(argument));
@@ -64,6 +68,7 @@ class InterfaceMember implements IDLIdentifier {
     }
   }
 }
+
 
 export default class IDLInterface extends IDLDefinition {
   constructors: InterfaceConstructor[];

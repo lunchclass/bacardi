@@ -40,6 +40,14 @@ class TestInterface {
   // Enum
   void VoidMethodTestEnumArg(const std::string& string);
 
+  // Attributes
+  double doubleNumber;
+  double readonlyDoubleNumber;
+  static double staticDoubleNumber;
+  double GetDoubleAttribute();
+  void ReadonlyAssignTest(double number);
+  static double StaticTest(double number);
+
  private:
   // FIXME(zino): Currently, we should set this variable in each methods. It's
   // not elegance way. We should find a way to get function name and signature

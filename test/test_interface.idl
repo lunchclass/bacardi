@@ -35,6 +35,14 @@ interface TestInterface {
 
   // enum
   void voidMethodTestEnumArg(TestEnum enumValue);
+
+  // Attributes
+  attribute double doubleNumber;
+  readonly attribute double readonlyDoubleNumber;
+  static attribute double staticDoubleNumber;
+  double getDoubleAttribute();
+  void readonlyAssignTest(double number);
+  static double StaticTest(double number);
 };
 
 enum TestEnum {

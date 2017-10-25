@@ -18,6 +18,7 @@
 
 // static
 std::string TestInterface::last_call_info_;
+double TestInterface::staticDoubleNumber;
 
 TestInterface::TestInterface() {
   last_call_info_ = "Constructor()";
@@ -67,4 +68,16 @@ const std::string TestInterface::StringMethod(const std::string& string) {
 
 void TestInterface::VoidMethodTestEnumArg(const std::string& string) {
   last_call_info_ = "VoidMethodTestEnumArg(" + string + ")";
+}
+
+double TestInterface::GetDoubleAttribute() {
+  return this->doubleNumber;
+}
+
+double TestInterface::StaticTest(double number) {
+  return TestInterface::staticDoubleNumber;
+}
+
+void TestInterface::ReadonlyAssignTest(double number) {
+  this->readonlyDoubleNumber = number;
 }

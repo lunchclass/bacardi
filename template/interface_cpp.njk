@@ -24,12 +24,20 @@ void {{name}}Bridge::Init(Napi::Env env, Napi::Object exports) {
       DefineClass(env, "{{name}}",
                   {
                       {% for member in members %}
+                      {% if member.member_type == "attribute" %}
+                      {% if member.is_static %}
+                      StaticAccessor("{{member.name}}", &{{name}}Bridge::Get{{-member.name | camelcase}}, &{{name}}Bridge::Set{{-member.name | camelcase}}),
+                      {% else %}
+                      InstanceAccessor("{{member.name}}", &{{name}}Bridge::Get{{-member.name | camelcase}}, &{{name}}Bridge::Set{{-member.name | camelcase}}),
+                      {% endif %}
+                      {% elif member.member_type == "operation" %}
                       {% if member.is_static %}
                       StaticMethod("{{member.name}}", &{{name}}Bridge::
                           {{-member.name | camelcase}}),
                       {% else %}
                       InstanceMethod("{{member.name}}", &{{name}}Bridge::
                           {{-member.name | camelcase}}),
+                      {% endif %}
                       {% endif %}
                       {% endfor %}
                   });
@@ -63,6 +71,33 @@ void {{name}}Bridge::Init(Napi::Env env, Napi::Object exports) {
 }
 
 {% for member in members %}
+{% if member.member_type == "attribute" %}
+Napi::Value {{name}}Bridge::Get{{member.name | camelcase}}(const Napi::CallbackInfo& info) {
+  auto return_value = 
+  {% if member.is_static %}
+  {{name}}::{{member.name}};
+  {% else %}
+  impl_-> {{member.name}};
+  {% endif %}
+  return JSTypeTraits(info.Env(), return_value);
+}
+
+void {{name}}Bridge::Set{{member.name | camelcase}}(const Napi::CallbackInfo& info, const Napi::Value& value) {
+  {% if not member.is_readonly %}
+  if (!info[0]) {
+    Napi::RangeError::New(info.Env(), "Wrong number of arguments.")
+        .ThrowAsJavaScriptException();
+  }
+  {% if member.is_static %}
+  {{name}}::{{member.name}} = 
+  {% else %}
+  impl_->{{ member.name }} = 
+  {% endif %}
+  NativeTypeTraits<IDL{{member.type | camelcase-}}>::NativeValue(info.Env(), info[0]);
+  {% endif %}
+}
+
+{% elif member.member_type == "operation" %}
 Napi::Value {{name}}Bridge::{{member.name | camelcase}}(const Napi::CallbackInfo& info) {
   if (info.Length() != {{member.arguments.length}}) {
     Napi::RangeError::New(info.Env(), "Wrong number of arguments.")
@@ -97,5 +132,5 @@ Napi::Value {{name}}Bridge::{{member.name | camelcase}}(const Napi::CallbackInfo
   return JSTypeTraits(info.Env(), return_value);
   {% endif %}
 }
-
+{% endif %}
 {% endfor %}
