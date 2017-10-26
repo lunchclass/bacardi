@@ -35,7 +35,7 @@ test('Calling undefined constructor should throw error', async () => {
   }).toThrowError();
 });
 
-test('When creating two objects, should be differnt instances', async () => {
+test('When creating two objects, should be different instances', async () => {
   let instance1: bacardi.TestInterface = new bacardi.TestInterface();
   let instance2: bacardi.TestInterface = new bacardi.TestInterface();
   expect(instance1 !== instance2).toBe(true);
