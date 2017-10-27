@@ -69,7 +69,7 @@ function sync_third_party() {
     return 3
   fi
 
-  # Remove container direcotry if needed.
+  # Remove container directory if needed.
   if has_container_directory $extracted_path; then
     local container=$(ls $extracted_path)
     mv $extracted_path/$container/* $extracted_path
