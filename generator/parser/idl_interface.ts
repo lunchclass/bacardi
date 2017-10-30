@@ -15,6 +15,7 @@
  */
 
 import IDLDefinition from './idl_definition';
+import IDLEnum from './idl_enum';
 import IDLIdentifier from './idl_identifier';
 
 // FIXME(zino): We should consider attribute and operation concept.
@@ -22,10 +23,12 @@ import IDLIdentifier from './idl_identifier';
 class Argument implements IDLIdentifier {
   readonly type: string;
   readonly name: string;
+  enum?: IDLEnum;
 
   constructor(raw_argument_info: {}) {
     this.type = raw_argument_info['idlType']['idlType'];
     this.name = raw_argument_info['name'];
+    this.enum = null;
   }
 }
 

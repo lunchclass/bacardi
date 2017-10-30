@@ -23,7 +23,10 @@ import * as reader from './reader/simple_reader';
 
 import snakeCase = require('snake-case');
 
+import EnumTypes from './parser/enum_types';
 import IDLDefinition from './parser/idl_definition';
+import IDLEnum from './parser/idl_enum';
+import IDLInterface from './parser/idl_interface';
 import Parser from './parser/parser';
 
 const TEMPLATE_DIR = path.resolve(__dirname, '../../../template');
@@ -72,6 +75,24 @@ async function generateInterface(
   });
 }
 
+// TODO(hwansueng): This function should be improved.
+async function postProcessing(definitions: IDLDefinition[]) {
+  let enum_types: EnumTypes = new EnumTypes(definitions);
+
+  for (const definition of definitions) {
+    if (definition.isIDLInterface()) {
+      const idl_interface: IDLInterface = definition as IDLInterface;
+      for (const member of idl_interface.members) {
+        if (member.arguments != null) {
+          for (let args of member.arguments) {
+            args.enum = enum_types.isEnumType(args.type);
+          }
+        }
+      }
+    }
+  }
+}
+
 async function main([root_dir, out_dir, ...idl_files]) {
   // We expect that current working directory will be $BACARDI_PATH. But it
   // might not be in Windows platform. So, we should resolve the path here.
@@ -94,6 +115,7 @@ async function main([root_dir, out_dir, ...idl_files]) {
 
   let definitions: IDLDefinition[] =
       await Parser.parse(await reader.readAll(relative_idl_files));
+  await postProcessing(definitions);
   await generateInterface(env, out_dir, definitions);
   await generateBacardi(env, out_dir, definitions);
 

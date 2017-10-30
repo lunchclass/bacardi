@@ -15,6 +15,7 @@
 {
   'variables': {
     'core_cpp_files': [
+      'enum_validator.h'
       'idl_base.h',
       'idl_types.h',
       'js_type_traits.h',

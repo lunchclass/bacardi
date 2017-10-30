@@ -14,16 +14,28 @@
  * limitations under the License.
  */
 
-#ifndef CORE_IDL_TYPES_H_
-#define CORE_IDL_TYPES_H_
+import IDLDefinition from './idl_definition';
+import IDLEnum from './idl_enum';
 
-#include "core/idl_base.h"
 
-struct IDLBoolean final : public IDLBaseHelper<bool> {};
-struct IDLDouble final : public IDLBaseHelper<double> {};
-struct IDLLongLong final : public IDLBaseHelper<int64_t> {};
-struct IDLLong final : public IDLBaseHelper<int32_t> {};
-struct IDLShort final : public IDLBaseHelper<int16_t> {};
-struct IDLString final : public IDLBaseHelper<std::string> {};
+export default class EnumTypes {
+  enums: IDLEnum[];
 
-#endif  // CORE_IDL_TYPES_H_
+  constructor(definitions: IDLDefinition[]) {
+    this.enums = [];
+    definitions.forEach((definition) => {
+      if (definition.isIDLEnum()) {
+        this.enums.push(definition as IDLEnum);
+      }
+    });
+  }
+
+  public isEnumType(source: string): IDLEnum {
+    for (const item of this.enums) {
+      if (item.name == source) {
+        return item;
+      }
+    }
+    return null;
+  }
+}

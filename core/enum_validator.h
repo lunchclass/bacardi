@@ -14,16 +14,21 @@
  * limitations under the License.
  */
 
-#ifndef CORE_IDL_TYPES_H_
-#define CORE_IDL_TYPES_H_
+#ifndef CORE_ENUM_VALIDATOR_H_
+#define CORE_ENUM_VALIDATOR_H_
 
-#include "core/idl_base.h"
+#include <set>
+#include <string>
 
-struct IDLBoolean final : public IDLBaseHelper<bool> {};
-struct IDLDouble final : public IDLBaseHelper<double> {};
-struct IDLLongLong final : public IDLBaseHelper<int64_t> {};
-struct IDLLong final : public IDLBaseHelper<int32_t> {};
-struct IDLShort final : public IDLBaseHelper<int16_t> {};
-struct IDLString final : public IDLBaseHelper<std::string> {};
+class EnumValidator {
+ public:
+  static bool isValildEnum(const std::string value,
+                           const std::set<std::string> enum_values) {
+    if (enum_values.count(value) > 0) {
+      return true;
+    }
+    return false;
+  }
+};
 
-#endif  // CORE_IDL_TYPES_H_
+#endif  // CORE_ENUM_VALIDATOR_H_

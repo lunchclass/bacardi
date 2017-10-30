@@ -18,6 +18,7 @@
 
 #include "core/js_type_traits.h"
 #include "core/native_type_traits.h"
+#include "core/enum_validator.h"
 
 void {{name}}Bridge::Init(Napi::Env env, Napi::Object exports) {
   Napi::Function js_constructor =
@@ -106,11 +107,26 @@ Napi::Value {{name}}Bridge::{{member.name | camelcase}}(const Napi::CallbackInfo
   }
 
   {% for argument in member.arguments %}
+  {% if argument.enum %}
+  const std::set<std::string> enum_value_set = {
+      {% for value in argument.enum.values %}
+      "{{value}}",
+      {% endfor %}
+      };
+  auto {{argument.name}} = NativeTypeTraits<IDLString
+      >::NativeValue(info.Env(), info[{{loop.index0}}]);
+  if (!EnumValidator::isValildEnum({{argument.name}}, enum_value_set)) {
+    Napi::TypeError::New(info.Env(), "it not matched with values of enum in idl.")
+        .ThrowAsJavaScriptException();
+    return Napi::Value();
+  }
+  {% else %}
   auto {{argument.name}} = NativeTypeTraits<IDL{{argument.type | camelcase-}}
       >::NativeValue(info.Env(), info[{{loop.index0}}]);
   if (info.Env().IsExceptionPending()) {
     return Napi::Value();
   }
+  {% endif %}
   {% endfor %}
 
   {% if member.type != "void" %}
