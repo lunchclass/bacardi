@@ -1,3 +1,35 @@
+{% macro make_comma_separated_arguments(arguments) -%}
+{%- set comma = joiner(', ') -%}
+{% for argument in arguments -%}
+  {{ comma() }}{{ argument.name }}
+{%- endfor %}
+{%- endmacro %}
+
+{% macro convert_js_value_to_native_value(arguments, is_constructor=false) -%}
+{% for argument in arguments %}
+{% if argument.enum %}
+const std::set<std::string> enum_value_set = {
+    {% for value in argument.enum.values %}
+    "{{value}}",
+    {% endfor %}
+    };
+auto {{argument.name}} = NativeTypeTraits<IDLString
+    >::NativeValue(info.Env(), info[{{loop.index0}}]);
+if (!EnumValidator::isValildEnum({{argument.name}}, enum_value_set)) {
+  Napi::TypeError::New(info.Env(), "it not matched with values of enum in idl.")
+      .ThrowAsJavaScriptException();
+  return{% if not is_constructor %} Napi::Value(){% endif %};
+}
+{% else %}
+auto {{argument.name}} = NativeTypeTraits<IDL{{argument.type | camelcase-}}
+    >::NativeValue(info.Env(), info[{{loop.index0}}]);
+if (info.Env().IsExceptionPending()) {
+  return{% if not is_constructor %} Napi::Value(){% endif %};
+}
+{% endif %}
+{% endfor %}
+{%- endmacro %}
+
 /**
  * Copyright (c) 2017 The Bacardi Authors.
  *
@@ -59,10 +91,8 @@ void {{name}}Bridge::Init(Napi::Env env, Napi::Object exports) {
       {% for argument in idl_constructor.arguments %} 
         && NativeTypeTraits<IDL{{argument.type | camelcase-}}>::IsTypeEquals(info[{{loop.index0}}])
       {% endfor %}) {
-      impl_.reset(new {{name}} (
-      {% for argument in idl_constructor.arguments %} 
-        NativeTypeTraits<IDL{{argument.type | camelcase-}}>::NativeValue(info.Env(), info[{{loop.index0}}]){% if not loop.last %},{% endif %}
-      {% endfor %}));
+      {{ convert_js_value_to_native_value(idl_constructor.arguments, true) }}
+      impl_.reset(new {{name}}({{ make_comma_separated_arguments(idl_constructor.arguments) }}));
       return;
     }
   {% endfor %}
@@ -106,28 +136,7 @@ Napi::Value {{name}}Bridge::{{member.name | camelcase}}(const Napi::CallbackInfo
     return Napi::Value();
   }
 
-  {% for argument in member.arguments %}
-  {% if argument.enum %}
-  const std::set<std::string> enum_value_set = {
-      {% for value in argument.enum.values %}
-      "{{value}}",
-      {% endfor %}
-      };
-  auto {{argument.name}} = NativeTypeTraits<IDLString
-      >::NativeValue(info.Env(), info[{{loop.index0}}]);
-  if (!EnumValidator::isValildEnum({{argument.name}}, enum_value_set)) {
-    Napi::TypeError::New(info.Env(), "it not matched with values of enum in idl.")
-        .ThrowAsJavaScriptException();
-    return Napi::Value();
-  }
-  {% else %}
-  auto {{argument.name}} = NativeTypeTraits<IDL{{argument.type | camelcase-}}
-      >::NativeValue(info.Env(), info[{{loop.index0}}]);
-  if (info.Env().IsExceptionPending()) {
-    return Napi::Value();
-  }
-  {% endif %}
-  {% endfor %}
+  {{ convert_js_value_to_native_value(member.arguments) }}
 
   {% if member.type != "void" %}
   auto return_value =
@@ -137,11 +146,7 @@ Napi::Value {{name}}Bridge::{{member.name | camelcase}}(const Napi::CallbackInfo
   {% else %}
   impl_->
   {% endif %}
-  {{member.name | camelcase}}(
-      {{-member.arguments[0].name-}}
-      {%- for i in range(1, member.arguments.length) -%}
-      , {{member.arguments[i].name-}}
-      {% endfor %});
+  {{member.name | camelcase}}({{ make_comma_separated_arguments(member.arguments) }});
   {% if member.type == "void" %}
   return Napi::Value();
   {% else %}
