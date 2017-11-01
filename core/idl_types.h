@@ -20,9 +20,11 @@
 #include "core/idl_base.h"
 
 struct IDLBoolean final : public IDLBaseHelper<bool> {};
+struct IDLByte final : public IDLBaseHelper<int8_t> {};
 struct IDLDouble final : public IDLBaseHelper<double> {};
 struct IDLLongLong final : public IDLBaseHelper<int64_t> {};
 struct IDLLong final : public IDLBaseHelper<int32_t> {};
+struct IDLOctet final : public IDLBaseHelper<uint8_t> {};
 struct IDLShort final : public IDLBaseHelper<int16_t> {};
 struct IDLString final : public IDLBaseHelper<std::string> {};
 

@@ -29,6 +29,8 @@ interface TestInterface {
 
   // Basic types
   boolean booleanMethod(boolean boolean);
+  byte byteMethod(byte number);
+  octet octetMethod(octet number);
   short shortMethod(short number);
   double doubleMethod(double number);
   string stringMethod(string string);

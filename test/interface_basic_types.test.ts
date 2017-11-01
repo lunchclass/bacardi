@@ -26,6 +26,28 @@ test('Test for IDL \'boolean\' type', async () => {
   expect(test_interface.booleanMethod(false)).toBe(false);
 });
 
+test('Test for IDL \'byte\' type', async () => {
+  let test_interface = new bacardi.TestInterface();
+
+  // The byte type is a signed integer type that has values in the range
+  // [-128, 127].
+  expect(test_interface.byteMethod(127)).toBe(127);
+  expect(test_interface.byteMethod(-128)).toBe(-128);
+  expect(test_interface.byteMethod(128) != 128).toBe(true);
+  expect(test_interface.byteMethod(-129) != -129).toBe(true);
+});
+
+test('Test for IDL \'octet\' type', async () => {
+  let test_interface = new bacardi.TestInterface();
+
+  // The octet type is an unsigned integer type that has values in the range
+  // [0, 255].
+  expect(test_interface.octetMethod(255)).toBe(255);
+  expect(test_interface.octetMethod(0)).toBe(0);
+  expect(test_interface.octetMethod(256) != 256).toBe(true);
+  expect(test_interface.octetMethod(-1) != -1).toBe(true);
+});
+
 test('Test for IDL \'short\' type', async () => {
   let test_interface = new bacardi.TestInterface();
 

@@ -54,6 +54,14 @@ bool TestInterface::BooleanMethod(bool boolean) {
   return boolean;
 }
 
+int8_t TestInterface::ByteMethod(int8_t number) {
+  return number;
+}
+
+uint8_t TestInterface::OctetMethod(uint8_t number) {
+  return number;
+}
+
 short TestInterface::ShortMethod(short number) {
   return number;
 }

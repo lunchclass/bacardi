@@ -62,6 +62,24 @@ struct NativeTypeTraits<IDLBoolean> : public NativeTypeTraitsBase<IDLBoolean> {
   }
 };
 
+// The byte type is a signed integer type that has values in the range [-128,
+// 127].
+template <>
+struct NativeTypeTraits<IDLByte> : public NativeTypeTraitsBase<IDLByte> {
+  static int8_t NativeValue(const Napi::Env& env, const Napi::Value& js_value) {
+    if (!js_value.IsNumber()) {
+      Napi::TypeError::New(env, "It's an invalid number.")
+          .ThrowAsJavaScriptException();
+      return 0;
+    }
+    return static_cast<int8_t>(js_value.ToNumber().Int32Value());
+  }
+
+  static bool IsTypeEquals(const Napi::Value& js_value) {
+    return js_value.IsNumber();
+  }
+};
+
 // The double type is a floating point numeric type that corresponds to the set
 // of finite double-precision 64 bit IEEE 754 floating point numbers.
 template <>
@@ -115,6 +133,25 @@ struct NativeTypeTraits<IDLLongLong>
     }
 
     return js_value.ToNumber().Int64Value();
+  }
+
+  static bool IsTypeEquals(const Napi::Value& js_value) {
+    return js_value.IsNumber();
+  }
+};
+
+// The octet type is an unsigned integer type that has values in the range [0,
+// 255].
+template <>
+struct NativeTypeTraits<IDLOctet> : public NativeTypeTraitsBase<IDLOctet> {
+  static uint8_t NativeValue(const Napi::Env& env,
+                             const Napi::Value& js_value) {
+    if (!js_value.IsNumber()) {
+      Napi::TypeError::New(env, "It's an invalid number.")
+          .ThrowAsJavaScriptException();
+      return 0;
+    }
+    return static_cast<uint8_t>(js_value.ToNumber().Int32Value());
   }
 
   static bool IsTypeEquals(const Napi::Value& js_value) {

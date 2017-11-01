@@ -33,6 +33,8 @@ class TestInterface {
 
   // Basic types
   bool BooleanMethod(bool boolean);
+  int8_t ByteMethod(int8_t number);
+  uint8_t OctetMethod(uint8_t number);
   short ShortMethod(short number);
   double DoubleMethod(double number);
   const std::string StringMethod(const std::string& string);
