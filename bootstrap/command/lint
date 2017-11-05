@@ -16,5 +16,18 @@
 
 . $BACARDI_PATH/bootstrap/common/path_info.sh
 
-mocha --napi-modules examples/calculator.js
-node --napi-modules $(bacardi_path)/node_modules/jest/bin/jest.js --verbose
+function need_to_format() {
+  result=$($(bootstrap_command_path)/format --diff)
+  if [ "$result" = "no modified files to format" ] \
+      || [ "$result" = "clang-format did not modify any files" ]; then
+    return 1
+  else
+    echo "$result"
+    return 0
+  fi
+}
+
+if need_to_format; then
+  echo "lint error: You can fix the lint error with |bacardi format| command."
+  exit 1
+fi

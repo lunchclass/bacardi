@@ -10,4 +10,4 @@ build_script:
   - bacardi clean && bacardi build
 
 test_script:
-  - bacardi test
+  - bacardi lint && bacardi test

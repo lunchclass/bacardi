@@ -27,5 +27,5 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install g++ git make python wget; fi
 
 script:
-  - ./bacardi clean && ./bacardi build && ./bacardi test
+  - ./bacardi clean && ./bacardi build && ./bacardi lint && ./bacardi test
   - ./bacardi clean && ./bacardi build_electron
