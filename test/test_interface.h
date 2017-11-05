@@ -43,12 +43,13 @@ class TestInterface {
   void VoidMethodTestEnumArg(const std::string& string);
 
   // Attributes
-  double doubleNumber;
-  double readonlyDoubleNumber;
-  static double staticDoubleNumber;
-  double GetDoubleAttribute();
   void ReadonlyAssignTest(double number);
   static double StaticTest(double number);
+  double GetDoubleNumber();
+  void SetDoubleNumber(double number);
+  double GetReadonlyDoubleNumber();
+  static double GetStaticDoubleNumber();
+  static void SetStaticDoubleNumber(double number);
 
  private:
   // FIXME(zino): Currently, we should set this variable in each methods. It's
@@ -56,6 +57,9 @@ class TestInterface {
   // automatically. (I tried __FUNCTION__ and __PRETTY_FUNCTION__ but they are
   // dependent on each platform.
   static std::string last_call_info_;
+  double double_number_;
+  double readonly_double_number_;
+  static double static_double_number_;
 };
 
 #endif  // TEST_TEST_INTERFACE_H_

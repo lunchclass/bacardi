@@ -22,7 +22,6 @@ test('Attribute should be readable and assignalbe', async () => {
   let test_interface = new bacardi.TestInterface();
   test_interface.doubleNumber = 0.123456789012345;
   expect(test_interface.doubleNumber).toBe(0.123456789012345);
-  expect(test_interface.doubleNumber).toBe(test_interface.getDoubleAttribute());
 });
 
 test('Static Attribute should be readable and assignable', async () => {

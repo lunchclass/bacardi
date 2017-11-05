@@ -42,7 +42,6 @@ interface TestInterface {
   attribute double doubleNumber;
   readonly attribute double readonlyDoubleNumber;
   static attribute double staticDoubleNumber;
-  double getDoubleAttribute();
   void readonlyAssignTest(double number);
   static double StaticTest(double number);
 };

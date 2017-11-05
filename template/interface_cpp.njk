@@ -59,9 +59,9 @@ void {{name}}Bridge::Init(Napi::Env env, Napi::Object exports) {
                       {% for member in members %}
                       {% if member.member_type == "attribute" %}
                       {% if member.is_static %}
-                      StaticAccessor("{{member.name}}", &{{name}}Bridge::Get{{-member.name | camelcase}}, &{{name}}Bridge::Set{{-member.name | camelcase}}),
+                      StaticAccessor("{{member.name}}", &{{name}}Bridge::Getter{{-member.name | camelcase}}, &{{name}}Bridge::Setter{{-member.name | camelcase}}),
                       {% else %}
-                      InstanceAccessor("{{member.name}}", &{{name}}Bridge::Get{{-member.name | camelcase}}, &{{name}}Bridge::Set{{-member.name | camelcase}}),
+                      InstanceAccessor("{{member.name}}", &{{name}}Bridge::Getter{{-member.name | camelcase}}, &{{name}}Bridge::Setter{{-member.name | camelcase}}),
                       {% endif %}
                       {% elif member.member_type == "operation" %}
                       {% if member.is_static %}
@@ -103,28 +103,28 @@ void {{name}}Bridge::Init(Napi::Env env, Napi::Object exports) {
 
 {% for member in members %}
 {% if member.member_type == "attribute" %}
-Napi::Value {{name}}Bridge::Get{{member.name | camelcase}}(const Napi::CallbackInfo& info) {
+Napi::Value {{name}}Bridge::Getter{{member.name | camelcase}}(const Napi::CallbackInfo& info) {
   auto return_value = 
   {% if member.is_static %}
-  {{name}}::{{member.name}};
+  {{name}}::Get{{member.name | camelcase}}();
   {% else %}
-  impl_-> {{member.name}};
+  impl_->Get{{member.name | camelcase}}();
   {% endif %}
   return JSTypeTraits(info.Env(), return_value);
 }
 
-void {{name}}Bridge::Set{{member.name | camelcase}}(const Napi::CallbackInfo& info, const Napi::Value& value) {
+void {{name}}Bridge::Setter{{member.name | camelcase}}(const Napi::CallbackInfo& info, const Napi::Value& value) {
   {% if not member.is_readonly %}
   if (!info[0]) {
     Napi::RangeError::New(info.Env(), "Wrong number of arguments.")
         .ThrowAsJavaScriptException();
   }
   {% if member.is_static %}
-  {{name}}::{{member.name}} = 
+  {{name}}::Set{{member.name | camelcase}}(
   {% else %}
-  impl_->{{ member.name }} = 
+  impl_->Set{{member.name | camelcase}}(
   {% endif %}
-  NativeTypeTraits<IDL{{member.type | camelcase-}}>::NativeValue(info.Env(), info[0]);
+  NativeTypeTraits<IDL{{member.type | camelcase-}}>::NativeValue(info.Env(), info[0]));
   {% endif %}
 }
 
