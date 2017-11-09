@@ -33,13 +33,13 @@ class {{name}}Bridge : public Napi::ObjectWrap<{{name}}Bridge> {
   static
   {% endif -%}
   {% if member.member_type == "operation" %}
-  Napi::Value {{member.name | camelcase-}}(const Napi::CallbackInfo& info);
+  Napi::Value {{member.name | pascalcase-}}(const Napi::CallbackInfo& info);
   {% elif member.member_type == "attribute" %}
-  Napi::Value Getter{{member.name| camelcase-}}(const Napi::CallbackInfo& info);
+  Napi::Value Getter{{member.name| pascalcase-}}(const Napi::CallbackInfo& info);
   {% if member.is_static %}
   static
   {% endif -%}
-  void (Setter{{member.name | camelcase-}})(const Napi::CallbackInfo& info, const Napi::Value& value);
+  void (Setter{{member.name | pascalcase-}})(const Napi::CallbackInfo& info, const Napi::Value& value);
   {% endif %}
   {% endfor %}
 

@@ -14,20 +14,18 @@
  * limitations under the License.
  */
 
+import * as changeCase from 'change-case';
 import * as mkdirp from 'mkdirp';
 import * as nunjucks from 'nunjucks';
 import * as path from 'path';
 
 import * as file from './base/file';
-import * as reader from './reader/simple_reader';
-
-import snakeCase = require('snake-case');
-
 import EnumTypes from './parser/enum_types';
 import IDLDefinition from './parser/idl_definition';
 import IDLEnum from './parser/idl_enum';
 import IDLInterface from './parser/idl_interface';
 import Parser from './parser/parser';
+import * as reader from './reader/simple_reader';
 
 const TEMPLATE_DIR = path.resolve(__dirname, '../../../template');
 
@@ -61,12 +59,12 @@ async function generateInterface(
     if (definition.isIDLInterface()) {
       const header_file_path = path.resolve(
           output_path,
-          definition.idl_dir_name + '/' + snakeCase(definition.name) +
-              '_bridge.h');
+          definition.idl_dir_name + '/' +
+              changeCase.snakeCase(definition.name) + '_bridge.h');
       const cpp_file_path = path.resolve(
           output_path,
-          definition.idl_dir_name + '/' + snakeCase(definition.name) +
-              '_bridge.cc');
+          definition.idl_dir_name + '/' +
+              changeCase.snakeCase(definition.name) + '_bridge.cc');
 
       await file.write(
           header_file_path, env.renderString(header_tmpl, definition));
@@ -104,14 +102,8 @@ async function main([root_dir, out_dir, ...idl_files]) {
   });
 
   var env = new nunjucks.Environment();
-  env.addFilter('camelcase', function(str, count) {
-    return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
-      return index == 0 ? match.toUpperCase() : match;
-    });
-  });
-  env.addFilter('snakecase', function(str, count) {
-    return snakeCase(str);
-  });
+  env.addFilter('pascalcase', changeCase.pascalCase);
+  env.addFilter('snakecase', changeCase.snakeCase);
 
   let definitions: IDLDefinition[] =
       await Parser.parse(await reader.readAll(relative_idl_files));
