@@ -23,10 +23,11 @@
 #include "{{interface.idl_dir_name}}/{{interface.name | snakecase}}_bridge.h"
 {% endfor %}
 
-void Init(Napi::Env env, Napi::Object exports, Napi::Object module) {
+Napi::Object Init(Napi::Env env, Napi::Object exports) {
   {% for interface in interfaces %}
   {{interface.name}}Bridge::Init(env, exports);
   {% endfor %}
+  return exports;
 }
 
 NODE_API_MODULE(bacardi, Init);
