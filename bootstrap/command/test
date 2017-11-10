@@ -16,5 +16,4 @@
 
 . $BACARDI_PATH/bootstrap/common/path_info.sh
 
-mocha --napi-modules examples/calculator.js
 node --napi-modules $(bacardi_path)/node_modules/jest/bin/jest.js --verbose
