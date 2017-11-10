@@ -48,6 +48,7 @@ inline Napi::Value JSTypeTraits(Napi::Env env, T value) {
 JS_TYPE_TRAITS_NUMBER(int8_t);
 JS_TYPE_TRAITS_NUMBER(uint8_t);
 JS_TYPE_TRAITS_NUMBER(int16_t);
+JS_TYPE_TRAITS_NUMBER(uint16_t);
 JS_TYPE_TRAITS_NUMBER(int32_t);
 JS_TYPE_TRAITS_NUMBER(int64_t);
 JS_TYPE_TRAITS_NUMBER(double);

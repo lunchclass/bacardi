@@ -32,6 +32,7 @@ interface TestInterface {
   byte byteMethod(byte number);
   octet octetMethod(octet number);
   short shortMethod(short number);
+  unsigned short unsignedShortMethod(unsigned short number);
   double doubleMethod(double number);
   string stringMethod(string string);
 

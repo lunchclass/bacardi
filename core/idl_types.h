@@ -26,6 +26,7 @@ struct IDLLongLong final : public IDLBaseHelper<int64_t> {};
 struct IDLLong final : public IDLBaseHelper<int32_t> {};
 struct IDLOctet final : public IDLBaseHelper<uint8_t> {};
 struct IDLShort final : public IDLBaseHelper<int16_t> {};
+struct IDLUnsignedShort final : public IDLBaseHelper<uint16_t> {};
 struct IDLString final : public IDLBaseHelper<std::string> {};
 
 #endif  // CORE_IDL_TYPES_H_

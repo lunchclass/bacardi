@@ -179,6 +179,27 @@ struct NativeTypeTraits<IDLShort> : public NativeTypeTraitsBase<IDLShort> {
   }
 };
 
+// The short type is an unsigned integer type that has values
+// in the range [0, 65535]
+template <>
+struct NativeTypeTraits<IDLUnsignedShort>
+    : public NativeTypeTraitsBase<IDLUnsignedShort> {
+  static uint16_t NativeValue(const Napi::Env& env,
+                              const Napi::Value& js_value) {
+    if (!js_value.IsNumber()) {
+      Napi::TypeError::New(env, "It's an invalid number.")
+          .ThrowAsJavaScriptException();
+      return 0;
+    }
+
+    return static_cast<uint16_t>(js_value.ToNumber().Int32Value());
+  }
+
+  static bool IsTypeEquals(const Napi::Value& js_value) {
+    return js_value.IsNumber();
+  }
+};
+
 template <>
 struct NativeTypeTraits<IDLString> : public NativeTypeTraitsBase<IDLString> {
   static std::string NativeValue(const Napi::Env& env,

@@ -66,6 +66,10 @@ short TestInterface::ShortMethod(short number) {
   return number;
 }
 
+uint16_t TestInterface::UnsignedShortMethod(uint16_t number) {
+  return number;
+}
+
 double TestInterface::DoubleMethod(double number) {
   return number;
 }
