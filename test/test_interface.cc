@@ -70,6 +70,10 @@ uint16_t TestInterface::UnsignedShortMethod(uint16_t number) {
   return number;
 }
 
+uint32_t TestInterface::UnsignedLongMethod(uint32_t number) {
+  return number;
+}
+
 double TestInterface::DoubleMethod(double number) {
   return number;
 }

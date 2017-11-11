@@ -33,6 +33,7 @@ interface TestInterface {
   octet octetMethod(octet number);
   short shortMethod(short number);
   unsigned short unsignedShortMethod(unsigned short number);
+  unsigned long unsignedLongMethod(unsigned long number);
   double doubleMethod(double number);
   string stringMethod(string string);
 

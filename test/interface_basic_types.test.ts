@@ -70,6 +70,18 @@ test('Test for IDL \'unsigned short\' type', async () => {
   expect(test_interface.unsignedShortMethod(-1) != -1).toBe(true);
 });
 
+test('Test for IDL \'unsigned long\' type', async () => {
+  let test_interface = new bacardi.TestInterface();
+
+  // The unsigned long type is an unsigned integer type that has values in
+  // the range [0, 4294967295].
+  expect(test_interface.unsignedLongMethod(4294967295)).toBe(4294967295);
+  expect(test_interface.unsignedLongMethod(0)).toBe(0);
+  expect(test_interface.unsignedLongMethod(4294967296) != 4294967296)
+      .toBe(true);
+  expect(test_interface.unsignedLongMethod(-1) != -1).toBe(true);
+});
+
 
 // FIXME(zino): We should write a test for long type.
 // Please see: https://github.com/lunchclass/bacardi/issues/120
