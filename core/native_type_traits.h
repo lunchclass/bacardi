@@ -238,4 +238,24 @@ struct NativeTypeTraits<IDLUnsignedLong>
   }
 };
 
+// The unsigned long long type is an unsigned integer type that has values in
+// the range [0, 18446744073709551615].
+template <>
+struct NativeTypeTraits<IDLUnsignedLongLong>
+    : public NativeTypeTraitsBase<IDLUnsignedLongLong> {
+  static uint64_t NativeValue(const Napi::Env& env,
+                              const Napi::Value& js_value) {
+    if (!js_value.IsNumber()) {
+      Napi::TypeError::New(env, "It's an invalid number.")
+          .ThrowAsJavaScriptException();
+      return 0;
+    }
+    return static_cast<uint64_t>(js_value.ToNumber().Int64Value());
+  }
+
+  static bool IsTypeEquals(const Napi::Value& js_value) {
+    return js_value.IsNumber();
+  }
+};
+
 #endif  // CORE_NATIVE_TYPE_TRAITS_H_

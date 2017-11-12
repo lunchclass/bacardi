@@ -75,11 +75,29 @@ test('Test for IDL \'unsigned long\' type', async () => {
 
   // The unsigned long type is an unsigned integer type that has values in
   // the range [0, 4294967295].
+
   expect(test_interface.unsignedLongMethod(4294967295)).toBe(4294967295);
   expect(test_interface.unsignedLongMethod(0)).toBe(0);
   expect(test_interface.unsignedLongMethod(4294967296) != 4294967296)
       .toBe(true);
   expect(test_interface.unsignedLongMethod(-1) != -1).toBe(true);
+});
+
+test('Test for IDL \'unsigned long long\' type', async () => {
+  let test_interface = new bacardi.TestInterface();
+
+  // The unsigned long long type is an unsigned integer type that has
+  // values in the range [0, 18446744073709551615].
+
+  // TypeScript does not support values greater than 2^53-1.
+  // So we are not able to do overflow test and so on.
+
+  expect(test_interface.unsignedLongLongMethod(0)).toBe(0);
+  for (var i = 1; i < Number.MAX_SAFE_INTEGER;
+       i += Math.floor(Math.random() * Number.MAX_SAFE_INTEGER / 1000)) {
+    expect(test_interface.unsignedLongLongMethod(i)).toBe(i);
+  }
+  expect(test_interface.unsignedLongLongMethod(-1) != -1).toBe(true);
 });
 
 

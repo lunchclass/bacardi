@@ -74,6 +74,10 @@ uint32_t TestInterface::UnsignedLongMethod(uint32_t number) {
   return number;
 }
 
+uint64_t TestInterface::UnsignedLongLongMethod(uint64_t number) {
+  return number;
+}
+
 double TestInterface::DoubleMethod(double number) {
   return number;
 }

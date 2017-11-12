@@ -38,6 +38,7 @@ class TestInterface {
   short ShortMethod(short number);
   uint16_t UnsignedShortMethod(uint16_t number);
   uint32_t UnsignedLongMethod(uint32_t number);
+  uint64_t UnsignedLongLongMethod(uint64_t number);
   double DoubleMethod(double number);
   const std::string StringMethod(const std::string& string);
 
