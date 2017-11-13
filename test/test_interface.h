@@ -36,6 +36,8 @@ class TestInterface {
   int8_t ByteMethod(int8_t number);
   uint8_t OctetMethod(uint8_t number);
   short ShortMethod(short number);
+  int32_t LongMethod(int32_t number);
+  int64_t LongLongMethod(int64_t number);
   uint16_t UnsignedShortMethod(uint16_t number);
   uint32_t UnsignedLongMethod(uint32_t number);
   uint64_t UnsignedLongLongMethod(uint64_t number);

@@ -32,6 +32,8 @@ interface TestInterface {
   byte byteMethod(byte number);
   octet octetMethod(octet number);
   short shortMethod(short number);
+  long longMethod(long number);
+  long long longLongMethod(long long number);
   unsigned short unsignedShortMethod(unsigned short number);
   unsigned long unsignedLongMethod(unsigned long number);
   unsigned long long unsignedLongLongMethod(unsigned long long number);
