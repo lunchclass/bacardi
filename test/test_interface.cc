@@ -98,6 +98,12 @@ void TestInterface::VoidMethodTestEnumArg(const std::string& string) {
   last_call_info_ = "VoidMethodTestEnumArg(" + string + ")";
 }
 
+const std::string TestInterface::EnumReturnMethod(long index) {
+  std::string ret = "value";
+  ret.append(std::to_string(index));
+  return ret;
+}
+
 double TestInterface::StaticTest(double number) {
   return TestInterface::static_double_number_;
 }

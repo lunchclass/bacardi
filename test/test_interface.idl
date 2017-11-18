@@ -42,6 +42,7 @@ interface TestInterface {
 
   // enum
   void voidMethodTestEnumArg(TestEnum enumValue);
+  TestEnum enumReturnMethod(long index);
 
   // Attributes
   attribute double doubleNumber;

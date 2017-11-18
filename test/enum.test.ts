@@ -38,6 +38,10 @@ test('Passing unexpected enum value should throw error', async () => {
   let test_interface = new bacardi.TestInterface();
 
   expect(() => {
+    test_interface.voidMethodTestEnumArg();
+  }).toThrowError();
+
+  expect(() => {
     test_interface.voidMethodTestEnumArg(1);
   }).toThrowError();
 
@@ -49,4 +53,38 @@ test('Passing unexpected enum value should throw error', async () => {
     test_interface.voidMethodTestEnumArg('value');
   }).toThrowError();
 
+  expect(() => {
+    test_interface.voidMethodTestEnumArg(undefined);
+  }).toThrowError();
+
+  expect(() => {
+    test_interface.voidMethodTestEnumArg({a: 1});
+  }).toThrowError();
+
+  expect(() => {
+    test_interface.voidMethodTestEnumArg('value1', 1);
+  }).toThrowError();
 });
+
+test('Test for returning enum value', async () => {
+  let test_interface = new bacardi.TestInterface();
+
+  // enumReturnMethod function will be return a string which is combined prefix
+  // "value" and passed parameter value.
+  // eg. enumReturnMethod(1) will be return "value1"
+
+  expect(test_interface.enumReturnMethod(1)).toBe('value1');
+
+  expect(test_interface.enumReturnMethod(2)).toBe('value2');
+
+  expect(test_interface.enumReturnMethod(3)).toBe('value3');
+});
+
+// FIXME(hwanseung): when return values which is not included in enum,
+// should be thrown error.
+// test('Returning unexpected enum value should throw error',
+// async () => {
+//   let test_interface = new bacardi.TestInterface();
+
+//   expect(() => {test_interface.enumReturnMethod(4)}).toThrowError();
+// });
