@@ -14,12 +14,17 @@
 
 {
   'includes': [
-    'core/core.gypi',
-    'examples/examples.gypi',
-    'examples/electron/native/electron_native.gypi',
     'generator/generator.gypi',
-    'test/test.gypi',
   ],
+
+  'variables': {
+    'bacardi_command%': './bacardi',
+    'conditions': [
+      ['OS == "win"', {
+        'bacardi_command': 'bacardi.cmd',
+      }],
+    ],
+  },
 
   'targets': [
     {
@@ -52,13 +57,8 @@
         }],
       ],
       'sources': [
-        '<@(core_cpp_files)',
-        '<@(examples_cpp_files)',
-        '<@(examples_idl_output_files)',
-        '<@(examples_electron_native_cpp_files)',
-        '<@(examples_electron_native_idl_output_files)',
-        '<@(test_cpp_files)',
-        '<@(test_idl_output_files)',
+        '<!@(<(bacardi_command) list_cpp_files --silent)',
+        '<!@(<(bacardi_command) list_generated_cpp_files --silent)',
         '<(SHARED_INTERMEDIATE_DIR)/bacardi.cc',
       ],
       'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
@@ -109,13 +109,10 @@
         {
           'action_name': 'idl',
           'inputs': [
-            '<@(examples_idl_files)',
-            '<@(examples_electron_native_idl_files)',
-            '<@(test_idl_files)',
+            '<!@(<(bacardi_command) list_idl_files --silent)',
           ],
           'outputs': [
-            '<@(examples_electron_native_idl_output_files)',
-            '<@(test_idl_output_files)',
+            '<!@(<(bacardi_command) list_generated_cpp_files --silent)',
           ],
           'conditions': [
             ['OS!="win"',

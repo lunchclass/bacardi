@@ -29,3 +29,13 @@ function to_lower() {
 function to_upper() {
   echo $1 | tr '[:lower:]' '[:upper:]'
 }
+
+# Extract input length characters of substring from input string at input
+# position.
+# $1: Input string
+# $2: Input position
+# $3: Input length
+# Out: Extracted substring
+function substr() {
+  echo $1 | cut -c $2-$3
+}
