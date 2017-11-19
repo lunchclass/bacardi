@@ -15,7 +15,6 @@
 # limitations under the License.
 
 . $BACARDI_PATH/bootstrap/common/path_info.sh
-. $BACARDI_PATH/bootstrap/common/string_util.sh
 . $BACARDI_PATH/bootstrap/common/sync_third_party.sh
 
 # Set path
@@ -36,18 +35,9 @@ git submodule update
 # Sync third_parties.
 sync_node
 
-# FIXME(zino): If npm packages are updated, then node-gyp will be triggered
-# automatically. To get native/idl file list, we will use ./bacardi list*
-# command again in binding.gyp. Then, it causes infinite loop finally.
-# To avoid the problem, as a workaround, we should filter list* commands here.
-if [ "$(substr $1 1 4)" = "list" ]; then
-  gulp $@
-  exit
-fi
-
 # NPM install or update
 if [ ! -f .last_update ] || [ package.json -nt .last_update ]; then
-  npm install && > .last_update
+  npm install
 fi
 
 for command in $(ls $(bootstrap_command_path)); do
