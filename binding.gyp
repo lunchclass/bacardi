@@ -13,10 +13,6 @@
 # limitations under the License.
 
 {
-  'includes': [
-    'generator/generator.gypi',
-  ],
-
   'variables': {
     'bacardi_command%': './bacardi',
     'conditions': [
@@ -31,30 +27,12 @@
       'target_name': 'bacardi',
       'dependencies': [
         'idl',
+        '<!(<(bacardi_command) node -p "require(\'node-addon-api\').gyp")',
       ],
-      'conditions': [
-        ['OS!="win"',
-        {
-          'dependencies': [
-            '<!@(./bootstrap/command/node -p \'require("node-addon-api").gyp\')',
-          ],
-          'include_dirs': [
-            './',
-            '<@(SHARED_INTERMEDIATE_DIR)',
-            '<!@(./bootstrap/command/node -p \'require("node-addon-api").include\')',
-          ],
-        }],
-        ['OS=="win"',
-        {
-          'dependencies': [
-            '<!(third_party\\node\\node.exe -p "require(\'node-addon-api\').gyp")',
-          ],
-          'include_dirs': [
-            './',
-            '<@(SHARED_INTERMEDIATE_DIR)',
-            '<!@(third_party\\node\\node.exe -p "require(\'node-addon-api\').include")',
-          ],
-        }],
+      'include_dirs': [
+        './',
+        '<@(SHARED_INTERMEDIATE_DIR)',
+        '<!@(<(bacardi_command) node -p "require(\'node-addon-api\').include")',
       ],
       'sources': [
         '<!@(<(bacardi_command) list_cpp_files --silent)',
@@ -71,34 +49,20 @@
         {
           'action_name': 'tsc',
           'inputs': [
-            '<@(generator_files)',
           ],
           'outputs': [
             '<@(PRODUCT_DIR)/generator',
           ],
-          'conditions': [
-            ['OS!="win"',
-            {
-              'action': [
-                '<@(PRODUCT_DIR)/../../bootstrap/command/tsc',
-                '<@(_inputs)',
-                '--outDir',
-                '<@(_outputs)',
-                ],
-            }],
-            ['OS=="win"',
-            {
-              'action': [
-                '<@(PRODUCT_DIR)/../../third_party/node/node.exe <@(PRODUCT_DIR)/../../node_modules/typescript/bin/tsc --lib es2015',
-                '<@(_inputs)',
-                '--outDir',
-                '<@(_outputs)',
-                ],
-            }],
+          'action': [
+            '<(module_root_dir)/<(bacardi_command)',
+            'tsc',
+            '--outDir',
+            '<@(_outputs)',
           ],
         },
       ],
     },
+
     {
       'target_name': 'idl',
       'type': 'none',
@@ -114,27 +78,13 @@
           'outputs': [
             '<!@(<(bacardi_command) list_generated_cpp_files --silent)',
           ],
-          'conditions': [
-            ['OS!="win"',
-            {
-              'action': [
-                '<@(PRODUCT_DIR)/../../bootstrap/command/node',
-                '<@(PRODUCT_DIR)/generator/main.js',
-                '<(module_root_dir)',
-                '<@(SHARED_INTERMEDIATE_DIR)',
-                '<@(_inputs)',
-              ],
-            }],
-            ['OS=="win"',
-            {
-              'action': [
-                '<@(PRODUCT_DIR)/../../third_party/node/node.exe',
-                '<@(PRODUCT_DIR)/generator/main.js',
-                '<(module_root_dir)',
-                '<@(SHARED_INTERMEDIATE_DIR)',
-                '<@(_inputs)',
-              ],
-            }],
+          'action': [
+            '<(module_root_dir)/<(bacardi_command)',
+            'node',
+            '<@(PRODUCT_DIR)/generator/main.js',
+            '<(module_root_dir)',
+            '<@(SHARED_INTERMEDIATE_DIR)',
+            '<@(_inputs)',
           ],
         },
       ],

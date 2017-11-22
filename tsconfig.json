@@ -3,10 +3,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "experimentalDecorators": true,
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
+    "lib": ["es2015"],
     "preserveConstEnums": true,
     "sourceMap": true,
     "target": "es5"
-  }
+  },
+  "include": [
+    "generator/**/*"
+  ]
 }

@@ -14,4 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-tsc --lib es2015 $@
+. $BACARDI_PATH/bootstrap/common/path_info.sh
+. $BACARDI_PATH/bootstrap/common/platform_info.sh
+
+if is_windows_platform; then
+  $(bacardi_path)/node_modules/.bin/tsc.cmd $@
+else
+  $(bacardi_path)/node_modules/.bin/tsc $@
+fi

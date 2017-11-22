@@ -40,8 +40,9 @@ if [ ! -f .last_update ] || [ package.json -nt .last_update ]; then
   npm install
 fi
 
+sub_command=$(basename $(echo $1 | sed 's/\\/\//g'))
 for command in $(ls $(bootstrap_command_path)); do
-  if [ "$1" = "$command" ]; then
+  if [ "$sub_command" = "$command" ]; then
     shift
     $(bootstrap_command_path)/$command $@
     exit
