@@ -171,6 +171,9 @@ def main():
       print('clang-format did not modify any files')
   elif opts.diff:
     print_diff(old_tree, new_tree)
+    # FIXME(yjaeseok): change exit code of clang-format.
+    # If there is a difference with clang-format we should return failure.
+    sys.exit(1)
   else:
     changed_files = apply_changes(old_tree, new_tree, force=opts.force,
                                   patch_mode=opts.patch)

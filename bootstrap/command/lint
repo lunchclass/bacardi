@@ -16,20 +16,4 @@
 
 . $BACARDI_PATH/bootstrap/common/path_info.sh
 
-format_diff="$(bootstrap_command_path)/format --diff"
-
-function need_to_format() {
-  result=$($format_diff)
-  if [ "$result" = "no modified files to format" ] \
-      || [ "$result" = "clang-format did not modify any files" ]; then
-    return 1
-  else
-    $format_diff
-    return 0
-  fi
-}
-
-if need_to_format; then
-  echo "lint error: You can fix the lint error with |bacardi format| command."
-  exit 1
-fi
+$(bootstrap_command_path)/format --diff
