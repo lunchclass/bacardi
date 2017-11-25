@@ -24,6 +24,7 @@ function apply_format() {
       --binary $binary_path \
       --style Chromium \
       --commit HEAD~20 \
+      --extension "c,cc,cpp,h" \
       $additional_flags
 }
 

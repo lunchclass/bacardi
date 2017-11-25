@@ -9,6 +9,7 @@
     "target": "es5"
   },
   "include": [
-    "generator/**/*"
+    "gulpfile.ts",
+    "generator/**/*.ts"
   ]
 }

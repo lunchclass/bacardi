@@ -51,7 +51,7 @@
           'inputs': [
           ],
           'outputs': [
-            '<@(PRODUCT_DIR)/generator',
+            '<(module_root_dir)/build/Release',
           ],
           'action': [
             '<(module_root_dir)/<(bacardi_command)',
