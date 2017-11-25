@@ -83,6 +83,25 @@ struct NativeTypeTraits<IDLByte> : public NativeTypeTraitsBase<IDLByte> {
 // The double type is a floating point numeric type that corresponds to the set
 // of finite double-precision 64 bit IEEE 754 floating point numbers.
 template <>
+struct NativeTypeTraits<IDLFloat> : public NativeTypeTraitsBase<IDLFloat> {
+  static float NativeValue(const Napi::Env& env, const Napi::Value& js_value) {
+    if (!js_value.IsNumber()) {
+      Napi::TypeError::New(env, "It's an invalid number.")
+          .ThrowAsJavaScriptException();
+      return 0.0f;
+    }
+
+    return js_value.ToNumber().FloatValue();
+  }
+
+  static bool IsTypeEquals(const Napi::Value& js_value) {
+    return js_value.IsNumber();
+  }
+};
+
+// The double type is a floating point numeric type that corresponds to the set
+// of finite double-precision 64 bit IEEE 754 floating point numbers.
+template <>
 struct NativeTypeTraits<IDLDouble> : public NativeTypeTraitsBase<IDLDouble> {
   static double NativeValue(const Napi::Env& env, const Napi::Value& js_value) {
     if (!js_value.IsNumber()) {

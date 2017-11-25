@@ -41,6 +41,7 @@ class TestInterface {
   uint16_t UnsignedShortMethod(uint16_t number);
   uint32_t UnsignedLongMethod(uint32_t number);
   uint64_t UnsignedLongLongMethod(uint64_t number);
+  float FloatMethod(float number);
   double DoubleMethod(double number);
   const std::string StringMethod(const std::string& string);
 

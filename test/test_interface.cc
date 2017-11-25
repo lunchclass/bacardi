@@ -86,6 +86,10 @@ uint64_t TestInterface::UnsignedLongLongMethod(uint64_t number) {
   return number;
 }
 
+float TestInterface::FloatMethod(float number) {
+  return number;
+}
+
 double TestInterface::DoubleMethod(double number) {
   return number;
 }

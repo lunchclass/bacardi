@@ -21,6 +21,7 @@
 
 struct IDLBoolean final : public IDLBaseHelper<bool> {};
 struct IDLByte final : public IDLBaseHelper<int8_t> {};
+struct IDLFloat final : public IDLBaseHelper<float> {};
 struct IDLDouble final : public IDLBaseHelper<double> {};
 struct IDLLongLong final : public IDLBaseHelper<int64_t> {};
 struct IDLLong final : public IDLBaseHelper<int32_t> {};

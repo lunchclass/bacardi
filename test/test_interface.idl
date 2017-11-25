@@ -37,6 +37,7 @@ interface TestInterface {
   unsigned short unsignedShortMethod(unsigned short number);
   unsigned long unsignedLongMethod(unsigned long number);
   unsigned long long unsignedLongLongMethod(unsigned long long number);
+  float floatMethod(float number);
   double doubleMethod(double number);
   string stringMethod(string string);
 
