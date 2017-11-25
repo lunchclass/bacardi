@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import * as generator from 'generator';
+import * as globs from 'globs';
 import * as gulp from 'gulp';
 import * as shell from 'gulp-shell';
 import gulpTslint from 'gulp-tslint';
@@ -27,6 +29,15 @@ import * as ts from 'typescript';
 gulp.task('default', () => {
   // FIXME(zino): Should print available commands in Bacardi.
   return;
+});
+
+/**
+ * Build WebIDL
+ */
+gulp.task('build_webidl', (callback) => {
+  globs(['examples/**/*.idl', 'test/**/*.idl'], async(error, files) => {
+    callback(await generator.run(files));
+  });
 });
 
 /**
@@ -100,7 +111,10 @@ gulp.task('lint_native', shell.task([
 gulp.task('lint_ts', () => {
   const program: ts.Program = tslint.Linter.createProgram('tsconfig.json');
 
-  return gulp.src('gulpfile.ts')
+  return gulp.src([
+        'gulpfile.ts',
+        'generator/index.ts'
+      ])
       .pipe(gulpTslint({
           formatter: 'codeFrame',
           program: program
@@ -113,7 +127,10 @@ gulp.task('lint_ts', () => {
 gulp.task('lint_ts:fix', () => {
   const program: ts.Program = tslint.Linter.createProgram('tsconfig.json');
 
-  return gulp.src('gulpfile.ts')
+  return gulp.src([
+        'gulpfile.ts',
+        'generator/index.ts'
+      ])
       .pipe(gulpTslint({
           formatter: 'codeFrame',
           program: program,

@@ -49,4 +49,5 @@ for command in $(ls $(bootstrap_command_path)); do
   fi
 done
 
+export NODE_PATH=$(bacardi_path)
 gulp $@
