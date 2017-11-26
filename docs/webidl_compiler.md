@@ -35,3 +35,18 @@ internally.
 ### WebIDL compiler
 The WebIDL compiler(or often we called bindings generator) transcompiles WebIDL
 to Native codes such as C++ codes.
+
+## Reading/Processing IDL Files in parallel
+When reading/processing a single IDL file, it should be each independent task.
+Then, we can extend our compiler easily to support multi-threading or
+distributed compiling in the future.
+
+## Parsing WebIDL
+The parsing step is corresponding to the front-end part of compiler. The goal in
+this step, is that creating IDL definition objects as intermediated results.
+
+### Creating AST(Abstract Syntax Tree)
+To parse WebIDL(exactly,
+[IDL Fragment](https://heycam.github.io/webidl/#dfn-idl-fragment)),
+we just use [WebIDL2 parser](https://github.com/w3c/webidl2.js). It provides a
+trivial API called parse(). If we use the API, the WebIDL2 parser returns a AST.

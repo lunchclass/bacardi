@@ -113,7 +113,9 @@ gulp.task('lint_ts', () => {
 
   return gulp.src([
         'gulpfile.ts',
-        'generator/index.ts'
+        'generator/index.ts',
+        'generator/base/**/*.ts',
+        'generator/new_parser/**/*.ts'
       ])
       .pipe(gulpTslint({
           formatter: 'codeFrame',
@@ -129,7 +131,9 @@ gulp.task('lint_ts:fix', () => {
 
   return gulp.src([
         'gulpfile.ts',
-        'generator/index.ts'
+        'generator/index.ts',
+        'generator/base/**/*.ts',
+        'generator/new_parser/**/*.ts'
       ])
       .pipe(gulpTslint({
           formatter: 'codeFrame',

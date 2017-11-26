@@ -14,25 +14,16 @@
  * limitations under the License.
  */
 
-import * as file from 'generator/base/file';
-import {Parser} from 'generator/new_parser/parser';
+import * as webidl from 'webidl2';
 
-async function processIDL(idlFilePath: string): Promise<void> {
-  const idlFragment: string = await file.read(idlFilePath);
-  await Parser.parse(idlFragment);
-}
+/**
+ * WebIDL Parser
+ */
+export class Parser {
+  public static async parse(idlFragment: string):
+      Promise<void> {
+    const astData: {}[] = webidl.parse(idlFragment);
 
-export async function run(idlFilePaths: string[]): Promise<number> {
-  const readIDLFileTasks: Promise<void>[] = [];
-  idlFilePaths.forEach((idlFilePath) => {
-    readIDLFileTasks.push(processIDL(idlFilePath));
-  });
-
-  try {
-    await Promise.all(readIDLFileTasks);
-  } catch (e) {
-    return e;
+    // Not implemented yet.
   }
-
-  return 0;
 }
