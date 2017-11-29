@@ -134,3 +134,7 @@ double TestInterface::GetStaticDoubleNumber() {
 void TestInterface::SetStaticDoubleNumber(double number) {
   TestInterface::static_double_number_ = number;
 }
+
+void TestInterface::VoidMethodTestDictionaryArg(TestDict testDict) {
+  last_call_info_ = "VoidMethodTestDictionaryArg()";
+}

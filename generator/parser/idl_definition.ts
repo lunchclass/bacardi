@@ -36,4 +36,8 @@ export default abstract class IDLDefinition {
   public isIDLEnum(): boolean {
     return this.raw_idl_definition_info['type'] == 'enum';
   }
+
+  public isIDLDictionary(): boolean {
+    return this.raw_idl_definition_info['type'] == 'dictionary';
+  }
 }

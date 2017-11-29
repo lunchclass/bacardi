@@ -20,8 +20,10 @@ import * as nunjucks from 'nunjucks';
 import * as path from 'path';
 
 import * as file from './base/file';
+import DictionaryTypes from './parser/dictionary_types';
 import EnumTypes from './parser/enum_types';
 import IDLDefinition from './parser/idl_definition';
+import IDLDictionary from './parser/idl_dictionary';
 import IDLEnum from './parser/idl_enum';
 import IDLInterface from './parser/idl_interface';
 import Parser from './parser/parser';
@@ -76,6 +78,7 @@ async function generateInterface(
 // TODO(hwansueng): This function should be improved.
 async function postProcessing(definitions: IDLDefinition[]) {
   let enum_types: EnumTypes = new EnumTypes(definitions);
+  let dict_types: DictionaryTypes = new DictionaryTypes(definitions);
 
   for (const definition of definitions) {
     if (definition.isIDLInterface()) {
@@ -84,11 +87,30 @@ async function postProcessing(definitions: IDLDefinition[]) {
         if (member.arguments != null) {
           for (let args of member.arguments) {
             args.enum = enum_types.isEnumType(args.type);
+            args.dictionary = dict_types.isDictionaryType(args.type);
           }
         }
       }
     }
   }
+}
+
+async function generateDictionaryType(
+    env: nunjucks.Environment, output_path: string,
+    definitions: IDLDefinition[]) {
+  const [dictionary_tmpl] = await Promise.all(
+      [file.read(path.resolve(TEMPLATE_DIR, 'dictionary_types.njk'))]);
+
+  definitions.forEach(async (definition) => {
+    if (definition.isIDLDictionary()) {
+      const dictionary_file_path = path.resolve(
+          output_path,
+          definition.idl_dir_name + '/' +
+              changeCase.snakeCase(definition.name) + '.h');
+      await file.write(
+          dictionary_file_path, env.renderString(dictionary_tmpl, definition));
+    }
+  });
 }
 
 async function main([root_dir, out_dir, ...idl_files]) {
@@ -107,6 +129,7 @@ async function main([root_dir, out_dir, ...idl_files]) {
 
   let definitions: IDLDefinition[] =
       await Parser.parse(await reader.readAll(relative_idl_files));
+  await generateDictionaryType(env, out_dir, definitions);
   await postProcessing(definitions);
   await generateInterface(env, out_dir, definitions);
   await generateBacardi(env, out_dir, definitions);

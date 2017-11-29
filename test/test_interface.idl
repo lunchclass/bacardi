@@ -41,7 +41,7 @@ interface TestInterface {
   double doubleMethod(double number);
   string stringMethod(string string);
 
-  // enum
+  // Enum
   void voidMethodTestEnumArg(TestEnum enumValue);
   TestEnum enumReturnMethod(long index);
 
@@ -51,10 +51,17 @@ interface TestInterface {
   static attribute double staticDoubleNumber;
   void readonlyAssignTest(double number);
   static double StaticTest(double number);
+
+  // Dictionary
+  void voidMethodTestDictionaryArg(TestDict dicValue);
 };
 
 enum TestEnum {
   "value1",
   "value2",
   "value3"
+};
+
+dictionary TestDict {
+  double a;
 };

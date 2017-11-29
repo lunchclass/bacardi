@@ -15,6 +15,7 @@
  */
 
 import IDLDefinition from './idl_definition';
+import IDLDictionary from './idl_dictionary';
 import IDLEnum from './idl_enum';
 import IDLInterface from './idl_interface';
 
@@ -24,6 +25,8 @@ export default class IDLDefinitionFactory {
       return new IDLInterface(raw_idl_definition_info);
     } else if (this.isIDLEnum(raw_idl_definition_info)) {
       return new IDLEnum(raw_idl_definition_info);
+    } else if (this.isIDLDictionary(raw_idl_definition_info)) {
+      return new IDLDictionary(raw_idl_definition_info);
     }
 
     return null;
@@ -34,5 +37,8 @@ export default class IDLDefinitionFactory {
   }
   private static isIDLEnum(raw_idl_definition_info: {}): boolean {
     return raw_idl_definition_info['type'] == 'enum';
+  }
+  private static isIDLDictionary(raw_idl_definition_info: {}): boolean {
+    return raw_idl_definition_info['type'] == 'dictionary';
   }
 }

@@ -20,6 +20,9 @@ if (!EnumValidator::isValildEnum({{argument.name}}, enum_value_set)) {
       .ThrowAsJavaScriptException();
   return{% if not is_constructor %} Napi::Value(){% endif %};
 }
+{% elif argument.dictionary %}
+{{argument.type | pascalcase}} {{argument.name}};
+// FIXME(hwanseung): Convert to native dictionary object from javascript object.
 {% else %}
 auto {{argument.name}} = NativeTypeTraits<IDL{{argument.type | pascalcase-}}
     >::NativeValue(info.Env(), info[{{loop.index0}}]);

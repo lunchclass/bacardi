@@ -19,6 +19,8 @@
 
 #include <string>
 
+#include "test/test_dict.h"
+
 class TestInterface {
  public:
   TestInterface();
@@ -57,6 +59,9 @@ class TestInterface {
   double GetReadonlyDoubleNumber();
   static double GetStaticDoubleNumber();
   static void SetStaticDoubleNumber(double number);
+
+  // Dictionary
+  void VoidMethodTestDictionaryArg(TestDict testDict);
 
  private:
   // FIXME(zino): Currently, we should set this variable in each methods. It's
