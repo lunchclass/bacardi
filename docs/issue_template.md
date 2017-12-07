@@ -3,7 +3,7 @@
   - [ ] feature request
   - [ ] support request
 
-## General infomration
+## General information
 ### Prerequisites
 * [ ] Are you running the latest version?
 
@@ -27,6 +27,6 @@
 * [ ] Linux (ARM)
 
 ### Additional Information on the environment
-[Descripe your environment a bit more detailed]
+[Describe your environment a bit more detailed]
 
 [You can erase any parts of this template not applicable to your Issue.]
