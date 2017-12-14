@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import * as commandLineUsage from 'command-line-usage';
 import * as generator from 'generator';
 import * as globs from 'globs';
 import * as gulp from 'gulp';
@@ -27,7 +28,31 @@ import * as tslint from 'tslint';
 import * as ts from 'typescript';
 
 gulp.task('default', () => {
-  // FIXME(zino): Should print available commands in Bacardi.
+  const sections: {} = [
+    {
+      header: 'Bacardi',
+      content: 'Bacardi project is an effort to provide multi-language ' +
+      'binding for Node.js native layer.'
+    },
+    {
+      header: 'Synopsis',
+      content: '$ bacardi <command>'
+    },
+    {
+      header: 'Available Commands',
+      content: [
+        { name: 'build', summary: 'Builds bacardi project' },
+        { name: 'build_electron', summary: 'Builds bacardi project as ' +
+          'electron' },
+        { name: 'electron', summary: 'Runs bacardi project as electron' },
+        { name: 'test', summary: 'Runs Unit test bacardi project' }
+      ]
+    }
+  ];
+
+  const usage: commandLineUsage = commandLineUsage(sections);
+  process.stdout.write(usage);
+
   return;
 });
 
