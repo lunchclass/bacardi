@@ -53,7 +53,7 @@ interface TestInterface {
   static double StaticTest(double number);
 
   // Dictionary
-  void voidMethodTestDictionaryArg(TestDict dicValue);
+  double doubleMethodTestDictionaryArg(TestDict dicValue);
 };
 
 enum TestEnum {

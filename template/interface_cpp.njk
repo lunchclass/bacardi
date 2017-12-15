@@ -22,7 +22,19 @@ if (!EnumValidator::isValildEnum({{argument.name}}, enum_value_set)) {
 }
 {% elif argument.dictionary %}
 {{argument.type | pascalcase}} {{argument.name}};
-// FIXME(hwanseung): Convert to native dictionary object from javascript object.
+if (!info[{{loop.index0}}].IsObject()) {
+  Napi::TypeError::New(info.Env(), "it is not object type.")
+      .ThrowAsJavaScriptException();
+}
+Napi::Object {{argument.name}}Obj = info[{{loop.index0}}].ToObject();
+{% for member in argument.dictionary.members %}
+if ({{argument.name}}Obj.Has("{{member.name}}")) {
+  Napi::Value value = {{argument.name}}Obj.Get("{{member.name}}");
+  auto {{member.name}} = NativeTypeTraits<IDL{{member.type | pascalcase-}}
+    >::NativeValue(info.Env(), value);
+  {{argument.name}}.set{{member.name | pascalcase}}({{member.name}});
+}
+{% endfor %}
 {% else %}
 auto {{argument.name}} = NativeTypeTraits<IDL{{argument.type | pascalcase-}}
     >::NativeValue(info.Env(), info[{{loop.index0}}]);

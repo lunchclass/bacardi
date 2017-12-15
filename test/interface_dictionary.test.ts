@@ -24,7 +24,7 @@ test(
       let test_interface = new bacardi.TestInterface();
 
       var testDict = {a: 10};
-      test_interface.voidMethodTestDictionaryArg(testDict);
+      expect(test_interface.doubleMethodTestDictionaryArg(testDict)).toBe(10);
       expect(bacardi.TestInterface.getLastCallInfo())
-          .toBe('VoidMethodTestDictionaryArg()');
+          .toBe('DoubleMethodTestDictionaryArg()');
     });

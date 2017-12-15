@@ -61,7 +61,7 @@ class TestInterface {
   static void SetStaticDoubleNumber(double number);
 
   // Dictionary
-  void VoidMethodTestDictionaryArg(TestDict testDict);
+  double DoubleMethodTestDictionaryArg(TestDict testDict);
 
  private:
   // FIXME(zino): Currently, we should set this variable in each methods. It's
