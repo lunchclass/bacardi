@@ -14,15 +14,6 @@
  * limitations under the License.
  */
 
-import {DefinitionInfo} from 'generator/new_parser/definition_info';
-import {DefinitionInfoMap} from 'generator/new_parser/definition_info_map';
-import * as webidl from 'webidl2';
-
-/**
- * WebIDL Parser
- */
-export class Parser {
-  public static async parse(idlFragment: string): Promise<DefinitionInfo[]> {
-    return webidl.parse(idlFragment);
-  }
+export interface DefinitionInfo {
+  name: string;
 }

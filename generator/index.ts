@@ -15,24 +15,27 @@
  */
 
 import * as file from 'generator/base/file';
+import {DefinitionInfo} from 'generator/new_parser/definition_info';
+import {DefinitionInfoMap} from 'generator/new_parser/definition_info_map';
 import {Parser} from 'generator/new_parser/parser';
 
-async function processIDL(idlFilePath: string): Promise<void> {
+async function readAndParse(idlFilePath: string): Promise<void> {
   const idlFragment: string = await file.read(idlFilePath);
-  await Parser.parse(idlFragment);
+  const idlDefinitionInfos: DefinitionInfo[] = await Parser.parse(idlFragment);
+  DefinitionInfoMap.update(idlDefinitionInfos);
+}
+
+async function buildDefinitionInfoMap(idlFilePaths: string[]): Promise<void> {
+  const tasks: Promise<void>[] = [];
+  idlFilePaths.forEach((idlFilePath) => {
+    tasks.push(readAndParse(idlFilePath));
+  });
+
+  await Promise.all(tasks);
 }
 
 export async function run(idlFilePaths: string[]): Promise<number> {
-  const readIDLFileTasks: Promise<void>[] = [];
-  idlFilePaths.forEach((idlFilePath) => {
-    readIDLFileTasks.push(processIDL(idlFilePath));
-  });
-
-  try {
-    await Promise.all(readIDLFileTasks);
-  } catch (e) {
-    return e;
-  }
+  await buildDefinitionInfoMap(idlFilePaths);
 
   return 0;
 }

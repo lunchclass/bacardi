@@ -15,14 +15,24 @@
  */
 
 import {DefinitionInfo} from 'generator/new_parser/definition_info';
-import {DefinitionInfoMap} from 'generator/new_parser/definition_info_map';
-import * as webidl from 'webidl2';
+
+interface DefinitionInfoStore {
+  [index: string]: DefinitionInfo;
+}
+
+const store: DefinitionInfoStore = {};
 
 /**
- * WebIDL Parser
+ * Raw definition information mapping table (exposed to global scope)
  */
-export class Parser {
-  public static async parse(idlFragment: string): Promise<DefinitionInfo[]> {
-    return webidl.parse(idlFragment);
+export class DefinitionInfoMap {
+  public static update(definitionInfos: DefinitionInfo[]): void {
+    definitionInfos.forEach((definitionInfo: DefinitionInfo) => {
+      store[definitionInfo.name] = definitionInfo;
+    });
+  }
+
+  public static getByTypeName(typeName: string): DefinitionInfo {
+    return store[typeName];
   }
 }
