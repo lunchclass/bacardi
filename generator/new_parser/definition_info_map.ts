@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-import {DefinitionInfo} from 'generator/new_parser/definition_info';
+import {
+    DefinitionInfo, InterfaceInfo
+  } from 'generator/new_parser/definition_info';
 
 interface DefinitionInfoStore {
   [index: string]: DefinitionInfo;
@@ -22,13 +24,39 @@ interface DefinitionInfoStore {
 
 const store: DefinitionInfoStore = {};
 
+function updateInterfaceInfo(info: InterfaceInfo): void {
+  const storedInfo: DefinitionInfo = store[info.name];
+
+  if (storedInfo === undefined) {
+    store[info.name] = info;
+
+    return;
+  }
+
+  if (storedInfo.type !== info.type) {
+    throw new SyntaxError('IDL defintions are duplicated');
+  }
+
+  // In this case, one of thing is partial interface. So, we should merge them.
+  storedInfo.partial = false;
+  storedInfo.inheritance = storedInfo.inheritance || info.inheritance;
+  storedInfo.members = storedInfo.members.concat(info.members);
+}
+
+function updateDefinitionInfo(info: DefinitionInfo): void {
+  switch (info.type) {
+  case 'interface': updateInterfaceInfo(info as InterfaceInfo); break;
+  default:
+  }
+}
+
 /**
  * Raw definition information mapping table (exposed to global scope)
  */
 export class DefinitionInfoMap {
   public static update(definitionInfos: DefinitionInfo[]): void {
-    definitionInfos.forEach((definitionInfo: DefinitionInfo) => {
-      store[definitionInfo.name] = definitionInfo;
+    definitionInfos.forEach((info: DefinitionInfo) => {
+      updateDefinitionInfo(info);
     });
   }
 

@@ -14,6 +14,40 @@
  * limitations under the License.
  */
 
-export interface DefinitionInfo {
-  name: string;
+export interface TypeInfo {
+  readonly sequence: boolean;
+  readonly generic?: string;
+  readonly idlType: string;
+  readonly nullable: boolean;
+  readonly union: boolean;
 }
+
+export interface ArgumentInfo {
+  readonly optional: boolean;
+  readonly variadic: boolean;
+  readonly idlType: TypeInfo;
+  readonly name: string;
+}
+
+export interface InterfaceInfo {
+  readonly type: 'interface';
+  readonly name: string;
+  partial: boolean;
+  members: InterfaceMemberInfo[];
+  inheritance: string;
+}
+
+export interface OperationMemberInfo {
+  readonly type: 'operation';
+  readonly getter: boolean;
+  readonly setter: boolean;
+  readonly deleter: boolean;
+  readonly static: boolean;
+  readonly stringifier: boolean;
+  readonly idlType: TypeInfo;
+  readonly name: string;
+  readonly arguments: ArgumentInfo[];
+}
+
+export type InterfaceMemberInfo = OperationMemberInfo;
+export type DefinitionInfo = InterfaceInfo;

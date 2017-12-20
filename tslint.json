@@ -7,14 +7,13 @@
     "interface-name": false,
     "match-default-export-name": false,
     "max-line-length": [true, 80],
+    "no-banned-terms": false,
+    "no-reserved-keywords": false,
     "no-stateless-class": false,
     "no-suspicious-comment": false,
     "no-unsafe-any": false,
-    "strict-boolean-expressions": [
-      true,
-      "allow-null-union",
-      "allow-undefined-union"
-    ],
+    "prefer-type-cast": false,
+    "strict-boolean-expressions": false,
     "typedef": [
       true,
       "call-signature",
