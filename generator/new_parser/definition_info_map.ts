@@ -15,7 +15,7 @@
  */
 
 import {
-    DefinitionInfo, DictionaryInfo, InterfaceInfo
+    DefinitionInfo, DictionaryInfo, EnumInfo, InterfaceInfo
   } from 'generator/new_parser/definition_info';
 
 interface DefinitionInfoStore {
@@ -64,6 +64,18 @@ function updateDictionaryInfo(info: DictionaryInfo): void {
   storedInfo.members = storedInfo.members.concat(info.members);
 }
 
+function updateEnumInfo(info: EnumInfo): void {
+  const storedInfo: DefinitionInfo = store[info.name];
+
+  if (storedInfo === undefined) {
+    store[info.name] = info;
+
+    return;
+  }
+
+  throw new SyntaxError('IDL defintions are duplicated');
+}
+
 function updateDefinitionInfo(info: DefinitionInfo): void {
   switch (info.type) {
   case 'interface':
@@ -71,6 +83,9 @@ function updateDefinitionInfo(info: DefinitionInfo): void {
     break;
   case 'dictionary':
     updateDictionaryInfo(info as DictionaryInfo);
+    break;
+  case 'enum':
+    updateEnumInfo(info as EnumInfo);
     break;
   default:
   }
