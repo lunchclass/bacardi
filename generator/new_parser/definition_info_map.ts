@@ -15,7 +15,7 @@
  */
 
 import {
-    DefinitionInfo, InterfaceInfo
+    DefinitionInfo, DictionaryInfo, InterfaceInfo
   } from 'generator/new_parser/definition_info';
 
 interface DefinitionInfoStore {
@@ -24,7 +24,28 @@ interface DefinitionInfoStore {
 
 const store: DefinitionInfoStore = {};
 
+// FIXME(zino): Can we merge updateInterfaceInfo() with updateDictionaryInfo()?
+// They have the same logic but it's not resolved as a generic type.
 function updateInterfaceInfo(info: InterfaceInfo): void {
+  const storedInfo: DefinitionInfo = store[info.name];
+
+  if (storedInfo === undefined) {
+    store[info.name] = info;
+
+    return;
+  }
+
+  if (storedInfo.type !== info.type) {
+    throw new SyntaxError('IDL defintions are duplicated');
+  }
+
+  // In this case, one of thing is partial interface. So, we should merge them.
+  storedInfo.partial = false;
+  storedInfo.inheritance = storedInfo.inheritance || info.inheritance;
+  storedInfo.members = storedInfo.members.concat(info.members);
+}
+
+function updateDictionaryInfo(info: DictionaryInfo): void {
   const storedInfo: DefinitionInfo = store[info.name];
 
   if (storedInfo === undefined) {
@@ -45,7 +66,12 @@ function updateInterfaceInfo(info: InterfaceInfo): void {
 
 function updateDefinitionInfo(info: DefinitionInfo): void {
   switch (info.type) {
-  case 'interface': updateInterfaceInfo(info as InterfaceInfo); break;
+  case 'interface':
+    updateInterfaceInfo(info as InterfaceInfo);
+    break;
+  case 'dictionary':
+    updateDictionaryInfo(info as DictionaryInfo);
+    break;
   default:
   }
 }

@@ -49,5 +49,26 @@ export interface OperationMemberInfo {
   readonly arguments: ArgumentInfo[];
 }
 
+export interface DictionaryInfo {
+  readonly type: 'dictionary';
+  readonly name: string;
+  partial: boolean;
+  members: DictionaryMemberInfo[];
+  inheritance: string;
+}
+
+export interface DictionaryMemberInfo {
+  readonly type: 'field';
+  readonly name: string;
+  readonly required: boolean;
+  readonly idlType: TypeInfo;
+  readonly default: TypeValue;
+}
+
+export interface TypeValue {
+  readonly type: string;
+  readonly value: string;
+}
+
 export type InterfaceMemberInfo = OperationMemberInfo;
-export type DefinitionInfo = InterfaceInfo;
+export type DefinitionInfo = InterfaceInfo | DictionaryInfo;
