@@ -65,10 +65,16 @@ export interface DictionaryMemberInfo {
   readonly default: TypeValue;
 }
 
+export interface EnumInfo {
+  readonly type: 'enum';
+  readonly name: string;
+  readonly values: TypeValue[];
+}
+
 export interface TypeValue {
   readonly type: string;
   readonly value: string;
 }
 
 export type InterfaceMemberInfo = OperationMemberInfo;
-export type DefinitionInfo = InterfaceInfo | DictionaryInfo;
+export type DefinitionInfo = InterfaceInfo | DictionaryInfo | EnumInfo;
