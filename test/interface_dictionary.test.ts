@@ -23,8 +23,8 @@ test(
     async () => {
       let test_interface = new bacardi.TestInterface();
 
-      var testDict = {a: 10};
+      var testDict = {a: 10, b: "test"};
       expect(test_interface.doubleMethodTestDictionaryArg(testDict)).toBe(10);
       expect(bacardi.TestInterface.getLastCallInfo())
-          .toBe('DoubleMethodTestDictionaryArg()');
+          .toBe('DoubleMethodTestDictionaryArg() : test');
     });

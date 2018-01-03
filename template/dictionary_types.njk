@@ -1,3 +1,11 @@
+{%- macro printType(type) -%}
+{%- if type == 'string' -%}
+  std::{{type}}
+{%- else -%}
+  {{type}}
+{%- endif -%}
+{%- endmacro -%}
+
 /**
  * Copyright (c) 2017 The Bacardi Authors.
  *
@@ -20,16 +28,16 @@
 class {{name}} {
 public:
 {% for member in members %}
-  {{member.type}} {{member.name}}() const {
+  {{printType(member.type)}} {{member.name}}() const {
     return {{member.name}}_;
   }
-  void set{{member.name | pascalcase}}({{member.type}} {{member.name}}) {
+  void set{{member.name | pascalcase}}({{printType(member.type)}} {{member.name}}) {
     {{member.name}}_ = {{member.name}};
   }
 {% endfor %}
 private:
 {% for member in members %}
-  {{member.type}} {{member.name}}_;
+  {{printType(member.type)}} {{member.name}}_;
 {% endfor %}
 };
 

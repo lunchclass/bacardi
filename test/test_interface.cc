@@ -136,6 +136,6 @@ void TestInterface::SetStaticDoubleNumber(double number) {
 }
 
 double TestInterface::DoubleMethodTestDictionaryArg(TestDict testDict) {
-  last_call_info_ = "DoubleMethodTestDictionaryArg()";
+  last_call_info_ = "DoubleMethodTestDictionaryArg() : " + testDict.b();
   return testDict.a();
 }

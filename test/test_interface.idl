@@ -64,4 +64,5 @@ enum TestEnum {
 
 dictionary TestDict {
   double a;
+  string b;
 };
