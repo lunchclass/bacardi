@@ -15,7 +15,7 @@
  */
 
 import * as commandLineUsage from 'command-line-usage';
-import * as generator from 'generator';
+import * as core from 'core';
 import * as globs from 'globs';
 import * as gulp from 'gulp';
 import * as shell from 'gulp-shell';
@@ -61,7 +61,7 @@ gulp.task('default', () => {
  */
 gulp.task('build_webidl', (callback) => {
   globs(['examples/**/*.idl', 'test/**/*.idl'], async(error, files) => {
-    callback(await generator.run(files));
+    callback(await core.run(files));
   });
 });
 
@@ -138,9 +138,9 @@ gulp.task('lint_ts', () => {
 
   return gulp.src([
         'gulpfile.ts',
-        'generator/index.ts',
-        'generator/base/**/*.ts',
-        'generator/new_parser/**/*.ts'
+        'core/index.ts',
+        'core/parser/**/*.ts',
+        'generator/base/**/*.ts'
       ])
       .pipe(gulpTslint({
           formatter: 'codeFrame',

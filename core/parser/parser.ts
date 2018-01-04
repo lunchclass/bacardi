@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import {DefinitionInfo} from 'generator/new_parser/definition_info';
-import {DefinitionInfoMap} from 'generator/new_parser/definition_info_map';
+import {DefinitionInfo} from 'core/parser/idl_types';
 import * as webidl from 'webidl2';
 
 /**

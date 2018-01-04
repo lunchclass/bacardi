@@ -16,7 +16,7 @@
 
 import {
     DefinitionInfo, DictionaryInfo, EnumInfo, InterfaceInfo
-  } from 'generator/new_parser/definition_info';
+  } from 'core/parser/idl_types';
 
 interface DefinitionInfoStore {
   [index: string]: DefinitionInfo;
@@ -92,9 +92,9 @@ function updateDefinitionInfo(info: DefinitionInfo): void {
 }
 
 /**
- * Raw definition information mapping table (exposed to global scope)
+ * IDL Type information mapping table (exposed to global scope)
  */
-export class DefinitionInfoMap {
+export class IDLTypeMap {
   public static update(definitionInfos: DefinitionInfo[]): void {
     definitionInfos.forEach((info: DefinitionInfo) => {
       updateDefinitionInfo(info);

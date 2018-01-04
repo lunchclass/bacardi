@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
+import {IDLTypeMap} from 'core/parser/idl_type_map';
+import {DefinitionInfo} from 'core/parser/idl_types';
+import {Parser} from 'core/parser/parser';
 import * as file from 'generator/base/file';
-import {DefinitionInfo} from 'generator/new_parser/definition_info';
-import {DefinitionInfoMap} from 'generator/new_parser/definition_info_map';
-import {Parser} from 'generator/new_parser/parser';
 
 async function readAndParse(idlFilePath: string): Promise<void> {
   const idlFragment: string = await file.read(idlFilePath);
   const idlDefinitionInfos: DefinitionInfo[] = await Parser.parse(idlFragment);
-  DefinitionInfoMap.update(idlDefinitionInfos);
+  IDLTypeMap.update(idlDefinitionInfos);
 }
 
-async function buildDefinitionInfoMap(idlFilePaths: string[]): Promise<void> {
+async function buildIDLTypeMap(idlFilePaths: string[]): Promise<void> {
   const tasks: Promise<void>[] = [];
   idlFilePaths.forEach((idlFilePath) => {
     tasks.push(readAndParse(idlFilePath));
@@ -35,7 +35,7 @@ async function buildDefinitionInfoMap(idlFilePaths: string[]): Promise<void> {
 }
 
 export async function run(idlFilePaths: string[]): Promise<number> {
-  await buildDefinitionInfoMap(idlFilePaths);
+  await buildIDLTypeMap(idlFilePaths);
 
   return 0;
 }

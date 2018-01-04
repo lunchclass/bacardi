@@ -14,6 +14,16 @@
  * limitations under the License.
  */
 
+/**
+ * IDL Definition Information
+ */
+export type DefinitionInfo = InterfaceInfo | DictionaryInfo | EnumInfo;
+
+/**
+ * IDL Type Information
+ *
+ * @see https://github.com/w3c/webidl2.js#idl-type
+ */
 export interface TypeInfo {
   readonly sequence: boolean;
   readonly generic?: string;
@@ -22,13 +32,11 @@ export interface TypeInfo {
   readonly union: boolean;
 }
 
-export interface ArgumentInfo {
-  readonly optional: boolean;
-  readonly variadic: boolean;
-  readonly idlType: TypeInfo;
-  readonly name: string;
-}
-
+/**
+ * IDL Interface Information
+ *
+ * @see https://github.com/w3c/webidl2.js#interface
+ */
 export interface InterfaceInfo {
   readonly type: 'interface';
   readonly name: string;
@@ -37,6 +45,55 @@ export interface InterfaceInfo {
   inheritance: string;
 }
 
+/**
+ * IDL Interface Member Information
+ *
+ * @see https://github.com/w3c/webidl2.js#interface
+ */
+export type InterfaceMemberInfo = OperationMemberInfo;
+
+/**
+ * IDL Dictionary Information
+ *
+ * @see https://github.com/w3c/webidl2.js#dictionary
+ */
+export interface DictionaryInfo {
+  readonly type: 'dictionary';
+  readonly name: string;
+  partial: boolean;
+  members: DictionaryMemberInfo[];
+  inheritance: string;
+}
+
+/**
+ * IDL Dictionary Member Information
+ *
+ * @see @see https://github.com/w3c/webidl2.js#dictionary
+ */
+export interface DictionaryMemberInfo {
+  readonly type: 'field';
+  readonly name: string;
+  readonly required: boolean;
+  readonly idlType: TypeInfo;
+  readonly default: TypeValue;
+}
+
+/**
+ * IDL Enum Information
+ *
+ * @see https://github.com/w3c/webidl2.js#enum
+ */
+export interface EnumInfo {
+  readonly type: 'enum';
+  readonly name: string;
+  readonly values: TypeValue[];
+}
+
+/**
+ * IDL Operation Member Information
+ *
+ * @see https://github.com/w3c/webidl2.js#enum
+ */
 export interface OperationMemberInfo {
   readonly type: 'operation';
   readonly getter: boolean;
@@ -49,32 +106,24 @@ export interface OperationMemberInfo {
   readonly arguments: ArgumentInfo[];
 }
 
-export interface DictionaryInfo {
-  readonly type: 'dictionary';
-  readonly name: string;
-  partial: boolean;
-  members: DictionaryMemberInfo[];
-  inheritance: string;
-}
-
-export interface DictionaryMemberInfo {
-  readonly type: 'field';
-  readonly name: string;
-  readonly required: boolean;
+/**
+ * IDL Argument(e.g. for an operation) Information
+ *
+ * @see https://github.com/w3c/webidl2.js#arguments
+ */
+export interface ArgumentInfo {
+  readonly optional: boolean;
+  readonly variadic: boolean;
   readonly idlType: TypeInfo;
-  readonly default: TypeValue;
-}
-
-export interface EnumInfo {
-  readonly type: 'enum';
   readonly name: string;
-  readonly values: TypeValue[];
 }
 
+/**
+ * IDL TypeValue Information
+ *
+ * @see https://github.com/w3c/webidl2.js#default-and-const-values
+ */
 export interface TypeValue {
   readonly type: string;
   readonly value: string;
 }
-
-export type InterfaceMemberInfo = OperationMemberInfo;
-export type DefinitionInfo = InterfaceInfo | DictionaryInfo | EnumInfo;
