@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
+import * as file from 'core/base/file';
 import * as types from 'core/types';
-import * as file from 'generator/base/file';
 import * as webidl from 'webidl2';
 
 async function readAndParse(idlFilePath: string): Promise<void> {

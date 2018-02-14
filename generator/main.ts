@@ -19,7 +19,7 @@ import * as mkdirp from 'mkdirp';
 import * as nunjucks from 'nunjucks';
 import * as path from 'path';
 
-import * as file from './base/file';
+import * as file from '../core/base/file';
 import DictionaryTypes from './parser/dictionary_types';
 import EnumTypes from './parser/enum_types';
 import IDLDefinition from './parser/idl_definition';
