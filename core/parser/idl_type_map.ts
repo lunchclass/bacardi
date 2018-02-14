@@ -79,13 +79,13 @@ function updateEnumInfo(info: EnumInfo): void {
 function updateDefinitionInfo(info: DefinitionInfo): void {
   switch (info.type) {
   case 'interface':
-    updateInterfaceInfo(info as InterfaceInfo);
+    updateInterfaceInfo(info);
     break;
   case 'dictionary':
-    updateDictionaryInfo(info as DictionaryInfo);
+    updateDictionaryInfo(info);
     break;
   case 'enum':
-    updateEnumInfo(info as EnumInfo);
+    updateEnumInfo(info);
     break;
   default:
   }

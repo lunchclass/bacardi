@@ -29,4 +29,5 @@ before_install:
 script:
   - ./bacardi clean && ./bacardi build_webidl
   - ./bacardi clean && ./bacardi build && ./bacardi lint && ./bacardi test
-  - ./bacardi clean && ./bacardi build_electron
+  # Disable build_electron test temporarily
+  #- ./bacardi clean && ./bacardi build_electron
