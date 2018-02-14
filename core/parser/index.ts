@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017 The Bacardi Authors.
+ * Copyright (c) 2018 The Bacardi Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,9 @@
  * limitations under the License.
  */
 
-import * as constructor from 'core/constructor';
-import * as generator from 'core/generator';
-import * as parser from 'core/parser';
+import {Parser} from 'core/parser/parser';
 import * as types from 'core/types';
 
-export async function run(idlFilePaths: string[]): Promise<number> {
-  const typeMap: types.IDLTypeMap = await parser.parse(idlFilePaths);
-  const definitions: types.IRDefinition[] =
-      await constructor.construct(typeMap);
-  await generator.build(definitions);
-
-  return 0;
+export async function parse(idlFilePaths: string[]): Promise<types.IDLTypeMap> {
+  return Parser.parse(idlFilePaths);
 }

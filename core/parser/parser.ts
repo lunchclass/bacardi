@@ -14,14 +14,32 @@
  * limitations under the License.
  */
 
-import {DefinitionInfo} from 'core/parser/idl_types';
+import * as types from 'core/types';
+import * as file from 'generator/base/file';
 import * as webidl from 'webidl2';
+
+async function readAndParse(idlFilePath: string): Promise<void> {
+  const idlFragment: string = await file.read(idlFilePath);
+  const idlDefinitionInfos: types.DefinitionInfo[] = webidl.parse(idlFragment);
+  types.IDLTypeMap.update(idlDefinitionInfos);
+}
+
+async function buildIDLTypeMap(idlFilePaths: string[]): Promise<void> {
+  const tasks: Promise<void>[] = [];
+  idlFilePaths.forEach((idlFilePath) => {
+    tasks.push(readAndParse(idlFilePath));
+  });
+
+  await Promise.all(tasks);
+}
 
 /**
  * WebIDL Parser
  */
 export class Parser {
-  public static async parse(idlFragment: string): Promise<DefinitionInfo[]> {
-    return webidl.parse(idlFragment);
+  public static async parse(idlFilePaths: string[]): Promise<types.IDLTypeMap> {
+    await buildIDLTypeMap(idlFilePaths);
+
+    return types.IDLTypeMap;
   }
 }
