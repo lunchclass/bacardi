@@ -1,49 +1,49 @@
-{% macro make_comma_separated_arguments(arguments) -%}
+{%- macro make_comma_separated_arguments(arguments) -%}
 {%- set comma = joiner(', ') -%}
 {% for argument in arguments -%}
   {{ comma() }}{{ argument.name }}
 {%- endfor %}
 {%- endmacro %}
 
-{% macro convert_js_value_to_native_value(arguments, is_constructor=false) -%}
-{% for argument in arguments %}
-{% if argument.enum %}
+{%- macro convert_js_value_to_native_value(arguments, is_constructor=false) -%}
+{%- for argument in arguments -%}
+{%- if argument.enum -%}
 const std::set<std::string> enum_value_set = {
-    {% for value in argument.enum.values %}
+    {% for value in argument.enum.values -%}
     "{{value}}",
-    {% endfor %}
+    {% endfor -%}
     };
-auto {{argument.name}} = NativeTypeTraits<IDLString
-    >::NativeValue(info.Env(), info[{{loop.index0}}]);
+
+auto {{argument.name}} = NativeTypeTraits<IDLString>::NativeValue(info.Env(), info[{{loop.index0}}]);
 if (!EnumValidator::isValildEnum({{argument.name}}, enum_value_set)) {
   Napi::TypeError::New(info.Env(), "it not matched with values of enum in idl.")
       .ThrowAsJavaScriptException();
   return{% if not is_constructor %} Napi::Value(){% endif %};
 }
-{% elif argument.dictionary %}
+{% elif argument.dictionary -%}
 {{argument.type | pascalcase}} {{argument.name}};
 if (!info[{{loop.index0}}].IsObject()) {
   Napi::TypeError::New(info.Env(), "it is not object type.")
       .ThrowAsJavaScriptException();
 }
 Napi::Object {{argument.name}}Obj = info[{{loop.index0}}].ToObject();
-{% for member in argument.dictionary.members %}
+{%- for member in argument.dictionary.members -%}
 if ({{argument.name}}Obj.Has("{{member.name}}")) {
   Napi::Value value = {{argument.name}}Obj.Get("{{member.name}}");
   auto {{member.name}} = NativeTypeTraits<IDL{{member.type | pascalcase-}}
     >::NativeValue(info.Env(), value);
   {{argument.name}}.set{{member.name | pascalcase}}({{member.name}});
 }
-{% endfor %}
-{% else %}
+{%- endfor -%}
+{% else -%}
 auto {{argument.name}} = NativeTypeTraits<IDL{{argument.type | pascalcase-}}
     >::NativeValue(info.Env(), info[{{loop.index0}}]);
 if (info.Env().IsExceptionPending()) {
   return{% if not is_constructor %} Napi::Value(){% endif %};
 }
-{% endif %}
-{% endfor %}
-{%- endmacro %}
+{%- endif -%}
+{%- endfor -%}
+{%- endmacro -%}
 
 /**
  * Copyright (c) 2017 The Bacardi Authors.
@@ -71,23 +71,23 @@ void {{name}}Bridge::Init(Napi::Env env, Napi::Object exports) {
   Napi::Function js_constructor =
       DefineClass(env, "{{name}}",
                   {
-                      {% for member in members %}
-                      {% if member.member_type == "attribute" %}
-                      {% if member.is_static %}
-                      StaticAccessor("{{member.name}}", &{{name}}Bridge::Getter{{-member.name | pascalcase}}, &{{name}}Bridge::Setter{{-member.name | pascalcase}}),
-                      {% else %}
-                      InstanceAccessor("{{member.name}}", &{{name}}Bridge::Getter{{-member.name | pascalcase}}, &{{name}}Bridge::Setter{{-member.name | pascalcase}}),
-                      {% endif %}
-                      {% elif member.member_type == "operation" %}
-                      {% if member.is_static %}
-                      StaticMethod("{{member.name}}", &{{name}}Bridge::
-                          {{-member.name | pascalcase}}),
-                      {% else %}
-                      InstanceMethod("{{member.name}}", &{{name}}Bridge::
-                          {{-member.name | pascalcase}}),
-                      {% endif %}
-                      {% endif %}
-                      {% endfor %}
+                    {% for member in members -%}
+                    {%- if member.member_type == "attribute" -%}
+                    {% if member.is_static -%}
+                    StaticAccessor("{{member.name}}", &{{name}}Bridge::Getter{{-member.name | pascalcase}}, &{{name}}Bridge::Setter{{-member.name | pascalcase}}),
+                    {% else -%}
+                    InstanceAccessor("{{member.name}}", &{{name}}Bridge::Getter{{-member.name | pascalcase}}, &{{name}}Bridge::Setter{{-member.name | pascalcase}}),
+                    {% endif -%}
+                    {%- elif member.member_type == "operation" -%}
+                    {% if member.is_static -%}
+                    StaticMethod("{{member.name}}", &{{name}}Bridge::
+                        {{-member.name | pascalcase}}),
+                    {% else -%}
+                    InstanceMethod("{{member.name}}", &{{name}}Bridge::
+                        {{-member.name | pascalcase}}),
+                    {% endif -%}
+                    {%- endif -%}
+                    {%- endfor -%}
                   });
   exports.Set("{{name}}", js_constructor);
 }
@@ -99,51 +99,49 @@ void {{name}}Bridge::Init(Napi::Env env, Napi::Object exports) {
     impl_.reset(new {{name}} ());
     return;
   }
-
   {% for idl_constructor in constructors %} 
-    // FIXME(yjaeseok): This if statement needs to apply optimization.
-    if (argumentLength == {{idl_constructor.arguments.length}}
-      {% for argument in idl_constructor.arguments %} 
-        && NativeTypeTraits<IDL{{argument.type | pascalcase-}}>::IsTypeEquals(info[{{loop.index0}}])
-      {% endfor %}) {
-      {{ convert_js_value_to_native_value(idl_constructor.arguments, true) }}
-      impl_.reset(new {{name}}({{ make_comma_separated_arguments(idl_constructor.arguments) }}));
-      return;
-    }
-  {% endfor %}
+  // FIXME(yjaeseok): This if statement needs to apply optimization.
+  if (argumentLength == {{idl_constructor.arguments.length}}
+    {%- for argument in idl_constructor.arguments %} 
+      && NativeTypeTraits<IDL{{argument.type | pascalcase-}}>::IsTypeEquals(info[{{loop.index0}}])
+    {%- endfor -%}) {
+    {{ convert_js_value_to_native_value(idl_constructor.arguments, true) }}
+    impl_.reset(new {{name}}({{ make_comma_separated_arguments(idl_constructor.arguments) }}));
+    return;
+  }
+  {%- endfor %}
 
   Napi::Error::New(info.Env(), "There is no valid constructor.")
       .ThrowAsJavaScriptException();
 }
 
-{% for member in members %}
-{% if member.member_type == "attribute" %}
+{%- for member in members -%}
+{%- if member.member_type == "attribute" -%}
 Napi::Value {{name}}Bridge::Getter{{member.name | pascalcase}}(const Napi::CallbackInfo& info) {
   auto return_value = 
-  {% if member.is_static %}
-  {{name}}::Get{{member.name | pascalcase}}();
-  {% else %}
-  impl_->Get{{member.name | pascalcase}}();
+  {%- if member.is_static %}
+    {{name}}::Get{{member.name | pascalcase}}();
+  {%- else %}
+    impl_->Get{{member.name | pascalcase}}();
   {% endif %}
   return JSTypeTraits(info.Env(), return_value);
 }
 
 void {{name}}Bridge::Setter{{member.name | pascalcase}}(const Napi::CallbackInfo& info, const Napi::Value& value) {
-  {% if not member.is_readonly %}
+  {% if not member.is_readonly -%}
   if (!info[0]) {
     Napi::RangeError::New(info.Env(), "Wrong number of arguments.")
         .ThrowAsJavaScriptException();
   }
-  {% if member.is_static %}
+  {% if member.is_static -%}
   {{name}}::Set{{member.name | pascalcase}}(
-  {% else %}
+  {%- else -%}
   impl_->Set{{member.name | pascalcase}}(
-  {% endif %}
-  NativeTypeTraits<IDL{{member.type | pascalcase-}}>::NativeValue(info.Env(), info[0]));
-  {% endif %}
+  {%- endif -%}
+  NativeTypeTraits<IDL{{member.type | pascalcase}}>::NativeValue(info.Env(), info[0]));
+  {%- endif %}
 }
-
-{% elif member.member_type == "operation" %}
+{% elif member.member_type == "operation" -%}
 Napi::Value {{name}}Bridge::{{member.name | pascalcase}}(const Napi::CallbackInfo& info) {
   if (info.Length() != {{member.arguments.length}}) {
     Napi::RangeError::New(info.Env(), "Wrong number of arguments.")
@@ -153,20 +151,19 @@ Napi::Value {{name}}Bridge::{{member.name | pascalcase}}(const Napi::CallbackInf
 
   {{ convert_js_value_to_native_value(member.arguments) }}
 
-  {% if member.type != "void" %}
+  {% if member.type != "void" -%}
   auto return_value =
-  {% endif %}
-  {% if member.is_static -%}
-  {{name}}::
-  {% else %}
-  impl_->
-  {% endif %}
-  {{member.name | pascalcase}}({{ make_comma_separated_arguments(member.arguments) }});
-  {% if member.type == "void" %}
+  {%- endif -%}
+  {% if member.is_static %}
+  {{name}}::{{member.name | pascalcase}}({{ make_comma_separated_arguments(member.arguments) }});
+  {%- else %}
+  impl_->{{member.name | pascalcase}}({{ make_comma_separated_arguments(member.arguments) }});
+  {%- endif -%}
+  {%- if member.type == "void" %}
   return Napi::Value();
-  {% else %}
+  {%- else %}
   return JSTypeTraits(info.Env(), return_value);
-  {% endif %}
+  {%- endif %}
 }
 {% endif %}
 {% endfor %}
