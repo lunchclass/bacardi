@@ -17,7 +17,7 @@
 #ifndef EXAMPLES_BACARDI_H_
 #define EXAMPLES_BACARDI_H_
 
-#include "core/bacardi.h"
+#include "legacy_core/bacardi.h"
 
 {% for interface in interfaces %}
 #include "{{interface.idl_dir_name}}/{{interface.name | snakecase}}_bridge.h"

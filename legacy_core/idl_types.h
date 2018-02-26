@@ -17,7 +17,7 @@
 #ifndef CORE_IDL_TYPES_H_
 #define CORE_IDL_TYPES_H_
 
-#include "core/idl_base.h"
+#include "legacy_core/idl_base.h"
 
 struct IDLBoolean final : public IDLBaseHelper<bool> {};
 struct IDLByte final : public IDLBaseHelper<int8_t> {};

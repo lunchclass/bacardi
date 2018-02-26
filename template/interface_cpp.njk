@@ -63,9 +63,9 @@ if (info.Env().IsExceptionPending()) {
 
 #include "{{idl_dir_name}}/{{name | snakecase}}_bridge.h"
 
-#include "core/js_type_traits.h"
-#include "core/native_type_traits.h"
-#include "core/enum_validator.h"
+#include "legacy_core/js_type_traits.h"
+#include "legacy_core/native_type_traits.h"
+#include "legacy_core/enum_validator.h"
 
 void {{name}}Bridge::Init(Napi::Env env, Napi::Object exports) {
   Napi::Function js_constructor =
