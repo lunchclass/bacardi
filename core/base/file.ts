@@ -16,24 +16,26 @@
 
 import * as fs from 'fs';
 
-export async function read(path: string): Promise<string> {
-  return new Promise<string>((resolve, reject) => {
-    fs.readFile(path, 'utf8', (error, data) => {
-      if (error) {
-        reject(error);
-      }
-      resolve(data);
+export default class File {
+  public static async read(path: string): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      fs.readFile(path, 'utf8', (error, data) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(data);
+      });
     });
-  });
+  }
+  public static async write(path: string, data: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      fs.writeFile(path, data, 'utf8', (error) => {
+        if (error) {
+          reject(error);
+        }
+        resolve();
+      });
+    });
+  }
 }
 
-export async function write(path: string, data: string): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
-    fs.writeFile(path, data, 'utf8', (error) => {
-      if (error) {
-        reject(error);
-      }
-      resolve();
-    });
-  });
-}

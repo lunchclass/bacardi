@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import * as file from 'core/base/file';
+import file from 'core/base/file';
 import * as types from 'core/types';
 import * as webidl from 'webidl2';
 

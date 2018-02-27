@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import * as file from '../../core/base/file';
+import file from '../../core/base/file';
 
 export async function readAll(idl_files: string[]):
     Promise<[string, string][]> {
